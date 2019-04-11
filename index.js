@@ -15,6 +15,7 @@ app.set('view engine', 'ejs')
 app.use(layouts)
 
 // Include routes from controllers
+app.use('/auth', require('./controllers/auth'))
 
 // Make a home route: GET /
 app.get('/', (req, res) => {
