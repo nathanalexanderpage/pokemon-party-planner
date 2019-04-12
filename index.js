@@ -13,6 +13,7 @@ app.set('view engine', 'ejs')
 
 // Include (use) middle ware
 app.use(layouts)
+app.use(express.urlencoded({ extended: false }))
 
 // Include routes from controllers
 app.use('/auth', require('./controllers/auth'))
