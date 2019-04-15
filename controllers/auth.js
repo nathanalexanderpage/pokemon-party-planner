@@ -4,6 +4,9 @@ let express = require('express')
 // Declare an express router
 let router = express.Router()
 
+// Reference the models
+let db = require('../models')
+
 // Declare routes
 router.get('/login', (req, res) => {
   res.render('auth/login')
@@ -25,8 +28,20 @@ router.post('/signup', (req, res) => {
     res.redirect('/auth/signup')
   }
   else {
-    req.flash('success', 'You successfully did a thing')
-    res.redirect('/')
+    db.user.findOrCreate({
+      where: { email: req.body.email },
+      defaults: req.body
+    })
+    .spread((user, wasCreated) => {
+      req.flash('success', 'You successfully did a thing')
+      res.redirect('/')
+    })
+    .catch((err) => {
+      console.log('Error in POST /auth/signup', err)
+      req.flash('error', 'Something went wrong! :(')
+      res.redirect('/auth/signup')
+    })
+
   }
 })
 
