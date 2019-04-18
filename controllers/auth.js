@@ -7,15 +7,20 @@ let router = express.Router()
 // Reference the models
 let db = require('../models')
 
+// Refernce to passport so we can use the authenticate function
+let passport = require('../config/passportConfig')
+
 // Declare routes
 router.get('/login', (req, res) => {
   res.render('auth/login')
 })
 
-router.post('/login', (req, res) => {
-  console.log(req.body)
-  res.send('Reached the route POST to /auth/login')
-})
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/profile',
+  successFlash: 'Yay, login was successful!',
+  failureRedirect: '/auth/login',
+  failureFlash: 'Invalid Credentials'
+}))
 
 router.get('/signup', (req, res) => {
   res.render('auth/signup')

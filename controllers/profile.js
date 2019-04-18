@@ -9,7 +9,7 @@ let db = require('../models')
 
 // GET /profile
 router.get('/', (req, res) => {
-  res.send('PROFILE STUB PAGE')
+  res.render('profile/index')
 })
 
 // Export the routes from this file
