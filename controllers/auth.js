@@ -19,14 +19,14 @@ router.post('/login', passport.authenticate('local', {
   successRedirect: '/profile',
   successFlash: 'Yay, login was successful!',
   failureRedirect: '/auth/login',
-  failureFlash: 'Invalid Credentials'
+  failureFlash: 'Invalid Credentials!'
 }))
 
 router.get('/signup', (req, res) => {
   res.render('auth/signup')
 })
 
-router.post('/signup', (req, res) => {
+router.post('/signup', (req, res, next) => {
   if(req.body.password !== req.body.password_verify) {
     req.flash('error', 'Passwords do not match')
     res.redirect('/auth/signup')
@@ -38,8 +38,13 @@ router.post('/signup', (req, res) => {
     })
     .spread((user, wasCreated) => {
       if(wasCreated) {
-        req.flash('success', 'You successfully did a thing')
-        res.redirect('/')
+        // Automatically log the new user in!
+        passport.authenticate('local', {
+          successRedirect: '/profile',
+          successFlash: 'Yay, successful account creation!',
+          failureRedirect: '/auth/login',
+          failureFlash: 'Invalid Credentials'
+        })(req, res, next)
       }
       else {
         req.flash('error', 'Account already exists. Please log in!')
@@ -69,7 +74,9 @@ router.post('/signup', (req, res) => {
 
 // GET /auth/logout
 router.get('/logout', (req, res) => {
-  res.send('Logout STUB')
+  req.logout() // Delete the session data for logged in user
+  req.flash('success', 'Goodbye - see ya next time! ❤️')
+  res.redirect('/')
 })
 
 // Export the router object so that the routes can used elsewhere
