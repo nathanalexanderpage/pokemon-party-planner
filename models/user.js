@@ -4,16 +4,15 @@ let bcrypt = require('bcryptjs')
 
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
-    firstname: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
-          msg: 'Please provide your name!'
+          msg: 'Please provide a username!'
         }
       }
     },
-    lastname: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
       validate: {
@@ -31,17 +30,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    birthdate: DataTypes.DATE,
-    bio: DataTypes.TEXT,
-    image: {
-      type: DataTypes.TEXT,
-      validate: {
-        isUrl: {
-          msg: 'Aww, no pic? :('
-        }
-      }
-    },
     admin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    defaultToPublic: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
@@ -69,22 +62,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return user
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
