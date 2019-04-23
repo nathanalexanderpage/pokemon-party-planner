@@ -17,9 +17,9 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/profile',
-  successFlash: 'Yay, login was successful!',
+  successFlash: 'Log-in successful.',
   failureRedirect: '/auth/login',
-  failureFlash: 'Invalid Credentials!'
+  failureFlash: 'Invalid Log-In Credentials.'
 }))
 
 router.get('/signup', (req, res) => {
@@ -47,7 +47,7 @@ router.post('/signup', (req, res, next) => {
         })(req, res, next)
       }
       else {
-        req.flash('error', 'Account already exists. Please log in!')
+        req.flash('error', 'Account already exists. Please log in.')
         res.redirect('/auth/login')
       }
     })
@@ -56,7 +56,7 @@ router.post('/signup', (req, res, next) => {
       console.log('Error in POST /auth/signup', err)
 
       // Generic Error for all cases
-      req.flash('error', 'Something went wrong! :(')
+      req.flash('error', 'Something went wrong.')
 
       // Validation-specific errors (okay to show the user)
       if(err && err.errors) {
@@ -75,7 +75,7 @@ router.post('/signup', (req, res, next) => {
 // GET /auth/logout
 router.get('/logout', (req, res) => {
   req.logout() // Delete the session data for logged in user
-  req.flash('success', 'Goodbye - see ya next time! ❤️')
+  req.flash('success', 'Log-out successful')
   res.redirect('/')
 })
 
