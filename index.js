@@ -1,9 +1,12 @@
 // Include .env variables
 require('dotenv').config();
 
+let apiCallUpperBound = 151;
+
 // Require necessary modules
 let express = require('express');
 let flash = require('connect-flash');
+var request = require('request');
 let layouts = require('express-ejs-layouts');
 let session = require('express-session');
 
@@ -17,7 +20,7 @@ let app = express();
 app.set('view engine', 'ejs');
 
 // Include (use) middleware
-app.use('/', express.static('static'));
+app.use('/', express.static('public'));
 app.use(layouts);
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
@@ -39,11 +42,14 @@ app.use((req, res, next) => {
 // Include routes from controllers
 app.use('/auth', require('./controllers/auth'));
 app.use('/profile', require('./controllers/profile'));
+app.use('/search', require('./controllers/search'));
 
 // Make a home route: GET /
 app.get('/', (req, res) => {
   res.render('home');
 })
+
+app.get('/')
 
 // Catch-all route - render the 404 page
 app.get('*', (req, res) => {

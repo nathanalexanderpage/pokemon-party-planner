@@ -3,6 +3,7 @@
       <a href="/" class="brand-logo">NP</a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
+        <li><a href="/search">Search</a></li>
         <% if(!user) { %>
           <li><a href="/auth/login">Log In</a></li>
           <li><a href="/auth/signup">Sign Up</a></li>
@@ -10,7 +11,6 @@
           <% if(user.admin) { %>
             <li><a href="/profile/admin">Admin</a></li>
           <% } %>
-          <li><a href="/pokes/">My Pokemon</a></li>
           <li><a href="/profile">Profile</a></li>
           <li><a href="/auth/logout">Logout</a></li>
         <% } %>

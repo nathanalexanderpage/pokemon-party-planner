@@ -1,0 +1,7 @@
+.closeable {
+  cursor: pointer;
+}
+.inlinecheckbox {
+  display: inline-block;
+  margin-left: 3%;
+}
