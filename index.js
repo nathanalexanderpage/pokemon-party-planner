@@ -9,6 +9,7 @@ let flash = require('connect-flash');
 var request = require('request');
 let layouts = require('express-ejs-layouts');
 let session = require('express-session');
+let db = require('./models');
 
 // Include passport configuration
 let passport = require('./config/passportConfig');

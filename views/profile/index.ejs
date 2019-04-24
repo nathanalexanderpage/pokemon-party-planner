@@ -14,3 +14,27 @@
     <p><%= user.bio %></p>
   </div>
 </div>
+<div class="row">
+  <% results.forEach((species, i) => { %>
+    <% let dexNo = `${10 > (species.dex) ? `00${species.dex}` : 100 > (species.dex) ? `0${species.dex}` : species.dex}` %>
+    <div class="row">
+      <div class="container tight-fit">
+        <form action="/search/add-pokemon" method="post">
+          <!--<div class="inlineitem">
+            <button class="btn waves-effect waves-light" type="submit" name="action">
+              <i class="material-icons">add</i>
+            </button>
+          </div>-->
+          <div class="inlineitem">
+            <a href="/profile/<%= species.id %>"><img src="<%= species.urlSprite %>" alt="<%= species.name %> sprite"></a>
+          </div>
+          <input type="hidden" name="dex" value="<%=  %>">
+
+          <div class="inlineitem">
+            <p class="nomargin"><%= dexNo %> <%= species.name %></p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <% }) %>
+</div>

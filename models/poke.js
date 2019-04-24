@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   poke.associate = function(models) {
     // associations can be defined here
+    models.poke.hasMany(models.users_pokes)
   };
   return poke;
 };

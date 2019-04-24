@@ -17,12 +17,26 @@ router.get('/', (req, res) => {
   res.render('search/index.ejs')
 })
 
-router.get('/results/', (req, res) => {
+router.get('/pokemon/', (req, res) => {
   let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/?offset=${req.query.offset}&limit=${req.query.limit}`
   request(pokeapiUrl, (err, apiResp, body) => {
-    res.send(JSON.parse(body).results)
-    // let pokeData = JSON.parse(body).results
-    // res.render('results', { pokeData: pokemon })
+    // res.send(JSON.parse(body).results)
+    let pokeData = JSON.parse(body).results
+    res.render('search/pokemon', { pokeData: pokeData })
+  })
+})
+
+router.post('/add-pokemon', (req, res) => {
+  db.poke.findOrCreate({
+    where: {
+      dex: req.body.dex,
+      name: req.body.name,
+      urlImage: req.body.urlImage,
+      urlSprite: req.body.urlSprite
+    }
+  })
+  .then((pokemon, wasCreated) => {
+    res.redirect('/profile/')
   })
 })
 

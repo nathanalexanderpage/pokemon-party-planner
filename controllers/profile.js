@@ -1,5 +1,6 @@
 // Require needed modules
 let express = require('express')
+var request = require('request')
 
 // Declare an express router
 let router = express.Router()
@@ -13,12 +14,28 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
-  res.render('profile/index')
+  db.poke.findAll()
+  .then((results) => {
+    res.render('profile/index', {results: results})
+  })
 })
 
 // GET /profile/admin
 router.get('/admin', adminLoggedIn, (req, res) => {
   res.render('profile/admin')
+})
+
+router.get('/:id', loggedIn, (req, res) => {
+  db.users_pokes.findAll({
+    where: { id: req.params.id }
+  })
+  .then((results) => {
+    console.log(results);
+    res.render('profile/pokeshow', {results})
+  })
+  .catch((err) => {
+    console.log('err: ', err);
+  })
 })
 
 // Export the routes from this file

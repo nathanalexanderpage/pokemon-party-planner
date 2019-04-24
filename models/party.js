@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   party.associate = function(models) {
     // associations can be defined here
+    // models.party.hasOne(models.user)
   };
   return party;
 };

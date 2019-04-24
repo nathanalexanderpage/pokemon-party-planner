@@ -9,15 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       dex: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       urlImage: {
+        allowNull: false,
         type: Sequelize.TEXT
       },
       urlSprite: {
+        allowNull: false,
         type: Sequelize.TEXT
       },
       createdAt: {

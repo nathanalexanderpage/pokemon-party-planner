@@ -1,5 +1,4 @@
 <h1>search stub</h1>
-<a href="/search/results">Kanto</a>
 <div class="form-holder">
   <form action="" method="get">
     <div class="generation-holder">
@@ -157,10 +156,18 @@
       </div>
     </div>
   </form>
-  <form class="quicksearch-gen1" action="/search/results" method="get">
+  <div class="search-section">
+
+  </div>
+  <form class="quicksearch-gen1" action="/search/pokemon" method="get">
     <input type="hidden" name="offset" value="0">
     <input type="hidden" name="limit" value="151">
     <input type="submit" value="Kanto">
+  </form>
+  <form class="quicksearch-gen2" action="/search/pokemon" method="get">
+    <input type="hidden" name="offset" value="151">
+    <input type="hidden" name="limit" value="100">
+    <input type="submit" value="Johto">
   </form>
   <div class="">
 

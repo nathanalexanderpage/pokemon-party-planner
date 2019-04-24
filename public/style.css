@@ -1,7 +1,18 @@
 .closeable {
   cursor: pointer;
 }
+.inlineitem {
+  display: inline-block;
+  vertical-align: middle;
+}
 .inlinecheckbox {
   display: inline-block;
   margin-left: 3%;
+}
+.nomargin {
+  margin: 0;
+}
+button i{
+  margin: 0;
+  padding: 0;
 }

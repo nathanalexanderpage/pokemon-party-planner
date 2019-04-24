@@ -9,9 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     move2: DataTypes.INTEGER,
     move3: DataTypes.INTEGER,
     move4: DataTypes.INTEGER
-  }, {});
+  }, {})
   users_pokes.associate = function(models) {
     // associations can be defined here
+    models.users_pokes.belongsTo(models.poke)
+    models.users_pokes.belongsTo(models.user)
   };
   return users_pokes;
 };
