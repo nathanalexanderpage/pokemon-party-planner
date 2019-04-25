@@ -21,7 +21,12 @@
       <div class="abilities">
         <h5>abilities:</h5>
         <% pokeData.abilities.forEach((arrItem, i) => { %>
-          <p><%= arrItem.ability.name %></p>
+          <p>
+            <label>
+              <input name="ability" type="radio" <%= !i ? 'checked' : '' %> />
+              <span><%= arrItem.ability.name %></span>
+            </label>
+          </p>
         <% }) %>
       </div>
       <div class="moves">
@@ -30,10 +35,17 @@
           <% let isFromBW2 = false %>
           <% arrItem.version_group_details.forEach((subArrItem, i) => { %>
             <% if (subArrItem.version_group.name === 'black-2-white-2') { %>
-              <%= arrItem.name %>
+              <% isFromBW2 = true %>
             <% } %>
           <% }) %>
-          <p><%= arrItem.move.name %></p>
+          <% if (isFromBW2) { %>
+            <p>
+              <label>
+                <input type="checkbox" />
+                <span><%= arrItem.move.name %></span>
+              </label>
+            </p>
+          <% } %>
         <% }) %>
         <div class="black-2-white-2">
           <div class="move-name">
