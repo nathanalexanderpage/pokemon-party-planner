@@ -42,7 +42,11 @@ router.get('/', loggedIn, (req, res) => {
     updatedAt: new Date()
   }`);
 
-  // db.poke.findAll()
+  // db.addedPoke.findAll({
+  //   where: {
+  //
+  //   }
+  // })
   // .then((results) => {
   //   res.render('profile/index', {results: results})
   // })

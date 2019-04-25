@@ -56,6 +56,9 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     models.user.hasMany(models.users_pokes, {foreignKey: 'userId', sourceKey: 'id'})
     models.user.hasMany(models.party, {foreignKey: 'userId', sourceKey: 'id'})
+    models.user.belongsToMany(models.addedPoke, {
+      through: models.addedPoke, foreignKey: 'userId'
+    })
   }
 
   user.prototype.validPassword = function(typedInPassword) {
