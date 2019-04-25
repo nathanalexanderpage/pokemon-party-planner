@@ -3,27 +3,38 @@
 <div class="row">
   <div class="col">
     <div class="necessary">
+      <div class="dex-pic">
+        <img src="<%= pokeData.sprites.front_default %>" alt="<%= pokeData.name %> game sprite">
+      </div>
       <div class="type">
-        <p class="type1"></p>
-        <p class="type2"></p>
+        <h5>types:</h5>
+        <% pokeData.types.forEach((arrItem, i) => { %>
+          <p class="type<%= i + 1 %>"><%= arrItem.type.name %></p>
+        <% }) %>
       </div>
       <div class="stats">
-        <p class="hp"><span></span></p>
-        <p class="attack"><span></span></p>
-        <p class="defense"><span></span></p>
-        <p class="special-attack"><span></span></p>
-        <p class="special-defense"><span></span></p>
-        <p class="speed"><span></span></p>
+        <h5>base stats:</h5>
+        <% pokeData.stats.forEach((arrItem, i) => { %>
+          <p><%= arrItem.stat.name %>: <%= arrItem.base_stat %></p>
+        <% }) %>
       </div>
       <div class="abilities">
-        <div class="ability-name">
-
-        </div>
-        <div class="ability-desc">
-
-        </div>
+        <h5>abilities:</h5>
+        <% pokeData.abilities.forEach((arrItem, i) => { %>
+          <p><%= arrItem.ability.name %></p>
+        <% }) %>
       </div>
       <div class="moves">
+        <h5>moves:</h5>
+        <% pokeData.moves.forEach((arrItem, i) => { %>
+          <% let isFromBW2 = false %>
+          <% arrItem.version_group_details.forEach((subArrItem, i) => { %>
+            <% if (subArrItem.version_group.name === 'black-2-white-2') { %>
+              <%= arrItem.name %>
+            <% } %>
+          <% }) %>
+          <p><%= arrItem.move.name %></p>
+        <% }) %>
         <div class="black-2-white-2">
           <div class="move-name">
 

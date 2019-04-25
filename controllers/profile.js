@@ -27,11 +27,12 @@ router.get('/admin', adminLoggedIn, (req, res) => {
 
 // GET /profile/newpoke
 router.get('/poke/new', loggedIn, (req, res) => {
+  console.log(req);
   let passData = req.query
   let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/${passData.id}`
   request(pokeapiUrl, (err, apiResp, body) => {
     let pokeData = JSON.parse(body)
-    console.log(pokeData);
+    console.log(pokeData)
     res.render('profile/pokenew', { pokeData })
   })
 })
