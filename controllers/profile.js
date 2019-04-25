@@ -14,10 +14,38 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
-  db.poke.findAll()
-  .then((results) => {
-    res.render('profile/index', {results: results})
+
+  let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/?limit=721`
+  request(pokeapiUrl, (err, apiResp, body) => {
+    let pokeData = JSON.parse(body)
+    let seedArr = []
+
+    pokeData.results.forEach((result, i) => {
+      seedArr.push({
+        dex: i + 1,
+        name: result.name
+      })
+    })
+
+    // let parsedSeedArr = JSON.parse(seedArr);
+
+    res.send(seedArr)
   })
+
+  console.log(`
+    {
+    dex: '',
+    name: '',
+    urlImage: '',
+    urlSprite: '',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }`);
+
+  // db.poke.findAll()
+  // .then((results) => {
+  //   res.render('profile/index', {results: results})
+  // })
 })
 
 // GET /profile/admin
@@ -39,13 +67,24 @@ router.get('/poke/new', loggedIn, (req, res) => {
 
 router.post('/poke/new', loggedIn, (req, res) => {
   console.log(req.body);
+  let moveArr = [];
+  for (var i = 0; i < Object.keys(req.body).length; i++) {
+    if (Object.keys(req.body)[i].includes('move')) {
+      let currentKey = Object.keys(req.body)[i];
+      moveArr.push(req.body[currentKey]);
+    }
+  }
 
   console.log(`
     userId: ${req.user.dataValues.id},
     pokeDex: ${req.body.pokeDex},
     profile_name: ${req.body.profile_name},
     name: ${req.body.name},
-    ability: ${req.body.ability}`);
+    ability: ${req.body.ability},
+    move1: ${moveArr[0]},
+    move2: ${moveArr[1]},
+    move3: ${moveArr[2]},
+    move4: ${moveArr[3]}`);
   // res.send('req received to console')
   // db.users_pokes.create({
   //   where: {
