@@ -11,7 +11,7 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      pokeId: {
+      pokeDex: {
         type: Sequelize.INTEGER
       },
       profile_name: {

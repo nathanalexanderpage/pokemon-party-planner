@@ -25,13 +25,37 @@ router.get('/admin', adminLoggedIn, (req, res) => {
   res.render('profile/admin')
 })
 
-router.get('/:id', loggedIn, (req, res) => {
+// GET /profile/newpoke
+router.get('/poke/new', loggedIn, (req, res) => {
+  let passData = req.query
+  let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/${passData.id}`
+  request(pokeapiUrl, (err, apiResp, body) => {
+    let pokeData = JSON.parse(body)
+    console.log(pokeData);
+    res.render('profile/pokenew', { pokeData })
+  })
+})
+
+// GET /profile/:id
+router.get('/:dex', loggedIn, (req, res) => {
+  console.log(req.params); // {dex: 2}
   db.users_pokes.findAll({
-    where: { id: req.params.id }
+    where: { pokeDex: req.params.dex }
   })
   .then((results) => {
-    console.log(results);
-    res.render('profile/pokeshow', {results})
+    let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/${req.params.dex}`
+    request(pokeapiUrl, (err, apiResp, body) => {
+      let pokeData = JSON.parse(body)
+      console.log(pokeData);
+      res.render('profile/pokeshow', {
+        pokeData,
+        results
+      })
+    })
+    .catch((err) => {
+      console.log('err: ', err);
+      res.send('error caused by internet interruption')
+    })
   })
   .catch((err) => {
     console.log('err: ', err);

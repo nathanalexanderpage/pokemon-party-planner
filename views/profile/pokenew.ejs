@@ -1,0 +1,60 @@
+<% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
+<h1>create new #<%= dexNo %> <%= pokeData.name %></h1>
+<div class="row">
+  <div class="col">
+    <div class="necessary">
+      <div class="type">
+        <p class="type1"></p>
+        <p class="type2"></p>
+      </div>
+      <div class="stats">
+        <p class="hp"><span></span></p>
+        <p class="attack"><span></span></p>
+        <p class="defense"><span></span></p>
+        <p class="special-attack"><span></span></p>
+        <p class="special-defense"><span></span></p>
+        <p class="speed"><span></span></p>
+      </div>
+      <div class="abilities">
+        <div class="ability-name">
+
+        </div>
+        <div class="ability-desc">
+
+        </div>
+      </div>
+      <div class="moves">
+        <div class="black-2-white-2">
+          <div class="move-name">
+
+          </div>
+          <div class="move-type">
+
+          </div>
+          <div class="move-category">
+
+          </div>
+          <div class="move-power">
+
+          </div>
+          <div class="move-effect">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="unnecessary">
+      <p class="weight"></p>
+    </div>
+  </div>
+  <div class="col">
+    <form action="" method="post">
+      <div class="version_group">
+        <input type="radio" name="version_group" value="white-2">
+      </div>
+      <div class="moves">
+
+      </div>
+    </form>
+  </div>
+</div>
