@@ -2,15 +2,15 @@
 
 <% if (!results[0]) { %>
   <p>None yet. Create?</p>
-  <form action="/profile/poke/new" method="get">
-    <input type="hidden" name="id" value="<%= pokeData.id %>">
-    <input type="hidden" name="name" value="<%= pokeData.name %>">
-    <button class="btn waves-effect waves-light" type="submit">
-      <i class="material-icons">add</i> add new <%= pokeData.id %> <%= pokeData.name %>
-    </button>
-  </form>
-
-<% } else { %>
+<% } %>
+<form action="/profile/poke/new" method="get">
+  <input type="hidden" name="id" value="<%= pokeData.id %>">
+  <input type="hidden" name="name" value="<%= pokeData.name %>">
+  <button class="btn waves-effect waves-light" type="submit">
+    <i class="material-icons">add</i> add new <%= pokeData.id %> <%= pokeData.name %>
+  </button>
+</form>
+<% if (results[0]) { %>
   <p>All listed out:</p>
   <% results.forEach((indPoke, i) => { %>
     <div class="card">

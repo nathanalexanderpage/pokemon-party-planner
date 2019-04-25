@@ -37,6 +37,27 @@ router.get('/poke/new', loggedIn, (req, res) => {
   })
 })
 
+router.post('/poke/new', loggedIn, (req, res) => {
+  console.log(req.body);
+
+  console.log(`
+    userId: ${req.user.dataValues.id},
+    pokeDex: ${req.body.pokeDex},
+    profile_name: ${req.body.profile_name},
+    name: ${req.body.name},
+    ability: ${req.body.ability}`);
+  // res.send('req received to console')
+  // db.users_pokes.create({
+  //   where: {
+  //     userId: req.user.dataValues.id,
+  //     pokeDex: ,
+  //     name: name,
+  //     profile_name: profile_name,
+  //
+  //   }
+  // })
+})
+
 // GET /profile/:id
 router.get('/:dex', loggedIn, (req, res) => {
   console.log(req.params); // {dex: 2}
@@ -52,10 +73,6 @@ router.get('/:dex', loggedIn, (req, res) => {
         pokeData,
         results
       })
-    })
-    .catch((err) => {
-      console.log('err: ', err);
-      res.send('error caused by internet interruption')
     })
   })
   .catch((err) => {

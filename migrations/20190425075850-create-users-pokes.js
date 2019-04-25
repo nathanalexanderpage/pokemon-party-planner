@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       pokeDex: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       profile_name: {
@@ -21,16 +23,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       move1: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       move2: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       move3: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       move4: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
