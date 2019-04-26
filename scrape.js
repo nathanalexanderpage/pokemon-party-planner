@@ -1,43 +1,37 @@
+let express = require('express')
 let request = require('request');
 let cheerio = require('cheerio');
+let async = require('async');
 
+let movesData = [];
 
-request('https://www.serebii.net/attackdex-xy/headbutt.shtml', (err, cheerioResp, html) => {
+let movesList = ["tackle", "pound", "megapunch"];
+
+request(`https://www.serebii.net/attackdex-xy/${move}.shtml`, (err, cheerioResp, html) => {
   if (!err && cheerioResp.statusCode == 200) {
     const $ = cheerio.load(html)
     let moveName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(0).text();
-    console.log(moveName);
-    // let printable2 = $('.dextable').children('tbody').children('tr').children('td').eq(1).children('a').attr('href');
     let moveType = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).children('a').attr('href');
-    console.log(moveType);
     let moveCat = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(2).children('a').attr('href');
-    console.log(moveCat);
     let movePp = $('.dextable').children('tbody').children('tr').eq(3).children('td').eq(0).text();
-    console.log(movePp);
     let moveBasePower = $('.dextable').children('tbody').children('tr').eq(3).children('td').eq(1).text();
-    console.log(moveBasePower);
     let moveAccuracy = $('.dextable').children('tbody').children('tr').eq(3).children('td').eq(2).text();
-    console.log(moveAccuracy);
 
     let howManyLearn = $('.dextable').eq(2).children('tbody').children('tr').length - 2;
-    console.log(howManyLearn);
 
     let pokesWhoLearn = [];
     for (var i = 2; i < howManyLearn + 2; i++) {
       let pokeWhoLearns = $('.dextable').eq(2).children('tbody').children('tr').eq(i).children('td').eq(0).text();
       pokesWhoLearn.push(Number(pokeWhoLearns.slice(1,4)));
     }
-    console.log(pokesWhoLearn);
 
     let howManyLearnBreeding = $('.dextable').eq(3).children('tbody').children('tr').length - 2;
-    console.log(howManyLearnBreeding);
 
     let pokesWhoLearnBreeding = [];
     for (var i = 2; i < howManyLearnBreeding + 2; i++) {
       let pokeWhoLearnsBreeding = $('.dextable').eq(3).children('tbody').children('tr').eq(i).children('td').eq(0).text();
       pokesWhoLearnBreeding.push(Number(pokeWhoLearnsBreeding.slice(1,4)));
     }
-    console.log(pokesWhoLearnBreeding);
     let moveData = {
       name: moveName,
       type: moveType,
@@ -50,15 +44,28 @@ request('https://www.serebii.net/attackdex-xy/headbutt.shtml', (err, cheerioResp
       learnByBreeding: howManyLearnBreeding,
       learnByBreedingPokes: pokesWhoLearnBreeding
     }
+    movesData.push(moveData)
   }
 });
 
-request('https://www.serebii.net/pokedex-xy/181.shtml', (err, cheerioResp, html) => {
-  if (!err && cheerioResp.statusCode == 200) {
-    const $ = cheerio.load(html);
-    
-  }
-});
+
+
+
+
+
+// request('https://www.serebii.net/pokedex-xy/181.shtml', (err, cheerioResp, html) => {
+//   if (!err && cheerioResp.statusCode == 200) {
+//     const $ = cheerio.load(html);
+//     let pokeName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).text();
+//     console.log(pokeName);
+//     let pokeType = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(5).children('a').attr('href');
+//     console.log(pokeType);
+//
+//
+//     let pokeMove = $('[name=attacks]').next().children('tbody').children('tr').eq(2).children('td').eq(1).text();
+//     console.log(pokeMove);
+//   }
+// });
 
 
 // $('.apple', '#fruits').text()
