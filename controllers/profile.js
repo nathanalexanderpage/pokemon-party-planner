@@ -14,42 +14,12 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
-
-  let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/?limit=721`
-  request(pokeapiUrl, (err, apiResp, body) => {
-    let pokeData = JSON.parse(body)
-    let seedArr = []
-
-    pokeData.results.forEach((result, i) => {
-      seedArr.push({
-        dex: i + 1,
-        name: result.name
-      })
-    })
-
-    // let parsedSeedArr = JSON.parse(seedArr);
-
-    res.send(seedArr)
+  db.addedPoke.findAll()
+  .then((results) => {
+    console.log(results);
+    res.send(results)
+    // res.render('profile/index', {results: results})
   })
-
-  console.log(`
-    {
-    dex: '',
-    name: '',
-    urlImage: '',
-    urlSprite: '',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }`);
-
-  // db.addedPoke.findAll({
-  //   where: {
-  //
-  //   }
-  // })
-  // .then((results) => {
-  //   res.render('profile/index', {results: results})
-  // })
 })
 
 // GET /profile/admin
