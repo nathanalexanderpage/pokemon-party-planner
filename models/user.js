@@ -54,11 +54,19 @@ module.exports = (sequelize, DataTypes) => {
 
   user.associate = function(models) {
     // associations can be defined here
-    models.user.hasMany(models.users_pokes, {foreignKey: 'userId', sourceKey: 'id'})
-    models.user.hasMany(models.party, {foreignKey: 'userId', sourceKey: 'id'})
-    models.user.belongsToMany(models.addedPoke, {
-      through: models.addedPoke, foreignKey: 'userId'
+    /*  OLD  */
+    // models.user.hasMany(models.users_pokes, {foreignKey: 'userId', sourceKey: 'id'})
+    // models.user.hasMany(models.party, {foreignKey: 'userId', sourceKey: 'id'})
+    // models.user.belongsToMany(models.addedPoke, {
+    //   through: models.addedPoke, foreignKey: 'userId'
+    // })
+
+    /*  NEW  */
+    models.user.hasMany(models.nParty, {foreignKey: 'userId', sourceKey: 'id'})
+    models.user.belongsToMany(models.nDex, {
+      through: models.nDexUser
     })
+    models.user.hasMany(models.nOwnedPoke, {foreignKey: 'userId', sourceKey: 'id'})
   }
 
   user.prototype.validPassword = function(typedInPassword) {

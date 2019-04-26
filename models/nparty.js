@@ -12,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   nParty.associate = function(models) {
     // associations can be defined here
+    models.nParty.belongsTo(models.user, {foreignKey: 'userId', targetKey: 'id'})
+
+    // correct???
+    models.nParty.belongsToMany(models.nOwnedPoke, {
+      through: models.partyNOwnedPoke
+    })
   };
   return nParty;
 };
