@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   poke.associate = function(models) {
     // associations can be defined here
     models.poke.hasMany(models.users_pokes, {foreignKey: 'pokeDex', sourceKey: 'dex'})
+    models.poke.hasMany(models.addedPoke, {foreignKey: 'pokeDexId', sourceKey: 'dex'})
   };
   return poke;
 };

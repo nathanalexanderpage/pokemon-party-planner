@@ -5,15 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     pokeDex: DataTypes.INTEGER,
     profile_name: DataTypes.STRING,
     name: DataTypes.STRING,
-    move1: DataTypes.INTEGER,
-    move2: DataTypes.INTEGER,
-    move3: DataTypes.INTEGER,
-    move4: DataTypes.INTEGER
-  }, {})
+    ability: DataTypes.STRING,
+    move1: DataTypes.STRING,
+    move2: DataTypes.STRING,
+    move3: DataTypes.STRING,
+    move4: DataTypes.STRING
+  }, {});
   users_pokes.associate = function(models) {
     // associations can be defined here
-    models.users_pokes.belongsTo(models.poke, {foreignKey: 'pokeDex', targetKey: 'dex'})
-    // models.users_pokes.belongsTo(models.user, {foreignKey: 'id', targetKey: 'userId'})
   };
   return users_pokes;
 };

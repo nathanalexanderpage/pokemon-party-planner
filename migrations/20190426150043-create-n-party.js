@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users_pokes', {
+    return queryInterface.createTable('nParties', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,27 +9,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
-      pokeDex: {
+      desc: {
+        type: Sequelize.TEXT
+      },
+      p1Id: {
         type: Sequelize.INTEGER
       },
-      profile_name: {
-        type: Sequelize.STRING
-      },
-      name: {
-        type: Sequelize.STRING
-      },
-      move1: {
+      p2Id: {
         type: Sequelize.INTEGER
       },
-      move2: {
+      p3Id: {
         type: Sequelize.INTEGER
       },
-      move3: {
+      p4Id: {
         type: Sequelize.INTEGER
       },
-      move4: {
+      p5Id: {
+        type: Sequelize.INTEGER
+      },
+      p6Id: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -43,6 +44,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users_pokes');
+    return queryInterface.dropTable('nParties');
   }
 };

@@ -17,14 +17,8 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var instancesNav = M.Sidenav.init(document.querySelectorAll('.sidenav'))
-      var instancesDate = M.Datepicker.init(document.querySelectorAll('.datepicker'), {
-        autoClose: false,
-        defaultDate: new Date('01/01/1990'),
-        setDefaultDate: true,
-        minDate: new Date('01/01/1920'),
-        maxDate: new Date(),
-        yearRange: 5
-      })
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems, options);
     })
   </script>
 </body>
