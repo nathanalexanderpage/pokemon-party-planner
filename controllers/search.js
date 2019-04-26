@@ -27,7 +27,7 @@ router.get('/pokemon/', (req, res) => {
 })
 
 router.post('/add-pokemon', (req, res) => {
-  db.poke.findOrCreate({
+  db.addedPoke.findOrCreate({
     where: {
       dex: req.body.dex,
       name: req.body.name,

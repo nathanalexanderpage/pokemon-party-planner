@@ -1,83 +1,76 @@
 <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
 <h1>create new #<%= dexNo %> <%= pokeData.name %></h1>
-<div class="row">
-  <div class="col">
-    <div class="necessary">
-      <div class="dex-pic">
-        <img src="<%= pokeData.sprites.front_default %>" alt="<%= pokeData.name %> game sprite">
-      </div>
-      <div class="type">
-        <h5>types:</h5>
-        <% pokeData.types.forEach((arrItem, i) => { %>
-          <p class="type<%= i + 1 %>"><%= arrItem.type.name %></p>
-        <% }) %>
-      </div>
-      <div class="stats">
-        <h5>base stats:</h5>
-        <% pokeData.stats.forEach((arrItem, i) => { %>
-          <p><%= arrItem.stat.name %>: <%= arrItem.base_stat %></p>
-        <% }) %>
-      </div>
-      <div class="abilities">
-        <h5>abilities:</h5>
-        <% pokeData.abilities.forEach((arrItem, i) => { %>
-          <p>
-            <label>
-              <input name="ability" type="radio" <%= !i ? 'checked' : '' %> />
-              <span><%= arrItem.ability.name %></span>
-            </label>
-          </p>
-        <% }) %>
-      </div>
-      <div class="moves">
-        <h5>moves:</h5>
-        <% pokeData.moves.forEach((arrItem, i) => { %>
-          <% let isFromBW2 = false %>
-          <% arrItem.version_group_details.forEach((subArrItem, i) => { %>
-            <% if (subArrItem.version_group.name === 'black-2-white-2') { %>
-              <% isFromBW2 = true %>
-            <% } %>
-          <% }) %>
-          <% if (isFromBW2) { %>
-            <p>
-              <label>
-                <input type="checkbox" />
-                <span><%= arrItem.move.name %></span>
-              </label>
-            </p>
-          <% } %>
-        <% }) %>
-        <div class="black-2-white-2">
-          <div class="move-name">
+<form action="/profile/poke/new" method="post">
+  <input type="hidden" name="pokeDex" value="<%= pokeData.id %>">
+  <div class="row">
+    <div class="col">
+      <div class="necessary">
+        <div class="dex-pic">
+          <img src="<%= pokeData.sprites.front_default %>" alt="<%= pokeData.name %> game sprite">
+        </div>
+        <div class="naming">
+          <div class="name">
+            Name your <%= pokeData.name %>: <input type="text" name="name" value="<%= pokeData.name %>">
 
           </div>
-          <div class="move-type">
-
-          </div>
-          <div class="move-category">
-
-          </div>
-          <div class="move-power">
-
-          </div>
-          <div class="move-effect">
-
+          <div class="profile_name">
+            Name its functionality/role on your team: <input type="text" name="profile_name" placeholder="tank/striker/bait">
           </div>
         </div>
+        <div class="type">
+          <h5>types:</h5>
+          <% pokeData.types.forEach((arrItem, i) => { %>
+            <div><%= arrItem.type.name %></div>
+          <% }) %>
+        </div>
+        <div class="stats">
+          <h5>base stats:</h5>
+          <% pokeData.stats.forEach((arrItem, i) => { %>
+            <div class="stat">
+              <%= arrItem.stat.name %>: <%= arrItem.base_stat %>
+            </div>
+          <% }) %>
+        </div>
+        <div class="abilities">
+          <h5>abilities:</h5>
+          <% pokeData.abilities.forEach((arrItem, i) => { %>
+            <div>
+              <label for="<%= arrItem.ability.name %>">
+                <input id="<%= arrItem.ability.name %>" name="ability" type="radio" value="<%= arrItem.ability.name %>" <%= !i ? 'checked': '' %> />
+                <span>
+                  <%= arrItem.ability.name %>
+                </span>
+              </label>
+            </div>
+          <% }) %>
+        </div>
+        <div class="moves">
+          <h5>moves:</h5>
+          <% pokeData.moves.forEach((arrItem, i) => { %>
+            <% let isFromBW2 = false %>
+            <% arrItem.version_group_details.forEach((subArrItem, i) => { %>
+              <% if (subArrItem.version_group.name === 'black-2-white-2') { %>
+                <% isFromBW2 = true %>
+              <% } %>
+            <% }) %>
+            <% if (isFromBW2) { %>
+              <div>
+                <label>
+                  <input name="move<%= i %>" value="<%= arrItem.move.name %>" type="checkbox" />
+                  <span>
+                    <%= arrItem.move.name %>
+                  </span>
+                </label>
+              </div>
+            <% } %>
+          <% }) %>
+        </div>
+      </div>
+      <div class="complete">
+        <button class="btn waves-effect waves-light" type="submit">
+          <i class="material-icons">add</i> create this <%= pokeData.name %>
+        </button>
       </div>
     </div>
-    <div class="unnecessary">
-      <p class="weight"></p>
-    </div>
   </div>
-  <div class="col">
-    <form action="" method="post">
-      <div class="version_group">
-        <input type="radio" name="version_group" value="white-2">
-      </div>
-      <div class="moves">
-
-      </div>
-    </form>
-  </div>
-</div>
+</form>

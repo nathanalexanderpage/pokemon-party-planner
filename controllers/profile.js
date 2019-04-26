@@ -14,9 +14,11 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
-  db.poke.findAll()
+  db.addedPoke.findAll()
   .then((results) => {
-    res.render('profile/index', {results: results})
+    console.log(results);
+    res.send(results)
+    // res.render('profile/index', {results: results})
   })
 })
 
@@ -37,6 +39,38 @@ router.get('/poke/new', loggedIn, (req, res) => {
   })
 })
 
+router.post('/poke/new', loggedIn, (req, res) => {
+  console.log(req.body);
+  let moveArr = [];
+  for (var i = 0; i < Object.keys(req.body).length; i++) {
+    if (Object.keys(req.body)[i].includes('move')) {
+      let currentKey = Object.keys(req.body)[i];
+      moveArr.push(req.body[currentKey]);
+    }
+  }
+
+  console.log(`
+    userId: ${req.user.dataValues.id},
+    pokeDex: ${req.body.pokeDex},
+    profile_name: ${req.body.profile_name},
+    name: ${req.body.name},
+    ability: ${req.body.ability},
+    move1: ${moveArr[0]},
+    move2: ${moveArr[1]},
+    move3: ${moveArr[2]},
+    move4: ${moveArr[3]}`);
+  // res.send('req received to console')
+  // db.users_pokes.create({
+  //   where: {
+  //     userId: req.user.dataValues.id,
+  //     pokeDex: ,
+  //     name: name,
+  //     profile_name: profile_name,
+  //
+  //   }
+  // })
+})
+
 // GET /profile/:id
 router.get('/:dex', loggedIn, (req, res) => {
   console.log(req.params); // {dex: 2}
@@ -52,10 +86,6 @@ router.get('/:dex', loggedIn, (req, res) => {
         pokeData,
         results
       })
-    })
-    .catch((err) => {
-      console.log('err: ', err);
-      res.send('error caused by internet interruption')
     })
   })
   .catch((err) => {
