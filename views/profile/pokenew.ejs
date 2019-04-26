@@ -1,6 +1,6 @@
 <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
 <h1>create new #<%= dexNo %> <%= pokeData.name %></h1>
-<<<<<<< HEAD
+
 <div class="row">
   <div class="col">
     <div class="necessary">
@@ -60,7 +60,7 @@
           </div>
           <div class="move-power">
 
-=======
+
 <form action="/profile/poke/new" method="post">
   <input type="hidden" name="pokeDex" value="<%= pokeData.id %>">
   <div class="row">
@@ -72,7 +72,7 @@
         <div class="naming">
           <div class="name">
             Name your <%= pokeData.name %>: <input type="text" name="name" value="<%= pokeData.name %>">
->>>>>>> tmp
+
           </div>
           <div class="profile_name">
             Name its functionality/role on your team: <input type="text" name="profile_name" placeholder="tank/striker/bait">
