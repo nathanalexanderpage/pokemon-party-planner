@@ -96,11 +96,11 @@ async function asyncMapRequests() {
           pokesWhoLearnBreeding.push(Number(pokeWhoLearnsBreeding.slice(1,4)));
         }
 
-        let newArr = pokesWhoLearn;
+        let whoLearnsArr = pokesWhoLearn;
         pokesWhoLearnBreeding.forEach((poke, i) => {
-          newArr.indexOf(poke) ? newArr.push(poke) : console.log("already present");
+          whoLearnsArr.indexOf(poke) ? whoLearnsArr.push(poke) : console.log("already present");
         })
-        newArr = newArr.sort((a, b) => a - b);
+        whoLearnsArr = whoLearnsArr.sort((a, b) => a - b);
 
         let moveData = {
           id: moveObj.id,
@@ -110,7 +110,7 @@ async function asyncMapRequests() {
           pp: Number(movePpRegex[0]),
           basePower: Number(moveBasePowerRegex[0]),
           accuracy: Number(moveAccuracyRegex[0]),
-          whoLearns: newArr
+          whoLearns: whoLearnsArr
         }
         callback(null, moveData);
       } else {
