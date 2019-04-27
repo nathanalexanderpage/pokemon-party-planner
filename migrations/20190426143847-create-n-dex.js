@@ -4,12 +4,7 @@ module.exports = {
     return queryInterface.createTable('nDexes', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      no: {
-        allowNull: false,
         type: Sequelize.INTEGER
       },
       name: {

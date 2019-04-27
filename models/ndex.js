@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const nDex = sequelize.define('nDex', {
-    no: DataTypes.INTEGER,
+    id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     type1: DataTypes.INTEGER,
     type2: DataTypes.INTEGER,
