@@ -22,18 +22,6 @@ module.exports = {
       profilename: {
         type: Sequelize.STRING
       },
-      move1: {
-        type: Sequelize.INTEGER
-      },
-      move2: {
-        type: Sequelize.INTEGER
-      },
-      move3: {
-        type: Sequelize.INTEGER
-      },
-      move4: {
-        type: Sequelize.INTEGER
-      },
       ability: {
         allowNull: false,
         type: Sequelize.STRING
