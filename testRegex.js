@@ -1,8 +1,8 @@
-let str = "/attackdex-xy/normal.shtml";
+let str = "Tackle";
 
-let result = str.match(/\w+/g);
+let result = str.match(/\w+([\s-]\w+([\s-]\w+)?)?/g);
 
-console.log(result[2]);
+console.log(result);
 
 // var str = "Is this all there is?";
 // var patt1 = /\s/g;

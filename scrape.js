@@ -21,7 +21,7 @@ function asyncfunc(move, callback) {
     if (!err && cheerioResp.statusCode == 200) {
       const $ = cheerio.load(html)
       let moveName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(0).text();
-      let moveNameRegex = moveName.match(/(\w+(\s\w+)?)/g);
+      let moveNameRegex = moveName.match(/\w+([\s-]\w+([\s-]\w+)?)?/g);
       let moveType = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).children('a').attr('href');
       let moveTypeRegex = moveType.match(/\w+/g);
       let moveCat = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(2).children('a').attr('href');
@@ -54,7 +54,7 @@ function asyncfunc(move, callback) {
       pokesWhoLearnBreeding.forEach((poke, i) => {
         newArr.indexOf(poke) ? newArr.push(poke) : console.log("already present");
       })
-      console.log(newArr);
+      newArr = newArr.sort((a, b) => a - b);
 
       let moveData = {
         name: moveNameRegex[0].toLowerCase(),
@@ -63,10 +63,7 @@ function asyncfunc(move, callback) {
         pp: Number(movePpRegex[0]),
         basePower: Number(moveBasePowerRegex[0]),
         accuracy: Number(moveAccuracyRegex[0]),
-        learnByLevelUp: howManyLearn,
-        learnByLevelUpPokes: pokesWhoLearn,
-        learnByBreeding: howManyLearnBreeding,
-        learnByBreedingPokes: pokesWhoLearnBreeding
+        whoLearns: newArr
       }
       callback(null, moveData);
     } else {
