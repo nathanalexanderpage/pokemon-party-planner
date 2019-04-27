@@ -107,7 +107,11 @@ let movesObjList = [
 ]
 
 async.map(movesObjList, asyncfunc, (err, results) => {
-  console.log(results)
+  if (!err) {
+    console.log(results);
+  } else {
+    console.log('errorrrr', err);
+  }
 });
 
 
@@ -162,7 +166,7 @@ function asyncfunc(moveObj, callback) {
       }
       callback(null, moveData);
     } else {
-      callback('err', null);
+      callback(err, null);
     }
   })
 }
