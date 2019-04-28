@@ -4,8 +4,8 @@ const cheerio = require('cheerio');
 const async = require('async');
 
 let abilitiesArr = [];
-let abilityUrlArr = [];
-let movesObjList = [];
+let abilitiesUrlArr = [];
+let abilitiesObjList = [];
 
 
 request(`https://www.serebii.net/abilitydex/arenatrap.shtml`, (err, cheerioResp, html) => {
@@ -16,34 +16,29 @@ request(`https://www.serebii.net/abilitydex/arenatrap.shtml`, (err, cheerioResp,
       for (var i = 1; i < $('select').eq(j).children('option').length; i++) {
 
         // properly capitalized name
-        let moveName = $('select').eq(j).children('option').eq(i).text().toLowerCase();
-        abilitiesArr.push(moveName);
+        let abilityName = $('select').eq(j).children('option').eq(i).text().toLowerCase();
+        abilitiesArr.push(abilityName);
 
         // mutations to find URL-appropriate string
-        let moveNameR = moveName.match(/(\w+['-]?)/g);
-        let resultLowerCommas = moveNameR.join();
-        let moveNameUrl = resultLowerCommas.replace(/,/g, '');
-        // console.log(`moveNameUrl = ${moveNameUrl}`);
-        abilityUrlArr.push(moveNameUrl);
+        let abilityNameR = abilityName.match(/([A-Za-z]+['-]?)/g);
+        let resultLowerCommas = abilityNameR.join();
+        let abilityNameUrl = resultLowerCommas.replace(/,/g, '');
+        abilitiesUrlArr.push(abilityNameUrl);
 
       }
     }
-    let moveName = $('select').eq(0).children('option').eq(1).text().toLowerCase();
-    console.log(moveName);
-
-    // console.log(`abilitiesArr = ${abilitiesArr}`);
 
 
-    // abilitiesArr.forEach((move, i) => {
-    //   let newMoveObj = {
-    //     id: i + 1,
-    //     name: move,
-    //     urlName: abilityUrlArr[i]
-    //   }
-    //   movesObjList.push(newMoveObj);
-    // });
-    //
-    // console.log(movesObjList);
+    abilitiesArr.forEach((move, i) => {
+      let newMoveObj = {
+        id: i + 1,
+        name: move,
+        urlName: abilitiesUrlArr[i]
+      }
+      abilitiesObjList.push(newMoveObj);
+    });
+
+    console.log(abilitiesObjList);
   }
 
 });
