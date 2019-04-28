@@ -6,7 +6,7 @@ module.exports = {
     const request = require('request');
     const cheerio = require('cheerio');
     const async = require('async');
-    const db = require('./models')
+    const db = require('../models')
 
     let noArr = [];
     let pokesObjList = [];
@@ -36,8 +36,8 @@ module.exports = {
 
 
 
-      async.mapSeries(noArr, asyncfunc, (err, results) => {
-        return queryInterface.bulkInsert('dexes', results, {});
+      async.mapSeries(noArr, asyncfunc, (err, mapSeriesResults) => {
+        return mapSeriesResults;
       });
 
 
@@ -82,7 +82,6 @@ module.exports = {
               id: Number(no),
               name: pokeName,
               genId: pokeReg,
-              type: pokeTypeRegex,
               hp: Number(pokeHp),
               baseAttack: Number(pokeAtt),
               baseDefense: Number(pokeDef),
@@ -90,19 +89,25 @@ module.exports = {
               baseSpDefense: Number(pokeSpDef),
               baseSpeed: Number(pokeSpeed)
             }
-            console.log(pokeData);
+            console.log(`${pokeData.id}: ${pokeData.name}`);
             callback(null, pokeData);
           } else {
             callback('err', null);
           }
         })
       }
-
-
-
     }
 
-    asyncMapRequests();
+    function theWholeEnchilada() {
+      return new Promise(resolve => {
+
+        resolve(asyncMapRequests());
+      });
+    }
+
+
+    let finalResults = await theWholeEnchilada();
+    queryInterface.bulkInsert('dexes', finalResults, {});
 
   },
 

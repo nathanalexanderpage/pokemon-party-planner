@@ -48,11 +48,11 @@ async function asyncMapRequests() {
         let baseStats = $('.dextable').eq(dextableNo - 1).children('tbody').children('tr').eq(2).children('td');
 
         let pokeHp = baseStats.eq(1).text();
-        let pokeAtt= baseStats.eq(2).text();
-        let pokeDef= baseStats.eq(3).text();
-        let pokeSpAtt= baseStats.eq(4).text();
-        let pokeSpDef= baseStats.eq(5).text();
-        let pokeSpeed= baseStats.eq(6).text();
+        let pokeAtt = baseStats.eq(2).text();
+        let pokeDef = baseStats.eq(3).text();
+        let pokeSpAtt = baseStats.eq(4).text();
+        let pokeSpDef = baseStats.eq(5).text();
+        let pokeSpeed = baseStats.eq(6).text();
 
         let pokeReg;
         switch (true) {
@@ -78,7 +78,6 @@ async function asyncMapRequests() {
           id: Number(no),
           name: pokeName,
           genId: pokeReg,
-          type: pokeTypeRegex,
           hp: Number(pokeHp),
           baseAttack: Number(pokeAtt),
           baseDefense: Number(pokeDef),
