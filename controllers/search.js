@@ -14,25 +14,31 @@ let loggedIn = require('../middleware/loggedIn')
 
 // Declare routes
 router.get('/', (req, res) => {
-  res.render('search/index.ejs')
+  db.gen.findAll()
+  .then((results) => {
+    // res.send(results)
+    res.render('search/index.ejs')
+  })
 })
 
 router.get('/pokemon/', (req, res) => {
-  let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/?offset=${req.query.offset}&limit=${req.query.limit}`
-  request(pokeapiUrl, (err, apiResp, body) => {
-    // res.send(JSON.parse(body).results)
-    let pokeData = JSON.parse(body).results
-    res.render('search/pokemon', { pokeData: pokeData })
+  db.dex.findAll({
+    where: {
+      genId: req.params.gen
+    },
+    include: [db.gens]
+  })
+  .then((results) => {
+    res.send(results)
+    // res.render('search/pokemon', { results: results })
   })
 })
 
 router.post('/add-pokemon', (req, res) => {
-  db.addedPoke.findOrCreate({
+  db.own.findOrCreate({
     where: {
       dex: req.body.dex,
       name: req.body.name,
-      urlImage: req.body.urlImage,
-      urlSprite: req.body.urlSprite
     }
   })
   .then((pokemon, wasCreated) => {

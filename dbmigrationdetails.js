@@ -1,6 +1,6 @@
 sequelize model:create --name moves_owns --attributes moveId:integer,ownId:integer
 sequelize model:create --name owns_parties --attributes ownId:integer,partyId:integer
-
+sequelize model:create --name gen --attributes name:string
 
 
 /*  DEX MIGRATION  */

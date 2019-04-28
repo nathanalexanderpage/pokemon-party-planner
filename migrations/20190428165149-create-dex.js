@@ -12,6 +12,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      genId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       hp: {
         allowNull: false,
         type: Sequelize.INTEGER

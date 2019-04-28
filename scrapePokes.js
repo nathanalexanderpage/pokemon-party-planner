@@ -54,9 +54,30 @@ async function asyncMapRequests() {
         let pokeSpDef= baseStats.eq(5).text();
         let pokeSpeed= baseStats.eq(6).text();
 
+        let pokeReg;
+        switch (true) {
+          case no <= 151:
+            pokeReg = 1;
+            break;
+          case no > 151 && no <= 251:
+            pokeReg = 2;
+            break;
+          case no > 251 && no <= 386:
+            pokeReg = 3;
+            break;
+          case no > 386 && no <= 493:
+            pokeReg = 4;
+            break;
+          case no > 493 && no <= 649:
+            pokeReg = 5;
+            break;
+          default: pokeReg = 6;
+        }
+
         let pokeData = {
           id: no,
           name: pokeName,
+          regionNo: pokeReg,
           type: pokeTypeRegex,
           hp: Number(pokeHp),
           baseAttack: Number(pokeAtt),
