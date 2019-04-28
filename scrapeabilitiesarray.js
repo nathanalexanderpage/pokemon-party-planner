@@ -8,7 +8,7 @@ let abilityUrlArr = [];
 let movesObjList = [];
 
 
-request(`https://www.serebii.net/attackdex-xy/absorb.shtml`, (err, cheerioResp, html) => {
+request(`https://www.serebii.net/abilitydex/arenatrap.shtml`, (err, cheerioResp, html) => {
   if (!err && cheerioResp.statusCode == 200) {
     const $ = cheerio.load(html);
 
@@ -28,21 +28,22 @@ request(`https://www.serebii.net/attackdex-xy/absorb.shtml`, (err, cheerioResp, 
 
       }
     }
-
+    let moveName = $('select').eq(0).children('option').eq(1).text().toLowerCase();
+    console.log(moveName);
 
     // console.log(`abilitiesArr = ${abilitiesArr}`);
 
 
-    abilitiesArr.forEach((move, i) => {
-      let newMoveObj = {
-        id: i + 1,
-        name: move,
-        urlName: abilityUrlArr[i]
-      }
-      movesObjList.push(newMoveObj);
-    });
-
-    console.log(movesObjList);
+    // abilitiesArr.forEach((move, i) => {
+    //   let newMoveObj = {
+    //     id: i + 1,
+    //     name: move,
+    //     urlName: abilityUrlArr[i]
+    //   }
+    //   movesObjList.push(newMoveObj);
+    // });
+    //
+    // console.log(movesObjList);
   }
 
 });
