@@ -14,11 +14,11 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
-  db.addedPoke.findAll()
+  db.own.findAll()
   .then((results) => {
     console.log(results);
-    res.send(results)
-    // res.render('profile/index', {results: results})
+    // res.send(results)
+    res.render('profile/index', {results: results})
   })
 })
 

@@ -15,12 +15,6 @@
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s9">
-        <input placeholder="Your picture" id="image" name="image" type="url" class="validate">
-        <label for="image">Image URL</label>
-      </div>
-    </div>
-    <div class="row">
       <div class="input-field col s12 m6">
         <input placeholder="Your secret password" id="password" name="password" type="password" class="validate">
         <label for="password">Password</label>
@@ -31,15 +25,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s12">
-        <textarea id="bio" name="bio" class="materialize-textarea"></textarea>
-        <label for="bio">User Bio</label>
+      <div class="input-field col s12 m6">
+        <p>
+          <label>
+            <input name="default_to_public" type="checkbox" />
+            <span>Make my Pok<%= "\u00e9" %>mon parties publicly viewable by default</span>
+          </label>
+        </p>
       </div>
-      <!-- make a DEFAULT TO PUBLIC checkbox -->
     </div>
     <div class="row">
       <div class="col s12">
-        <button class="btn waves-effect waves-light deep-purple right" type="submit">Submit
+        <button class="btn waves-effect waves-light blue right" type="submit">Submit
           <i class="material-icons right">send</i>
         </button>
       </div>

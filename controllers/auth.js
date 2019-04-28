@@ -41,7 +41,7 @@ router.post('/signup', (req, res, next) => {
         // Automatically log the new user in!
         passport.authenticate('local', {
           successRedirect: '/profile',
-          successFlash: 'Yay, successful account creation!',
+          successFlash: 'Your account was successfully created.',
           failureRedirect: '/auth/login',
           failureFlash: 'Invalid Credentials'
         })(req, res, next)

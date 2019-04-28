@@ -1,32 +1,40 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable('dexes', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
+      name: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      username: {
+      hp: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-      password: {
+      attack: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-      admin: {
-        type: Sequelize.BOOLEAN,
-        defaults: false
+      defense: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
-      default_to_public: {
-        type: Sequelize.BOOLEAN,
-        defaults: false
+      spAttack: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      spDefense: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      speed: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +47,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('dexes');
   }
 };

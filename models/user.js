@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: 'Please provide a username!'
+          msg: 'Please provide a username.'
         }
       }
     },
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isEmail: {
-          msg: 'Hey, please give me a valid email address!'
+          msg: 'Please enter a valid email address.'
         }
       }
     },
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    defaultToPublic: {
+    default_to_public: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
@@ -54,6 +54,8 @@ module.exports = (sequelize, DataTypes) => {
 
   user.associate = function(models) {
     // associations can be defined here
+    models.user.hasMany(models.own)
+    models.user.hasMany(models.party)
   }
 
   user.prototype.validPassword = function(typedInPassword) {
