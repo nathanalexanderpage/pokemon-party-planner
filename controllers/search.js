@@ -15,9 +15,9 @@ let loggedIn = require('../middleware/loggedIn')
 // Declare routes
 router.get('/', (req, res) => {
   db.gen.findAll()
-  .then((results) => {
+  .then((gen) => {
     // res.send(results)
-    res.render('search/index.ejs')
+    res.render('search/index.ejs', {gen:gen})
   })
 })
 

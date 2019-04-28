@@ -12,32 +12,34 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('pokes', [
+    return queryInterface.bulkInsert('gens', [
       {
-        no: 1,
-        name: 'bulbasaur',
-        type1: 4,
-        type2: 7,
-        hp: 50,
-        att: 60,
-        def: 60,
-        spAtt: 50,
-        spDef: 60,
-        speed: 30,
+        name: 'kanto',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        no: 25,
-        name: 'pikachu',
-        type1: 3,
-        type2: null,
-        hp: 70,
-        att: 50,
-        def: 50,
-        spAtt: 60,
-        spDef: 70,
-        speed: 60,
+        name: 'johto',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'hoenn',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'sinnoh',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'unova',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'kalos',
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -52,6 +54,5 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-
   }
 };
