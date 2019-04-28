@@ -48,12 +48,3 @@ passport.use(new LocalStrategy({
 
 // Make sure I can use this file in other pages
 module.exports = passport
-
-
-
-
-
-
-
-
-
