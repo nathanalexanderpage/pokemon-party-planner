@@ -2,8 +2,8 @@ const express = require('express')
 const request = require('request');
 const cheerio = require('cheerio');
 const async = require('async');
-import mapSeries from 'async/mapSeries';
-import doLimit from './internal/doLimit';
+// import mapSeries from 'async/mapSeries';
+// import doLimit from './internal/doLimit';
 
 
 let moveArr = [];
@@ -74,12 +74,12 @@ async function asyncMapRequests() {
 
 
   function asyncfunc(moveObj, callback) {
-    request(`https://www.serebii.net/attackdex-xy/${moveObj.name}.shtml`, (err, cheerioResp, html) => {
+    request(`https://www.serebii.net/attackdex-xy/${moveObj.urlName}.shtml`, (err, cheerioResp, html) => {
       if (!err && cheerioResp.statusCode == 200) {
         const $ = cheerio.load(html)
         let moveName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(0).text();
-        console.log(moveName);
         let moveNameRegex = moveName.match(/\w+([\s'-]\w+([\s-]\w+)?)?/g);
+        console.log(moveNameRegex);
         let moveType = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).children('a').attr('href');
         let moveTypeRegex = moveType.match(/\w+/g);
         let moveCat = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(2).children('a').attr('href');
@@ -90,6 +90,8 @@ async function asyncMapRequests() {
         let moveBasePowerRegex = moveBasePower.match(/\w+/g);
         let moveAccuracy = $('.dextable').children('tbody').children('tr').eq(3).children('td').eq(2).text();
         let moveAccuracyRegex = moveAccuracy.match(/\w+/g);
+        let moveDesc = $('.dextable').eq(0).children('tbody').children('tr').eq(5).text();
+        let moveDescRegex = moveDesc.match(/(\w+[-'!,.\?\s])+/g).join(' ');
         let howManyLearn = $('.dextable').eq(2).children('tbody').children('tr').length - 2;
 
         let pokesWhoLearn = [];
@@ -117,6 +119,7 @@ async function asyncMapRequests() {
           name: moveNameRegex[0].toLowerCase(),
           type: moveTypeRegex[2],
           category: moveCatRegex[2],
+          moveDesc: moveDescRegex,
           pp: Number(movePpRegex[0]),
           basePower: Number(moveBasePowerRegex[0]),
           accuracy: Number(moveAccuracyRegex[0]),
@@ -134,4 +137,4 @@ async function asyncMapRequests() {
 }
 
 asyncMapRequests();
-export default doLimit(mapLimit, 1);
+// export default doLimit(mapLimit, 1);

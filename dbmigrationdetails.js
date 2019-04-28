@@ -152,17 +152,25 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      type: {
+      name: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
-      power: {
+      description: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      type: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
       category: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      power: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       accuracy: {
         allowNull: false,
