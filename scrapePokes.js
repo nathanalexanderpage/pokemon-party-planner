@@ -75,9 +75,9 @@ async function asyncMapRequests() {
         }
 
         let pokeData = {
-          id: no,
+          id: Number(no),
           name: pokeName,
-          regionNo: pokeReg,
+          genId: pokeReg,
           type: pokeTypeRegex,
           hp: Number(pokeHp),
           baseAttack: Number(pokeAtt),

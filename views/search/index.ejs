@@ -1,6 +1,6 @@
 <h1>search stub</h1>
 <div class="form-holder">
-  <form action="" method="get">
+  <form action="/search/pokemon" method="get">
     <div class="generation-holder">
       <% gen.forEach((gen, i) => { %>
         <div class="inlinecheckbox">
@@ -11,7 +11,20 @@
         </div>
       <% }) %>
     </div>
+    <div class="type-holder">
+      <% type.forEach((type, i) => { %>
+        <div class="inlinecheckbox">
+          <label>
+            <input type="checkbox" name="type" value="<%= type.id %>" checked="checked" />
+            <span><%= type.name %></span>
+          </label>
+        </div>
+      <% }) %>
+    </div>
+    <div class="submit">
+      <input type="submit" value="Search">
 
+    </div>
   </form>
   <div class="search-section">
 

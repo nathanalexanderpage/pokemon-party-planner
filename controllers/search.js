@@ -15,23 +15,25 @@ let loggedIn = require('../middleware/loggedIn')
 // Declare routes
 router.get('/', (req, res) => {
   db.gen.findAll()
-  .then((gen) => {
-    // res.send(results)
-    res.render('search/index.ejs', {gen:gen})
+  .then((gensObj) => {
+    db.type.findAll()
+    .then((typesObj) => {
+      res.render('search/index.ejs', {type:typesObj, gen: gensObj})
+    })
   })
 })
 
 router.get('/pokemon/', (req, res) => {
-  db.dex.findAll({
-    where: {
-      genId: req.params.gen
-    },
-    include: [db.gens]
-  })
-  .then((results) => {
-    res.send(results)
-    // res.render('search/pokemon', { results: results })
-  })
+  res.send(req.query.gen)
+  // db.dex.findAll({
+  //   where: {
+  //     genId: req.query.gen
+  //   }
+  // })
+  // .then((results) => {
+  //   res.send(results)
+  //   // res.render('search/pokemon', { results: results })
+  // })
 })
 
 router.post('/add-pokemon', (req, res) => {
