@@ -11,7 +11,7 @@ moveObj = {
 myArr = [];
 
 
-request(`https://www.serebii.net/attackdex-xy/${moveObj.name}.shtml`, (err, cheerioResp, html) => {
+request(`https://www.serebii.net/attackdex-xy/heavyslam.shtml`, (err, cheerioResp, html) => {
   if (!err && cheerioResp.statusCode == 200) {
     const $ = cheerio.load(html)
     let moveName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(0).text();

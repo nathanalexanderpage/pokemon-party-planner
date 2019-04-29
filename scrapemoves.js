@@ -11,6 +11,68 @@ let moveArr = [];
 let moveUrlArr = [];
 let movesObjList = [];
 
+let typeObjList = [
+  {
+    name: 'normal',
+    id: 1
+  },{
+    name: 'fire',
+    id: 2
+  },{
+    name: 'water',
+    id: 3
+  },{
+    name: 'electric',
+    id: 4
+  },{
+    name: 'grass',
+    id: 5
+  },{
+    name: 'ice',
+    id: 6
+  },{
+    name: 'fighting',
+    id: 7
+  },{
+    name: 'poison',
+    id: 8
+  },{
+    name: 'ground',
+    id: 9
+  },{
+    name: 'flying',
+    id: 10
+  },{
+    name: 'psychic',
+    id: 11
+  },{
+    name: 'bug',
+    id: 12
+  },{
+    name: 'rock',
+    id: 13
+  },{
+    name: 'ghost',
+    id: 14
+  },{
+    name: 'dragon',
+    id: 15
+  },{
+    name: 'dark',
+    id: 16
+  },{
+    name: 'steel',
+    id: 17
+  },{
+    name: 'fairy',
+    id: 18
+  }
+];
+for (var i = 0; i < typeObjList.length; i++) {
+  console.log(typeObjList[i].name);
+
+}
+
 
 
 
@@ -70,7 +132,23 @@ async function asyncMapRequests() {
 
 
   async.mapSeries(movesObjList, asyncfunc, (err, results) => {
-    console.log(results)
+    results.forEach((moveEach) => {
+      db.move.findOrCreate({
+        where: {
+          id: moveEach.id,
+          name: moveEach.name,
+          typeId: moveEach.typeId,
+          desc: moveEach.moveDesc,
+          category: moveEach.category,
+          pp: moveEach.pp,
+          power: moveEach.basePower,
+          accuracy: moveEach.accuracy
+        }
+      })
+      .then((insertedMove, wasCreated) => {
+        console.log(insertedMove);
+      })
+    })
   });
 
 
@@ -80,7 +158,6 @@ async function asyncMapRequests() {
         const $ = cheerio.load(html)
         let moveName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(0).text();
         let moveNameRegex = moveName.match(/\w+([\s'-]\w+([\s-]\w+)?)?/g);
-        console.log(moveNameRegex);
         let moveType = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).children('a').attr('href');
         let moveTypeRegex = moveType.match(/\w+/g);
         let moveCat = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(2).children('a').attr('href');
@@ -115,10 +192,22 @@ async function asyncMapRequests() {
         })
         whoLearnsArr = whoLearnsArr.sort((a, b) => a - b);
 
+        let typeId;
+        // console.log(typeObjList.length);
+
+        for (var i = 0; i < typeObjList.length; i++) {
+          if (typeObjList[i].name === moveTypeRegex[2]) {
+
+            typeId = i + 1
+
+          }
+        }
+
         let moveData = {
           id: moveObj.id,
           name: moveNameRegex[0].toLowerCase(),
           type: moveTypeRegex[2],
+          typeId: typeId,
           category: moveCatRegex[2],
           moveDesc: moveDescRegex,
           pp: Number(movePpRegex[0]),
@@ -126,6 +215,7 @@ async function asyncMapRequests() {
           accuracy: Number(moveAccuracyRegex[0]),
           whoLearns: whoLearnsArr
         }
+        console.log(moveData);
         callback(null, moveData);
       } else {
         callback('err', null);

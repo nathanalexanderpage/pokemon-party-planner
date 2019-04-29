@@ -14,9 +14,9 @@ module.exports = {
       },
       desc: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
-      type: {
+      typeId: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
@@ -27,6 +27,10 @@ module.exports = {
       category: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      pp: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       accuracy: {
         allowNull: false,
