@@ -4,13 +4,13 @@ const cheerio = require('cheerio');
 const async = require('async');
 
 pokeObj = {
-  id: 1,
-  name: "bulbasaur"
+  id: 413,
+  name: "wormadam"
 }
 
 myArr = [];
 
-let i = 1;
+let i = 669;
 
 let no = `${10 > (i) ? `00${i}` : 100 > (i) ? `0${i}` : i}`;
 
@@ -21,9 +21,7 @@ request(`https://www.serebii.net/pokedex-xy/${no}.shtml`, (err, cheerioResp, htm
     const $ = cheerio.load(html);
 
     let pokeName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).text().toLowerCase();
-    let pokeType = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(5).children('a').attr('href');
-    let pokeTypeRegex = pokeType.match(/\w+/g)[2];
-    console.log(pokeTypeRegex);
+    let pokeNameRegex = pokeName.match(/\w+/g);
     let dextableNo = $('.dextable').length
     console.log(dextableNo);
     let baseStats = $('.dextable').eq(dextableNo - 1).children('tbody').children('tr').eq(2).children('td');
@@ -39,8 +37,7 @@ request(`https://www.serebii.net/pokedex-xy/${no}.shtml`, (err, cheerioResp, htm
 
     let pokeData = {
       id: i,
-      name: pokeName,
-      type: pokeTypeRegex,
+      name: pokeNameRegex,
       hp: Number(pokeHp),
       baseAttack: Number(pokeAtt),
       baseDefense: Number(pokeDef),

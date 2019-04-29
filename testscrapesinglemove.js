@@ -57,6 +57,7 @@ request(`https://www.serebii.net/attackdex-xy/${moveObj.name}.shtml`, (err, chee
     let moveData = {
       id: moveObj.id,
       name: moveNameRegex[0].toLowerCase(),
+      desc: moveDescRegex,
       type: moveTypeRegex[2],
       category: moveCatRegex[2],
       pp: Number(movePpRegex[0]),

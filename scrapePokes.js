@@ -8,8 +8,6 @@ let noArr = [];
 let pokesObjList = [];
 
 
-
-
 function generateNoArr() {
   return new Promise(resolve => {
 
@@ -33,7 +31,27 @@ async function asyncMapRequests() {
 
 
   async.mapSeries(noArr, asyncfunc, (err, results) => {
-    console.log(results)
+    results.forEach(pokeRecord => {
+      db.dex.findOrCreate({
+        where: {
+          id: pokeRecord.id,
+          name: pokeRecord.name,
+          genId: pokeRecord.genId,
+          hp: pokeRecord.hp,
+          attack: pokeRecord.baseAttack,
+          defense: pokeRecord.baseDefense,
+          spAttack: pokeRecord.baseSpAttack,
+          spDefense: pokeRecord.baseSpDefense,
+          speed: pokeRecord.baseSpeed
+        }
+        console.log(`***INTO DATABASE*** id: ${pokeRecord.id}; name: ${pokeRecord.name}; genId: ${pokeRecord.genId}; HP: ${pokeRecord.hp}; A: ${pokeRecord.attack}; D: ${pokeRecord.defense}; SA: ${pokeRecord.spAttack}; SD: ${pokeRecord.spDefense}, S: ${pokeRecord.speed}`);
+      })
+      .then((newRecord, wasCreated) => {
+      })
+      .catch(function(error) {
+        console.log("error at db.dex.findOrCreate: ", error);
+      });
+    })
   });
 
 
@@ -42,8 +60,6 @@ async function asyncMapRequests() {
       if (!err && cheerioResp.statusCode == 200) {
         const $ = cheerio.load(html);
         let pokeName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).text().toLowerCase();
-        let pokeType = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(5).children('a').attr('href');
-        let pokeTypeRegex = pokeType.match(/\w+/g)[2];
         let dextableNo = $('.dextable').length;
         let baseStats = $('.dextable').eq(dextableNo - 1).children('tbody').children('tr').eq(2).children('td');
 
