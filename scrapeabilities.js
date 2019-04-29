@@ -70,7 +70,32 @@ async function asyncMapRequests() {
 
 
   async.mapSeries(abilityObjList, asyncfunc, (err, results) => {
-    console.log(results)
+    results.forEach((abilityEach) => {
+      db.ability.findOrCreate({
+        where: {
+          id: abilityEach.id,
+          name: abilityEach.name,
+          desc: abilityEach.desc
+        }
+      })
+      .then((insertedMove, wasCreated) => {
+        console.log(insertedMove[0].dataValues.id);
+        abilityEach.whoHas.forEach((dexIdNo) => {
+          console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
+          if (dexIdNo < 722) {
+            db.abilities_dexes.findOrCreate({
+              where: {
+                abilityId: abilityEach.id,
+                dexId: dexIdNo
+              }
+            })
+          }
+        })
+      })
+      .catch(function(error) {
+        console.log("error at db.ability.findOrCreate: ", error);
+      });
+    })
   });
 
 
@@ -78,7 +103,7 @@ async function asyncMapRequests() {
     request(`https://www.serebii.net/abilitydex/${abilityObj.urlName}.shtml`, (err, cheerioResp, html) => {
       if (!err && cheerioResp.statusCode == 200) {
         const $ = cheerio.load(html);
-        console.log(abilityObj.name);
+        // console.log(abilityObj.name);
         let desc = $('.dextable').eq(1).children('tbody').children('tr').eq(3).text();
         let descRegex = desc.match(/([é\w]+[-'!,.\?\s])+/g).join(' ');
 
@@ -99,6 +124,7 @@ async function asyncMapRequests() {
           howManyHave: howManyHave,
           whoHas: pokesWhoHave
         }
+        console.log(abilityData);
         callback(null, abilityData);
       } else {
         callback('err', null);

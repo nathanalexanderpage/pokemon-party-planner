@@ -198,7 +198,7 @@ async function asyncMapRequests() {
         for (var i = 0; i < typeObjList.length; i++) {
           if (typeObjList[i].name === moveTypeRegex[2]) {
 
-            typeId = i + 1
+            typeId = i + 1;
 
           }
         }
