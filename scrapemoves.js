@@ -10,6 +10,7 @@ const db = require('./models')
 let moveArr = [];
 let moveUrlArr = [];
 let movesObjList = [];
+let whoLearnsObjList= [];
 
 let typeObjList = [
   {
@@ -70,7 +71,6 @@ let typeObjList = [
 ];
 for (var i = 0; i < typeObjList.length; i++) {
   console.log(typeObjList[i].name);
-
 }
 
 
@@ -78,7 +78,6 @@ for (var i = 0; i < typeObjList.length; i++) {
 
 function generateMovesObjList() {
   return new Promise(resolve => {
-
 
     request(`https://www.serebii.net/attackdex-xy/absorb.shtml`, (err, cheerioResp, html) => {
       if (!err && cheerioResp.statusCode == 200) {
@@ -130,29 +129,30 @@ async function asyncMapRequests() {
   console.log('calling full generator');
 
 
-
-  async.mapSeries(movesObjList, asyncfunc, (err, results) => {
-    results.forEach((moveEach) => {
-      db.move.findOrCreate({
-        where: {
-          id: moveEach.id,
-          name: moveEach.name,
-          typeId: moveEach.typeId,
-          desc: moveEach.moveDesc,
-          category: moveEach.category,
-          pp: moveEach.pp,
-          power: moveEach.basePower,
-          accuracy: moveEach.accuracy
-        }
+  return new Promise(resolve => {
+    async.mapSeries(movesObjList, scrapeMoves, (err, results) => {
+      results.forEach((moveEach) => {
+        db.move.findOrCreate({
+          where: {
+            id: moveEach.id
+          },
+          defaults: {
+            name: moveEach.name,
+            typeId: moveEach.typeId,
+            desc: moveEach.moveDesc,
+            category: moveEach.category,
+            pp: moveEach.pp,
+            power: moveEach.basePower,
+            accuracy: moveEach.accuracy
+          }
+        })
       })
-      .then((insertedMove, wasCreated) => {
-        console.log(insertedMove);
-      })
-    })
-  });
+    });
+    resolve(0);
+  })
 
 
-  function asyncfunc(moveObj, callback) {
+  function scrapeMoves(moveObj, callback) {
     request(`https://www.serebii.net/attackdex-xy/${moveObj.urlName}.shtml`, (err, cheerioResp, html) => {
       if (!err && cheerioResp.statusCode == 200) {
         const $ = cheerio.load(html)
@@ -215,6 +215,22 @@ async function asyncMapRequests() {
           accuracy: Number(moveAccuracyRegex[0]),
           whoLearns: whoLearnsArr
         }
+        moveData.whoLearns.forEach((thePoke, i) => {
+          db.dexes_moves.findOrCreate({
+            where: {
+              dexId: thePoke,
+              moveId: moveData.id
+            }
+          })
+          .then((record, wasCreated)=>{
+            console.log(`wasCreated: ${wasCreated}`);
+            console.log(record);
+          })
+          .catch((err)=>{
+            console.log('Error when iterating through dexes_moves relationships:', err);
+          })
+        })
+        whoLearnsObjList.push({id: moveData.id, whoLearns: moveData.whoLearns})
         console.log(moveData);
         callback(null, moveData);
       } else {
@@ -222,10 +238,11 @@ async function asyncMapRequests() {
       }
     })
   }
-
-
-
 }
 
 asyncMapRequests();
+
+
+
+console.log("done");
 // export default doLimit(mapLimit, 1);

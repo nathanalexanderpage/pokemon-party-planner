@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const own = sequelize.define('own', {
     userId: DataTypes.INTEGER,
     dexId: DataTypes.INTEGER,
+    abilityId: DataTypes.INTEGER,
     nickname: DataTypes.STRING,
     profilename: DataTypes.STRING
   }, {});

@@ -32,25 +32,27 @@ async function asyncMapRequests() {
 
   async.mapSeries(noArr, asyncfunc, (err, results) => {
     results.forEach(pokeRecord => {
-      db.dex.findOrCreate({
-        where: {
-          id: pokeRecord.id,
-          name: pokeRecord.name,
-          genId: pokeRecord.genId,
-          hp: pokeRecord.hp,
-          attack: pokeRecord.baseAttack,
-          defense: pokeRecord.baseDefense,
-          spAttack: pokeRecord.baseSpAttack,
-          spDefense: pokeRecord.baseSpDefense,
-          speed: pokeRecord.baseSpeed
-        }
-        console.log(`***INTO DATABASE*** id: ${pokeRecord.id}; name: ${pokeRecord.name}; genId: ${pokeRecord.genId}; HP: ${pokeRecord.hp}; A: ${pokeRecord.attack}; D: ${pokeRecord.defense}; SA: ${pokeRecord.spAttack}; SD: ${pokeRecord.spDefense}, S: ${pokeRecord.speed}`);
-      })
-      .then((newRecord, wasCreated) => {
-      })
-      .catch(function(error) {
-        console.log("error at db.dex.findOrCreate: ", error);
-      });
+      console.log(pokeRecord.id);
+      // db.dex.findOrCreate({
+      //   where: {
+      //     id: pokeRecord.id,
+      //     name: pokeRecord.name,
+      //     genId: pokeRecord.genId,
+      //     hp: pokeRecord.hp,
+      //     attack: pokeRecord.baseAttack,
+      //     defense: pokeRecord.baseDefense,
+      //     spAttack: pokeRecord.baseSpAttack,
+      //     spDefense: pokeRecord.baseSpDefense,
+      //     speed: pokeRecord.baseSpeed
+      //   }
+      //   // console.log(`***INTO DATABASE*** id: ${pokeRecord.id}; name: ${pokeRecord.name}; genId: ${pokeRecord.genId}; HP: ${pokeRecord.hp}; A: ${pokeRecord.attack}; D: ${pokeRecord.defense}; SA: ${pokeRecord.spAttack}; SD: ${pokeRecord.spDefense}, S: ${pokeRecord.speed}`);
+      // })
+      // .then((newRecord, wasCreated) => {
+      //   console.log(newRecord, wasCreated);
+      // })
+      // .catch(function(error) {
+      //   console.log("error at db.dex.findOrCreate: ", error);
+      // });
     })
   });
 
@@ -102,6 +104,27 @@ async function asyncMapRequests() {
           baseSpeed: Number(pokeSpeed)
         }
         console.log(pokeData);
+
+        db.dex.findOrCreate({
+          where: {
+            id: pokeData.id,
+            name: pokeData.name,
+            genId: pokeData.genId,
+            hp: pokeData.hp,
+            attack: pokeData.baseAttack,
+            defense: pokeData.baseDefense,
+            spAttack: pokeData.baseSpAttack,
+            spDefense: pokeData.baseSpDefense,
+            speed: pokeData.baseSpeed
+          }
+          // console.log(`***INTO DATABASE*** id: ${pokeRecord.id}; name: ${pokeRecord.name}; genId: ${pokeRecord.genId}; HP: ${pokeRecord.hp}; A: ${pokeRecord.attack}; D: ${pokeRecord.defense}; SA: ${pokeRecord.spAttack}; SD: ${pokeRecord.spDefense}, S: ${pokeRecord.speed}`);
+        })
+        .then((newRecord, wasCreated) => {
+          console.log(newRecord, wasCreated);
+        })
+        .catch(function(error) {
+          console.log("error at db.dex.findOrCreate: ", error);
+        });
         callback(null, pokeData);
       } else {
         callback('err', null);

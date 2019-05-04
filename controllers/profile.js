@@ -14,7 +14,15 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
-  db.own.findAll()
+  db.own.findAll({
+    where: {
+      userId: req.user.id
+    },
+    order: [
+      ['id', 'DESC']
+    ],
+    limit: 10
+  })
   .then((results) => {
     console.log(results);
     // res.send(results)
@@ -72,21 +80,18 @@ router.post('/poke/new', loggedIn, (req, res) => {
 })
 
 // GET /profile/:id
-router.get('/:dex', loggedIn, (req, res) => {
-  console.log(req.params); // {dex: 2}
-  db.users_pokes.findAll({
-    where: { pokeDex: req.params.dex }
+router.get('/pokemon/:dex', loggedIn, (req, res) => {
+  db.own.findOne({
+    where: {
+      id: req.params.dex
+    }
   })
   .then((results) => {
-    let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/${req.params.dex}`
-    request(pokeapiUrl, (err, apiResp, body) => {
-      let pokeData = JSON.parse(body)
-      console.log(pokeData);
-      res.render('profile/pokeshow', {
-        pokeData,
-        results
-      })
-    })
+    console.log(req.params.dex);
+    console.log(results);
+    if (results.userId === req.user.id) {
+      res.render('profile/pokeshow', {pokeData: results})
+    }
   })
   .catch((err) => {
     console.log('err: ', err);

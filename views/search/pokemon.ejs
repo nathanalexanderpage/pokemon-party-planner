@@ -1,8 +1,7 @@
 <h1>Pok<%= "\u00e9" %>manz results</h1>
-<% pokeData.forEach((pokeData, i) => { %>
-  <% let dexNo = `${10 > (i + 1) ? `00${i + 1}` : 100 > (i + 1) ? `0${i + 1}` : i + 1}` %>
+<% results.forEach((pokeData, i) => { %>
+  <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
   <% var iconUrl = `https://www.serebii.net/pokedex-dp/icon/${dexNo}.gif` %>
-  <% var urlImage = `https://www.serebii.net/art/th/${i + 1}.png` %>
   <div class="container tight-fit">
     <form action="/search/add-pokemon" method="post">
       <div class="inlineitem">
@@ -13,10 +12,8 @@
       <div class="inlineitem">
         <img src="<%= iconUrl %>" alt="<%= pokeData.name %> sprite">
       </div>
-      <input type="hidden" name="dex" value="<%= i + 1 %>">
-      <input type="hidden" name="name" value="<%= pokeData.name %>">
-      <input type="hidden" name="urlImage" value="<%= urlImage %>">
-      <input type="hidden" name="urlSprite" value="<%= iconUrl %>">
+      <input type="hidden" name="dex" value="<%= pokeData.id %>">
+      <input type="hidden" name="nickname" value="<%= pokeData.name %>">
       <div class="inlineitem">
         <p class="nomargin"><%= dexNo %> <%= pokeData.name %></p>
       </div>

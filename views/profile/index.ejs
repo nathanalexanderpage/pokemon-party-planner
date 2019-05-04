@@ -15,9 +15,9 @@
   </div>
 </div>
 <div class="container row">
-  <h2>owned species</h2>
+  <h2>recently added</h2>
   <% results.forEach((species, i) => { %>
-    <% let dexNo = `${10 > (species.dex) ? `00${species.dex}` : 100 > (species.dex) ? `0${species.dex}` : species.dex}` %>
+    <% let dexNo = `${10 > (species.dexId) ? `00${species.dexId}` : 100 > (species.dexId) ? `0${species.dexId}` : species.dexId}` %>
     <div class="row">
       <div class="tight-fit">
         <!--<div class="inlineitem">
@@ -25,12 +25,12 @@
             <i class="material-icons">add</i>
           </button>
         </div>-->
-        <a type="submit" name="action" href="/profile/<%= species.dex %>">
+        <a type="submit" name="action" href="/profile/pokemon/<%= species.id %>">
           <div class="inlineitem">
-            <img src="<%= species.urlSprite %>" alt="<%= species.name %> sprite">
+            <img src="https://www.serebii.net/pokedex-dp/icon/<%= dexNo %>.gif" alt="<%= species.name %> sprite">
           </div>
           <div class="inlineitem">
-            <p class="nomargin"><%= dexNo %> <%= species.name %></p>
+            <p class="nomargin"><%= dexNo %> <%= species.nickname %></p>
           </div>
         </a>
       </div>

@@ -16,6 +16,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      abilityId: {
+        type: Sequelize.INTEGER
+      },
       nickname: {
         type: Sequelize.STRING
       },

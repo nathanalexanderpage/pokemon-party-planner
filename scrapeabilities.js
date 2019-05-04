@@ -78,8 +78,8 @@ async function asyncMapRequests() {
           desc: abilityEach.desc
         }
       })
-      .then((insertedMove, wasCreated) => {
-        console.log(insertedMove[0].dataValues.id);
+      .then((insertedAbility, wasCreated) => {
+        console.log(insertedAbility[0].dataValues.id);
         abilityEach.whoHas.forEach((dexIdNo) => {
           console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
           if (dexIdNo < 722) {
