@@ -2,56 +2,103 @@
 
 <img src="https://www.serebii.net/art/th/<%= dexData.dexId %>.png" alt="">
 
-<div class="stats">
-  <div class="side-by-side">
-    <div class="stat name">
-      HP
+<div class="side-by-side">
+  <div class="stats">
+    <div class="table-title">
+      stats
     </div>
-    <div class="stat num">
-      <%= dexData.dex.hp %>
+    <div class="side-by-side">
+      <div class="stat name">
+        HP
+      </div>
+      <div class="stat num">
+        <%= dexData.dex.hp %>
+      </div>
+    </div>
+    <div class="side-by-side">
+      <div class="stat name">
+        Att
+      </div>
+      <div class="stat num">
+        <%= dexData.dex.attack %>
+      </div>
+    </div>
+    <div class="side-by-side">
+      <div class="stat name">
+        Def
+      </div>
+      <div class="stat num">
+        <%= dexData.dex.defense %>
+      </div>
+    </div>
+    <div class="side-by-side">
+      <div class="stat name">
+        Spd
+      </div>
+      <div class="stat num">
+        <%= dexData.dex.speed %>
+      </div>
+    </div>
+    <div class="side-by-side">
+      <div class="stat name">
+        Sp A
+      </div>
+      <div class="stat num">
+        <%= dexData.dex.spAttack %>
+      </div>
+    </div>
+    <div class="side-by-side">
+      <div class="stat name">
+        Sp D
+      </div>
+      <div class="stat num">
+        <%= dexData.dex.spDefense %>
+      </div>
     </div>
   </div>
-  <div class="side-by-side">
-    <div class="stat name">
-      Att
+  <div class="moveset">
+    <div class="table-title">
+      moves
     </div>
-    <div class="stat num">
-      <%= dexData.dex.attack %>
-    </div>
-  </div>
-  <div class="side-by-side">
-    <div class="stat name">
-      Def
-    </div>
-    <div class="stat num">
-      <%= dexData.dex.defense %>
-    </div>
-  </div>
-  <div class="side-by-side">
-    <div class="stat name">
-      Spd
-    </div>
-    <div class="stat num">
-      <%= dexData.dex.speed %>
-    </div>
-  </div>
-  <div class="side-by-side">
-    <div class="stat name">
-      Sp A
-    </div>
-    <div class="stat num">
-      <%= dexData.dex.spAttack %>
-    </div>
-  </div>
-  <div class="side-by-side">
-    <div class="stat name">
-      Sp D
-    </div>
-    <div class="stat num">
-      <%= dexData.dex.spDefense %>
-    </div>
+    <% ownMoves.forEach((ownMove) => { %>
+      <div class="move-name">
+        <%= ownMove.name %>
+      </div>
+      <div class="move-desc">
+        <%= ownMove.desc %>
+      </div>
+      <div class="move-type">
+        <%= ownMove.typeId %>
+      </div>
+      <div class="move-category">
+        <%= ownMove.category %>
+      </div>
+      <div class="move-power">
+        <%= ownMove.power %>
+      </div>
+      <div class="move-accuracy">
+        <%= ownMove.accuracy %>
+      </div>
+      <div class="move-pp">
+        <%= ownMove.pp %>
+      </div>
+      <div class="move-remove">
+        <form action="/profile/pokemon/<%= dexData.dataValues.id %>/?_method=PUT" method="post">
+          <div class="remove-from-moveset">
+            <input type="hidden" name="moveId" value="<%= ownMove.id %>">
+            <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
+            <input type="hidden" name="location" value="summary">
+            <button class="btn waves-effect waves-light red" type="submit">
+              <i class="material-icons">do_not_disturb_alt</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    <% }) %>
   </div>
 </div>
+
+<hr>
 
 <div class="dex-abilities">
   <% abilitiesData.forEach((ability) => { %>
@@ -66,9 +113,13 @@
   <% }) %>
 </div>
 
+<hr>
+
 <div class="dex-moves">
   <% dexMoveData.forEach((knownMove, i) => { %>
-    <div class="move-no <%= i + 1 %>">
+    <div class="move-info<% if (ownMovesArr.includes(knownMove.id)) { %>
+       in-moveset
+    <% } %>" id="move-<%= knownMove.id %>">
       <div class="move-name">
         <%= knownMove.name %>
       </div>
@@ -90,11 +141,15 @@
       <div class="move-pp">
         <%= knownMove.pp %>
       </div>
-      <div class="add-to-moveset">
-        <button class="btn waves-effect waves-light" type="submit" name="action">
-          <i class="material-icons">add</i>
-        </button>
-      </div>
+      <form action="/profile/pokemon/add-to-moveset" method="post">
+        <div class="add-to-moveset">
+          <input type="hidden" name="moveId" value="<%= knownMove.id %>">
+          <input type="hidden" name="ownId" value="<%= dexData.id %>">
+          <button class="btn waves-effect waves-light" type="submit">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+      </form>
     </div>
   <% }) %>
 </div>

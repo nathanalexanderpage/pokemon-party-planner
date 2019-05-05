@@ -9,7 +9,7 @@
   display: inline-block;
   margin-left: 3%;
 }
-.move-no {
+.move-info {
   background-color: lightgrey;
   margin-bottom: 5px;
 }
@@ -18,6 +18,15 @@
 }
 .side-by-side {
   display: flex
+}
+.ability-name, .move-name, .table-title {
+  text-transform: capitalize;
+}
+.error-msg::first-letter {
+  text-transform: uppercase;
+}
+.in-moveset {
+  background-color: yellow;
 }
 button i{
   margin: 0;

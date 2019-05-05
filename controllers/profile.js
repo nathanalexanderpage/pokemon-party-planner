@@ -37,50 +37,6 @@ router.get('/admin', adminLoggedIn, (req, res) => {
   res.render('profile/admin')
 })
 
-// GET /profile/newpoke
-router.get('/poke/new', loggedIn, (req, res) => {
-  console.log(req);
-  let passData = req.query
-  let pokeapiUrl = `${process.env.API_BASE_URL}pokemon/${passData.id}`
-  request(pokeapiUrl, (err, apiResp, body) => {
-    let pokeData = JSON.parse(body)
-    console.log(pokeData)
-    res.render('profile/pokenew', { pokeData })
-  })
-})
-
-router.post('/poke/new', loggedIn, (req, res) => {
-  console.log(req.body);
-  let moveArr = [];
-  for (var i = 0; i < Object.keys(req.body).length; i++) {
-    if (Object.keys(req.body)[i].includes('move')) {
-      let currentKey = Object.keys(req.body)[i];
-      moveArr.push(req.body[currentKey]);
-    }
-  }
-
-  console.log(`
-    userId: ${req.user.dataValues.id},
-    pokeDex: ${req.body.pokeDex},
-    profile_name: ${req.body.profile_name},
-    name: ${req.body.name},
-    ability: ${req.body.ability},
-    move1: ${moveArr[0]},
-    move2: ${moveArr[1]},
-    move3: ${moveArr[2]},
-    move4: ${moveArr[3]}`);
-  // res.send('req received to console')
-  // db.users_pokes.create({
-  //   where: {
-  //     userId: req.user.dataValues.id,
-  //     pokeDex: ,
-  //     name: name,
-  //     profile_name: profile_name,
-  //
-  //   }
-  // })
-})
-
 // GET /profile/pokemon/:id
 router.get('/pokemon/:id', loggedIn, (req, res) => {
   // console.log(req.params);
@@ -94,7 +50,7 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
     // console.log(req.params.dex);
     console.log(resultOwn);
 
-    if (resultOwn.dataValues.userId === req.user.id) {
+    if (resultOwn.dataValues.userId === req.user.id) { // make sure user only can look at their own pokes
       db.dexes_moves.findAll({
         where: {
           dexId: resultOwn.dataValues.dexId
@@ -116,7 +72,11 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
               ownId: req.params.id
             }
           })
-          .then((ownPokeKnows) => {
+          .then((ownMoves) => {
+            let ownMovesArr = [];
+            ownMoves.forEach((ownMoveObj) => {
+              ownMovesArr.push(ownMoveObj.moveId);
+            })
             db.abilities_dexes.findAll({
               where: {
                 dexId: resultOwn.dataValues.dexId
@@ -133,8 +93,17 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
                 }
               })
               .then((dexAbilArr) => {
-                // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownPokeKnows: ownPokeKnows, dexMoveData: dexMoveData})
-                res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownPokeKnows: ownPokeKnows, dexMoveData: dexMoveData});
+
+                db.move.findAll({
+                  where: {
+                    id: {[Op.in]: ownMovesArr}
+                  }
+                })
+                .then((ownMovesDetails) => {
+                  // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, dexMoveData: dexMoveData})
+                  res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails,
+                    ownMovesArr: ownMovesArr, dexMoveData: dexMoveData});
+                })
               })
             })
           })
@@ -147,6 +116,53 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
   .catch((err) => {
     console.log('err: ', err);
   })
+})
+
+router.post('/pokemon/add-to-moveset', loggedIn, (req, res) => {
+  console.log(req.body);
+
+  db.moves_owns.findAll({ // find all moves known by poke
+    where: {
+      ownId: req.body.ownId
+    }
+  })
+  .then((presentMoveRels) => {
+    knownMoveIdArr = [];
+    presentMoveRels.forEach((moveRel) => {
+      knownMoveIdArr.push(moveRel.moveId);
+    });
+
+    db.move.findOne({
+      where: {
+        id: req.body.moveId
+      }
+    })
+    .then((pressedMove) => {
+      if (knownMoveIdArr.includes(Number(req.body.moveId))) {
+        req.flash('error', `${pressedMove.name} already in moveset.`);
+        res.redirect(`/profile/pokemon/${req.body.ownId}`);
+      } else if (presentMoveRels.length > 3) {
+        req.flash('error', `Moveset full; remove one before adding ${pressedMove.name}.`);
+        res.redirect(`/profile/pokemon/${req.body.ownId}`);
+      } else {
+        db.moves_owns.findOrCreate({
+          where: {
+            ownId: req.body.ownId,
+            moveId: req.body.moveId
+          }
+        })
+        .then(() => {
+          res.redirect(`/profile/pokemon/${req.body.ownId}#move-${req.body.moveId}`);
+        })
+      }
+    })
+  })
+
+})
+
+router.put('/pokemon/:id', loggedIn, (req, res) => {
+  // res.send(req.body);
+  res.redirect(`/profile/pokemon/${req.body.ownId}`);
 })
 
 // Export the routes from this file

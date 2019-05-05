@@ -9,6 +9,7 @@ let flash = require('connect-flash');
 var request = require('request');
 let layouts = require('express-ejs-layouts');
 let session = require('express-session');
+var methodOverride = require("method-override");
 let userTable = require('./models/user.js')
 let db = require('./models');
 
@@ -25,6 +26,7 @@ app.set('view engine', 'ejs');
 app.use('/', express.static('public'));
 app.use(layouts);
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,

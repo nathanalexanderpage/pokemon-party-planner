@@ -1,13 +1,10 @@
 <h1 class="center purple-text">
-  <%= user.username %>'s Dashboard
+  Dashboard
 </h1>
 
 <div class="row">
-  <div class="col s3">
-    <img class="responsive-img" src="<%= user.image %>">
-  </div>
-  <div class="col s9">
-    <h4><strong>Name:</strong> <%= user.username %> <%= user.lastname %></h4>
+  <div class="col s12">
+    <h4><strong>Logged in as:</strong> <%= user.username %> <%= user.lastname %></h4>
     <p><strong>Admin Status:</strong> <%= user.admin ? 'Yes' : 'Not an admin' %></p>
     <p><strong>Member since:</strong> <%= user.createdAt %></p>
     <hr>
@@ -15,7 +12,7 @@
   </div>
 </div>
 <div class="container row">
-  <h2>Recent Pokémon Additions</h2>
+  <h2>Recent Pokémon</h2>
   <% results.forEach((species, i) => { %>
     <% let dexNo = `${10 > (species.dexId) ? `00${species.dexId}` : 100 > (species.dexId) ? `0${species.dexId}` : species.dexId}` %>
     <div class="row">
