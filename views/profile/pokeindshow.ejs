@@ -1,0 +1,82 @@
+<h2>Details on <%= pokeData.nickname %></h2>
+
+<img src="https://www.serebii.net/art/th/<%= pokeData.dexId %>.png" alt="">
+
+<div class="stats">
+  <div class="side-by-side">
+    <div class="stat name">
+      HP
+    </div>
+    <div class="stat num">
+      <%= pokeData.dexId %>
+    </div>
+  </div>
+  <div class="side-by-side">
+    <div class="stat name">
+      Att
+    </div>
+    <div class="stat num">
+
+    </div>
+  </div>
+  <div class="side-by-side">
+    <div class="stat name">
+      Def
+    </div>
+    <div class="stat num">
+
+    </div>
+  </div>
+  <div class="side-by-side">
+    <div class="stat name">
+      Spd
+    </div>
+    <div class="stat num">
+
+    </div>
+  </div>
+  <div class="side-by-side">
+    <div class="stat name">
+      S A
+    </div>
+    <div class="stat num">
+
+    </div>
+  </div>
+  <div class="side-by-side">
+    <div class="stat name">
+      S D
+    </div>
+    <div class="stat num">
+
+    </div>
+  </div>
+</div>
+
+<div class="known-moves">
+  <% ownKnownMovesArr.forEach((knownMove, i) => { %>
+    <div class="move-<%= i + 1 %>">
+      <div class="move-name">
+        <%= i %>
+      </div>
+      <div class="move-desc">
+        <%= i %>
+      </div>
+      <div class="move-type">
+        <%= i %>
+      </div>
+      <div class="move-category">
+        <%= i %>
+      </div>
+      <div class="move-power">
+        <%= i %>
+      </div>
+      <div class="move-accuracy">
+        <%= i %>
+      </div>
+      <div class="move-pp">
+        <%= i %>
+      </div>
+    </div>
+  <% }) %>
+</div>

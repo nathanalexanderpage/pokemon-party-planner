@@ -12,6 +12,9 @@
 .nomargin {
   margin: 0;
 }
+.side-by-side {
+  display: flex
+}
 button i{
   margin: 0;
   padding: 0;

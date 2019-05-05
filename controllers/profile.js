@@ -79,18 +79,32 @@ router.post('/poke/new', loggedIn, (req, res) => {
   // })
 })
 
-// GET /profile/:id
-router.get('/pokemon/:dex', loggedIn, (req, res) => {
+// GET /profile/pokemon/:id
+router.get('/pokemon/:id', loggedIn, (req, res) => {
+  // console.log(req.params);
   db.own.findOne({
     where: {
-      id: req.params.dex
-    }
+      id: req.params.id
+    },
+    include: [db.dex]
   })
-  .then((results) => {
-    console.log(req.params.dex);
-    console.log(results);
-    if (results.userId === req.user.id) {
-      res.render('profile/pokeshow', {pokeData: results})
+  .then((resultOwn) => {
+    // console.log(req.params.dex);
+    console.log(resultOwn);
+
+    if (resultOwn.dataValues.userId === req.user.id) {
+      db.dexes_moves.findAll({
+        where: {
+          dexId: resultOwn.dataValues.dexId
+        }
+      })
+      .then((resultDexMoves) => {
+        resultDexMoves.forEach((dexMove) => {
+          console.log("yay");
+        })
+        res.send({resultOwn: resultOwn, resultDexMoves: resultDexMoves})
+      })
+      // res.render('profile/pokeindshow', {pokeData: results})
     }
   })
   .catch((err) => {
