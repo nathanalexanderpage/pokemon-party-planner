@@ -7,6 +7,8 @@ let router = express.Router()
 
 // Reference the models
 let db = require('../models')
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 // Include our custom middleware to ensure that users are logged in
 let adminLoggedIn = require('../middleware/adminLoggedIn')
@@ -98,13 +100,48 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
           dexId: resultOwn.dataValues.dexId
         }
       })
-      .then((resultDexMoves) => {
+      .then((resultDexMoves) => { // keys: dexId, moveId
+        dexMoveArr = [];
         resultDexMoves.forEach((dexMove) => {
-          console.log("yay");
+          dexMoveArr.push(dexMove.moveId);
         })
-        res.send({resultOwn: resultOwn, resultDexMoves: resultDexMoves})
+        db.move.findAll({
+          where: {
+            id: {[Op.in]: dexMoveArr}
+          }
+        })
+        .then((dexMoveData) => {
+          db.moves_owns.findAll({
+            where: {
+              ownId: req.params.id
+            }
+          })
+          .then((ownPokeKnows) => {
+            db.abilities_dexes.findAll({
+              where: {
+                dexId: resultOwn.dataValues.dexId
+              }
+            })
+            .then((dexPotentialAbilities) => {
+              potAbilArr = [];
+              dexPotentialAbilities.forEach((potAbil) => {
+                potAbilArr.push(potAbil.abilityId);
+              })
+              db.ability.findAll({
+                where: {
+                  id: {[Op.in]: potAbilArr}
+                }
+              })
+              .then((dexAbilArr) => {
+                // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownPokeKnows: ownPokeKnows, dexMoveData: dexMoveData})
+                res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownPokeKnows: ownPokeKnows, dexMoveData: dexMoveData});
+              })
+            })
+          })
+        })
       })
-      // res.render('profile/pokeindshow', {pokeData: results})
+    } else {
+      res.render('404');
     }
   })
   .catch((err) => {

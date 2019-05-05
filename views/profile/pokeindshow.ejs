@@ -1,6 +1,6 @@
-<h2>Details on <%= pokeData.nickname %></h2>
+<h2>Details on <%= dexData.dataValues.nickname %></h2>
 
-<img src="https://www.serebii.net/art/th/<%= pokeData.dexId %>.png" alt="">
+<img src="https://www.serebii.net/art/th/<%= dexData.dexId %>.png" alt="">
 
 <div class="stats">
   <div class="side-by-side">
@@ -8,7 +8,7 @@
       HP
     </div>
     <div class="stat num">
-      <%= pokeData.dexId %>
+      <%= dexData.dex.hp %>
     </div>
   </div>
   <div class="side-by-side">
@@ -16,7 +16,7 @@
       Att
     </div>
     <div class="stat num">
-
+      <%= dexData.dex.attack %>
     </div>
   </div>
   <div class="side-by-side">
@@ -24,7 +24,7 @@
       Def
     </div>
     <div class="stat num">
-
+      <%= dexData.dex.defense %>
     </div>
   </div>
   <div class="side-by-side">
@@ -32,50 +32,68 @@
       Spd
     </div>
     <div class="stat num">
-
+      <%= dexData.dex.speed %>
     </div>
   </div>
   <div class="side-by-side">
     <div class="stat name">
-      S A
+      Sp A
     </div>
     <div class="stat num">
-
+      <%= dexData.dex.spAttack %>
     </div>
   </div>
   <div class="side-by-side">
     <div class="stat name">
-      S D
+      Sp D
     </div>
     <div class="stat num">
-
+      <%= dexData.dex.spDefense %>
     </div>
   </div>
 </div>
 
-<div class="known-moves">
-  <% ownKnownMovesArr.forEach((knownMove, i) => { %>
-    <div class="move-<%= i + 1 %>">
+<div class="dex-abilities">
+  <% abilitiesData.forEach((ability) => { %>
+    <div class="side-by-side">
+      <div class="ability-name">
+        <%= ability.name %>
+      </div>
+      <div class="ability-desc">
+        <%= ability.desc %>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<div class="dex-moves">
+  <% dexMoveData.forEach((knownMove, i) => { %>
+    <div class="move-no <%= i + 1 %>">
       <div class="move-name">
-        <%= i %>
+        <%= knownMove.name %>
       </div>
       <div class="move-desc">
-        <%= i %>
+        <%= knownMove.desc %>
       </div>
       <div class="move-type">
-        <%= i %>
+        <%= knownMove.typeId %>
       </div>
       <div class="move-category">
-        <%= i %>
+        <%= knownMove.category %>
       </div>
       <div class="move-power">
-        <%= i %>
+        <%= knownMove.power %>
       </div>
       <div class="move-accuracy">
-        <%= i %>
+        <%= knownMove.accuracy %>
       </div>
       <div class="move-pp">
-        <%= i %>
+        <%= knownMove.pp %>
+      </div>
+      <div class="add-to-moveset">
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+          <i class="material-icons">add</i>
+        </button>
       </div>
     </div>
   <% }) %>

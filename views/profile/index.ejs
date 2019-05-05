@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class="container row">
-  <h2>recently added</h2>
+  <h2>Recent Pokémon Additions</h2>
   <% results.forEach((species, i) => { %>
     <% let dexNo = `${10 > (species.dexId) ? `00${species.dexId}` : 100 > (species.dexId) ? `0${species.dexId}` : species.dexId}` %>
     <div class="row">
@@ -27,7 +27,7 @@
         </div>-->
         <a type="submit" name="action" href="/profile/pokemon/<%= species.id %>">
           <div class="inlineitem">
-            <img src="https://www.serebii.net/pokedex-dp/icon/<%= dexNo %>.gif" alt="<%= species.name %> sprite">
+            <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= species.name %> sprite">
           </div>
           <div class="inlineitem">
             <p class="nomargin"><%= dexNo %> <%= species.nickname %></p>

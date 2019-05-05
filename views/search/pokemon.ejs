@@ -1,7 +1,7 @@
-<h1>Pok<%= "\u00e9" %>manz results</h1>
+<h1>Pokémanz results</h1>
 <% results.forEach((pokeData, i) => { %>
   <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
-  <% var iconUrl = `https://www.serebii.net/pokedex-dp/icon/${dexNo}.gif` %>
+  <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
   <div class="container tight-fit">
     <form action="/search/add-pokemon" method="post">
       <div class="inlineitem">
