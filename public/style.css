@@ -1,3 +1,6 @@
+.btn {
+  font-size: 13.5px;
+}
 .closeable {
   cursor: pointer;
 }
@@ -6,6 +9,9 @@
   margin-bottom: 5px;
   margin-top: 5px;
   padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .inlineitem {
   display: inline-block;
@@ -25,13 +31,16 @@
 .nomargin {
   margin: 0;
 }
-.own-move-info {
+.own-move-info, .own-ability-info {
   background-color: skyblue;
   margin-bottom: 5px;
 }
 .potential {
   margin-top: 1vw;
   margin-right: 1vw;
+}
+.prof-img {
+  margin-top: 1vw;
 }
 .side-by-side {
   display: inline-table;
@@ -43,10 +52,16 @@
   display: flex;
   justify-content: space-between;
 }
+.move-name, .ability-name {
+  font-weight: bold;
+  font-size: 18px;
+}
 .small-details {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   text-align: center;
+  text-transform: capitalize;
 }
 .stats {
   margin: 3%;

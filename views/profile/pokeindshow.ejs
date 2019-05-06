@@ -12,7 +12,7 @@
 
 <div class="row">
   <div class="general-info col">
-    <img src="https://www.serebii.net/art/th/<%= dexData.dexId %>.png" alt="">
+    <img class="prof-img" src="https://www.serebii.net/art/th/<%= dexData.dexId %>.png" alt="">
 
     <form action="/profile/pokemon/add-to-moveset" method="post">
       <button class="btn waves-effect waves-light blue" type="submit">
@@ -49,14 +49,6 @@
       </div>
       <div class="statbar">
         <div class="stat name">
-          Spd
-        </div>
-        <div class="stat num">
-          <%= dexData.dex.speed %>
-        </div>
-      </div>
-      <div class="statbar">
-        <div class="stat name">
           Sp A
         </div>
         <div class="stat num">
@@ -71,6 +63,14 @@
           <%= dexData.dex.spDefense %>
         </div>
       </div>
+      <div class="statbar">
+        <div class="stat name">
+          Spd
+        </div>
+        <div class="stat num">
+          <%= dexData.dex.speed %>
+        </div>
+      </div>
     </div>
     </div>
   <div class="moveset col s6 m8 l9">
@@ -80,6 +80,16 @@
         — add below! (one)
       <% } %>
     </div>
+    <% if (ownAbilIndex + 1) { %>
+      <div class="own-ability-info">
+        <div class="ability-name">
+          <%= abilitiesData[ownAbilIndex].name %>
+        </div>
+        <div class="ability-desc">
+          <%= abilitiesData[ownAbilIndex].desc %>
+        </div>
+      </div>
+    <% } %>
     <div class="table-title">
       moveset
       <% if (ownMovesArr.length === 0) { %>
@@ -113,7 +123,7 @@
               Type
             </div>
             <div>
-              <%= ownMove.typeId %>
+              <%= typeInfo[ownMove.typeId - 1].name %>
             </div>
           </div>
           <div class="move-category">
@@ -158,15 +168,36 @@
 
 <div class="dex-abilities">
   <div class="table-title">
-    Possible abilities
+    <h4>Possible abilities</h4>
   </div>
   <% abilitiesData.forEach((ability) => { %>
-    <div class="dex-ability">
-      <div class="side-by-side ability-name">
-        <%= ability.name %>
+    <div class="dex-ability<% if (ability.id === dexData.abilityId) { %>
+       in-moveset
+    <% } %>">
+      <div class="ability-name-and-desc">
+        <div class="side-by-side ability-name">
+          <%= ability.name %>
+        </div>
+        <div class="side-by-side ability-desc">
+          <%= ability.desc %>
+        </div>
       </div>
-      <div class="side-by-side ability-desc">
-        <%= ability.desc %>
+      <div class="ability-add-remove">
+        <% if (ability.id !== dexData.abilityId) { %>
+          <form action="/profile/pokemon/change-ability" method="post">
+            <input type="hidden" name="abilityId" value="<%= ability.id %>">
+            <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
+            <button class="btn waves-effect waves-light" type="submit">
+              <i class="material-icons">
+                <% if (dexData.abilityId) { %>
+                  loop
+                <% } else { %>
+                  add
+                <% } %>
+              </i>
+            </button>
+          </form>
+        <% } %>
       </div>
     </div>
   <% }) %>
@@ -177,7 +208,7 @@
 
 <div class="dex-moves">
   <div class="table-title">
-    Possible moves
+    <h4>Possible moves</h4>
   </div>
   <% dexMoveData.forEach((knownMove, i) => { %>
     <div class="move-info<% if (ownMovesArr.includes(knownMove.id)) { %>
@@ -217,7 +248,7 @@
             Type
           </div>
           <div>
-            <%= knownMove.typeId %>
+            <%= typeInfo[knownMove.typeId - 1].name %>
           </div>
         </div>
         <div class="move-category">

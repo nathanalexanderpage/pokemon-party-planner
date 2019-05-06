@@ -102,8 +102,9 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
                 .then((ownMovesDetails) => {
                   db.type.findAll()
                   .then((typeInfo) => {
-                    // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo})
-                    res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo});
+                    let ownKnownAbilIndex = potAbilArr.indexOf(Number(resultOwn.abilityId));
+                    // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo, ownAbilIndex: ownKnownAbilIndex})
+                    res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo, ownAbilIndex: ownKnownAbilIndex});
                   })
                 })
               })
@@ -121,7 +122,7 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
 })
 
 router.post('/pokemon/add-to-moveset', loggedIn, (req, res) => {
-  console.log(req.body);
+  console.log(req);
 
   db.moves_owns.findAll({ // find all moves known by poke
     where: {
@@ -158,6 +159,17 @@ router.post('/pokemon/add-to-moveset', loggedIn, (req, res) => {
         })
       }
     })
+  })
+})
+
+router.post('/pokemon/change-ability', loggedIn, (req, res) => {
+  db.own.update({
+    abilityId: req.body.abilityId
+  },{
+    where: {id: req.body.ownId}
+  })
+  .then((changedRec) => {
+    res.redirect(`/profile/pokemon/${req.body.ownId}`)
   })
 })
 
