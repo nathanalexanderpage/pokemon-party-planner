@@ -1,155 +1,258 @@
-<h2>Details on <%= dexData.dataValues.nickname %></h2>
+<h2>Detailed view</h2>
 
-<img src="https://www.serebii.net/art/th/<%= dexData.dexId %>.png" alt="">
+<form action="" method="post">
+  <div class="">
 
-<div class="side-by-side">
-  <div class="stats">
-    <div class="table-title">
-      stats
-    </div>
-    <div class="side-by-side">
-      <div class="stat name">
-        HP
-      </div>
-      <div class="stat num">
-        <%= dexData.dex.hp %>
-      </div>
-    </div>
-    <div class="side-by-side">
-      <div class="stat name">
-        Att
-      </div>
-      <div class="stat num">
-        <%= dexData.dex.attack %>
-      </div>
-    </div>
-    <div class="side-by-side">
-      <div class="stat name">
-        Def
-      </div>
-      <div class="stat num">
-        <%= dexData.dex.defense %>
-      </div>
-    </div>
-    <div class="side-by-side">
-      <div class="stat name">
-        Spd
-      </div>
-      <div class="stat num">
-        <%= dexData.dex.speed %>
-      </div>
-    </div>
-    <div class="side-by-side">
-      <div class="stat name">
-        Sp A
-      </div>
-      <div class="stat num">
-        <%= dexData.dex.spAttack %>
-      </div>
-    </div>
-    <div class="side-by-side">
-      <div class="stat name">
-        Sp D
-      </div>
-      <div class="stat num">
-        <%= dexData.dex.spDefense %>
-      </div>
-    </div>
   </div>
-  <div class="moveset">
+  <input class="poke-nickname" type="text" name="nickname" value="<%= dexData.dataValues.nickname %>">
+  <input type="text" name="profilename" value="<%= dexData.dataValues.profilename %>" placeholder="Enter role here (examples: tank, all-around, healer)">
+</form>
+
+
+
+<div class="row">
+  <div class="general-info col">
+    <img src="https://www.serebii.net/art/th/<%= dexData.dexId %>.png" alt="">
+
+    <form action="/profile/pokemon/add-to-moveset" method="post">
+      <button class="btn waves-effect waves-light blue" type="submit">
+        Add to party
+      </button>
+    </form>
+    <div class="stats">
+      <div class="table-title">
+        stats
+      </div>
+      <div class="statbar">
+        <div class="stat name">
+          HP
+        </div>
+        <div class="stat num">
+          <%= dexData.dex.hp %>
+        </div>
+      </div>
+      <div class="statbar">
+        <div class="stat name">
+          Att
+        </div>
+        <div class="stat num">
+          <%= dexData.dex.attack %>
+        </div>
+      </div>
+      <div class="statbar">
+        <div class="stat name">
+          Def
+        </div>
+        <div class="stat num">
+          <%= dexData.dex.defense %>
+        </div>
+      </div>
+      <div class="statbar">
+        <div class="stat name">
+          Spd
+        </div>
+        <div class="stat num">
+          <%= dexData.dex.speed %>
+        </div>
+      </div>
+      <div class="statbar">
+        <div class="stat name">
+          Sp A
+        </div>
+        <div class="stat num">
+          <%= dexData.dex.spAttack %>
+        </div>
+      </div>
+      <div class="statbar">
+        <div class="stat name">
+          Sp D
+        </div>
+        <div class="stat num">
+          <%= dexData.dex.spDefense %>
+        </div>
+      </div>
+    </div>
+    </div>
+  <div class="moveset col s6 m8 l9">
     <div class="table-title">
-      moves
+      ability
+      <% if (!dexData.abilityId) { %>
+        — add below! (one)
+      <% } %>
+    </div>
+    <div class="table-title">
+      moveset
+      <% if (ownMovesArr.length === 0) { %>
+        — start adding below! (up to four)
+      <% } %>
     </div>
     <% ownMoves.forEach((ownMove) => { %>
-      <div class="move-name">
-        <%= ownMove.name %>
-      </div>
-      <div class="move-desc">
-        <%= ownMove.desc %>
-      </div>
-      <div class="move-type">
-        <%= ownMove.typeId %>
-      </div>
-      <div class="move-category">
-        <%= ownMove.category %>
-      </div>
-      <div class="move-power">
-        <%= ownMove.power %>
-      </div>
-      <div class="move-accuracy">
-        <%= ownMove.accuracy %>
-      </div>
-      <div class="move-pp">
-        <%= ownMove.pp %>
-      </div>
-      <div class="move-remove">
-        <form action="/profile/pokemon/<%= dexData.dataValues.id %>/?_method=PUT" method="post">
-          <div class="remove-from-moveset">
-            <input type="hidden" name="moveId" value="<%= ownMove.id %>">
-            <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
-            <input type="hidden" name="location" value="summary">
-            <button class="btn waves-effect waves-light red" type="submit">
-              <i class="material-icons">do_not_disturb_alt</i>
-            </button>
+      <div class="own-move-info">
+        <div class="move-name">
+          <%= ownMove.name %>
+        </div>
+        <div class="move-middle">
+          <div class="move-desc">
+            <%= ownMove.desc %>
           </div>
-        </form>
+          <div class="move-remove">
+            <form action="/profile/pokemon/remove-from-moveset/?_method=DELETE" method="post">
+              <div class="remove-from-moveset">
+                <input type="hidden" name="moveId" value="<%= ownMove.id %>">
+                <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
+                <button class="btn waves-effect waves-light red" type="submit">
+                  <i class="material-icons">do_not_disturb_alt</i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="small-details">
+          <div class="move-type">
+            <div>
+              Type
+            </div>
+            <div>
+              <%= ownMove.typeId %>
+            </div>
+          </div>
+          <div class="move-category">
+            <div>
+              Category
+            </div>
+            <div>
+              <%= ownMove.category %>
+            </div>
+          </div>
+          <div class="move-power">
+            <div>
+              Power
+            </div>
+            <div>
+              <%= ownMove.power %>
+            </div>
+          </div>
+          <div class="move-accuracy">
+            <div>
+              Acc.
+            </div>
+            <div>
+              <%= ownMove.accuracy %>
+            </div>
+          </div>
+          <div class="move-pp">
+            <div>
+              PP
+            </div>
+            <div>
+              <%= ownMove.pp %>
+            </div>
+          </div>
+        </div>
       </div>
     <% }) %>
   </div>
 </div>
-
+<br>
 <hr>
 
 <div class="dex-abilities">
+  <div class="table-title">
+    Possible abilities
+  </div>
   <% abilitiesData.forEach((ability) => { %>
-    <div class="side-by-side">
-      <div class="ability-name">
+    <div class="dex-ability">
+      <div class="side-by-side ability-name">
         <%= ability.name %>
       </div>
-      <div class="ability-desc">
+      <div class="side-by-side ability-desc">
         <%= ability.desc %>
       </div>
     </div>
   <% }) %>
 </div>
 
+<br>
 <hr>
 
 <div class="dex-moves">
+  <div class="table-title">
+    Possible moves
+  </div>
   <% dexMoveData.forEach((knownMove, i) => { %>
     <div class="move-info<% if (ownMovesArr.includes(knownMove.id)) { %>
        in-moveset
     <% } %>" id="move-<%= knownMove.id %>">
-      <div class="move-name">
-        <%= knownMove.name %>
-      </div>
-      <div class="move-desc">
-        <%= knownMove.desc %>
-      </div>
-      <div class="move-type">
-        <%= knownMove.typeId %>
-      </div>
-      <div class="move-category">
-        <%= knownMove.category %>
-      </div>
-      <div class="move-power">
-        <%= knownMove.power %>
-      </div>
-      <div class="move-accuracy">
-        <%= knownMove.accuracy %>
-      </div>
-      <div class="move-pp">
-        <%= knownMove.pp %>
-      </div>
-      <form action="/profile/pokemon/add-to-moveset" method="post">
-        <div class="add-to-moveset">
-          <input type="hidden" name="moveId" value="<%= knownMove.id %>">
-          <input type="hidden" name="ownId" value="<%= dexData.id %>">
-          <button class="btn waves-effect waves-light" type="submit">
-            <i class="material-icons">add</i>
-          </button>
+    <div class="move-middle">
+      <div class="move-broad">
+        <div class="move-name">
+          <%= knownMove.name %>
         </div>
-      </form>
+        <div class="move-desc">
+          <%= knownMove.desc %>
+        </div>
+      </div>
+      <div class="add-remove">
+        <!--if already added, "remove" button; else "add" button-->
+        <% if (ownMovesArr.includes(knownMove.id)) { %>
+          <form action="/profile/pokemon/remove-from-moveset/?_method=DELETE" method="post">
+            <button class="btn waves-effect waves-light red potential" type="submit">
+              <i class="material-icons">do_not_disturb_alt</i>
+            </button>
+          </form>
+        <% } else { %>
+          <form action="/profile/pokemon/add-to-moveset" method="post">
+            <input type="hidden" name="moveId" value="<%= knownMove.id %>">
+            <input type="hidden" name="ownId" value="<%= dexData.id %>">
+            <button class="btn waves-effect waves-light potential" type="submit">
+              <i class="material-icons">add</i>
+            </button>
+          </form>
+        <% } %>
+      </div>
+    </div>
+      <div class="small-details">
+        <div class="move-type">
+          <div>
+            Type
+          </div>
+          <div>
+            <%= knownMove.typeId %>
+          </div>
+        </div>
+        <div class="move-category">
+          <div>
+            Category
+          </div>
+          <div>
+            <%= knownMove.category %>
+          </div>
+        </div>
+        <div class="move-power">
+          <div>
+            Power
+          </div>
+          <div>
+            <%= knownMove.power %>
+          </div>
+        </div>
+        <div class="move-accuracy">
+          <div>
+            Accuracy
+          </div>
+          <div>
+            <%= knownMove.accuracy %>
+          </div>
+        </div>
+        <div class="move-pp">
+          <div>
+            PP
+          </div>
+          <div>
+            <%= knownMove.pp %>
+          </div>
+        </div>
+      </div>
     </div>
   <% }) %>
 </div>

@@ -100,9 +100,11 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
                   }
                 })
                 .then((ownMovesDetails) => {
-                  // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, dexMoveData: dexMoveData})
-                  res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails,
-                    ownMovesArr: ownMovesArr, dexMoveData: dexMoveData});
+                  db.type.findAll()
+                  .then((typeInfo) => {
+                    // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo})
+                    res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo});
+                  })
                 })
               })
             })
@@ -151,18 +153,25 @@ router.post('/pokemon/add-to-moveset', loggedIn, (req, res) => {
             moveId: req.body.moveId
           }
         })
-        .then(() => {
+        .then(() => { // send back to pokemon's prof page, location: scroll position of said move
           res.redirect(`/profile/pokemon/${req.body.ownId}#move-${req.body.moveId}`);
         })
       }
     })
   })
-
 })
 
-router.put('/pokemon/:id', loggedIn, (req, res) => {
+router.delete('/pokemon/remove-from-moveset', loggedIn, (req, res) => {
   // res.send(req.body);
-  res.redirect(`/profile/pokemon/${req.body.ownId}`);
+  db.moves_owns.destroy({
+    where: {
+      moveId: req.body.moveId,
+      ownId: req.body.ownId
+    }
+  })
+  .then(() => {
+    res.redirect(`/profile/pokemon/${req.body.ownId}`);
+  })
 })
 
 // Export the routes from this file

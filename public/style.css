@@ -1,6 +1,12 @@
 .closeable {
   cursor: pointer;
 }
+.dex-ability {
+  background-color: lightgrey;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding: 4px;
+}
 .inlineitem {
   display: inline-block;
   vertical-align: middle;
@@ -13,13 +19,58 @@
   background-color: lightgrey;
   margin-bottom: 5px;
 }
+.moveset {
+  background-color: pink;
+}
 .nomargin {
   margin: 0;
 }
-.side-by-side {
-  display: flex
+.own-move-info {
+  background-color: skyblue;
+  margin-bottom: 5px;
 }
-.ability-name, .move-name, .table-title {
+.potential {
+  margin-top: 1vw;
+  margin-right: 1vw;
+}
+.side-by-side {
+  display: inline-table;
+}
+.ability-desc {
+  margin-left: 15px;
+}
+.move-middle {
+  display: flex;
+  justify-content: space-between;
+}
+.small-details {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+.stats {
+  margin: 3%;
+  margin-bottom: 2vw;
+  margin-top: 1vw;
+  padding: 4%;
+  background-color: yellow;
+}
+.statbar {
+  display: flex;
+  justify-content: space-between;
+}
+.table-title {
+  font-size: 25px;
+}
+.table-title::first-letter {
+  text-transform: uppercase;
+}
+.general-info {
+  width: 160px;
+  background-color: orange;
+  font-size: 27px;
+}
+.ability-name, .move-name {
   text-transform: capitalize;
 }
 .error-msg::first-letter {
