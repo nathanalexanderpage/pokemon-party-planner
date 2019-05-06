@@ -221,14 +221,44 @@ router.delete('/pokemon/remove-from-moveset', loggedIn, (req, res) => {
 })
 
 /* start of party-related routes */
-router.post('/parties/add-pokemon', loggedIn, (req, res) => {
-  db.parties.findAll({
+router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
+  console.log(req.params);
+  console.log(req.body);
+  console.log(req.query);
+  console.log(req.user.dataValues);
+  db.party.findAll({
     where: {
-      userId: req.user.id
+      userId: req.user.dataValues.id
     }
   })
   .then((foundParties) => {
-    res.send(foundParties);
+    if (!foundParties[0]) {
+      console.log("no parties found route");
+      db.party.create({
+        userId: req.user.dataValues.id,
+        name: "untitled party",
+        public: false
+      })
+      .then((createdParty) => {
+        res.redirect(`/profile/parties/add-pokemon/${req.body.ownId}`);
+      })
+    } else {
+      console.log("parties found route");
+      console.log(req.body.ownId);
+      res.redirect(`/profile/parties/add-pokemon/${req.body.ownId}`);
+    }
+  })
+})
+
+// choose-which-parties-to-add-to screen
+router.get('/parties/add-pokemon/:id', loggedIn, (req, res) => {
+  db.party.findAll({
+    where: {
+      userId: req.user.dataValues.id
+    }
+  })
+  .then((results) => {
+    res.render('profile/partiestoaddto', {idToAdd: req.params.ownId, partiesData: results});
   })
 })
 

@@ -1,0 +1,20 @@
+<div class="parties-data">
+  <% partiesData.forEach((party) => { %>
+    <div class="party-name">
+      <%= party.name %>
+    </div>
+    <% if(party.desc) { %>
+      <div class="party-desc">
+        <%= party.desc %>
+      </div>
+    <% } %>
+    <form action="/profile/pokemon/add-to-party/confirm" method="post">
+      <div class="">
+        <input type="hidden" name="partyId" value="<%= party.id %>">
+        <button class="btn waves-effect waves-light blue" type="submit">
+          Add to this party
+        </button>
+      </div>
+    </form>
+  <% }) %>
+</div>
