@@ -8,8 +8,9 @@
         <%= party.desc %>
       </div>
     <% } %>
-    <form action="/profile/pokemon/add-to-party/confirm" method="post">
-      <div class="">
+    <form action="/profile/parties/add-pokemon/confirm" method="post">
+      <div>
+        <input type="text" name="ownId" value="<%= idToAdd %>">
         <input type="hidden" name="partyId" value="<%= party.id %>">
         <button class="btn waves-effect waves-light blue" type="submit">
           Add to this party

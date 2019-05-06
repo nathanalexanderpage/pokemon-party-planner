@@ -22,8 +22,7 @@ router.get('/', loggedIn, (req, res) => {
     },
     order: [
       ['id', 'DESC']
-    ],
-    limit: 10
+    ]
   })
   .then((results) => {
     console.log(results);
@@ -221,6 +220,51 @@ router.delete('/pokemon/remove-from-moveset', loggedIn, (req, res) => {
 })
 
 /* start of party-related routes */
+router.post('/parties/add-pokemon/confirm', loggedIn, (req, res) => {
+  console.log(req.body);
+  db.owns_parties.findOrCreate({
+    where: {
+      ownId: req.body.ownId,
+      partyId: req.body.partyId
+    }
+  })
+  .then((newRecord) => {
+    res.redirect(`/profile/parties/${req.body.partyId}`)
+  })
+})
+
+router.get('/parties/:id', loggedIn, (req, res) => {
+  db.owns_parties.findAll({
+    where:
+    {
+      partyId: req.params.id
+    }
+  })
+  .then((ownsInParty) => {
+    console.log(0101010101010101010101010101010101010101001010101010100110010010100100110101010100101010001010101001010);
+    console.log(ownsInParty);
+    let ownIdsInParty = [];
+    ownsInParty.forEach((ownInParty) => {
+      ownIdsInParty.push(ownInParty.dataValues.ownId);
+    });
+    db.own.findAll({
+      where: {
+        id: {[Op.in]: ownIdsInParty}
+      },
+      include: [db.dex]
+    })
+    .then((dexResults) => {
+      console.log(dexResults);
+      res.render('profile/partyshow',
+      {
+        partyId: req.params.id,
+        ownsInParty: ownsInParty,
+        dexesInfo: dexResults
+      })
+    })
+  })
+})
+
 router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
   console.log(req.params);
   console.log(req.body);
@@ -258,7 +302,8 @@ router.get('/parties/add-pokemon/:id', loggedIn, (req, res) => {
     }
   })
   .then((results) => {
-    res.render('profile/partiestoaddto', {idToAdd: req.params.ownId, partiesData: results});
+    console.log(req.params.id);
+    res.render('profile/partiestoaddto', {idToAdd: req.params.id, partiesData: results});
   })
 })
 

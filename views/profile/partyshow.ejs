@@ -1,0 +1,22 @@
+<div>
+  <%= partyId %>
+</div>
+<div class="party-pokes">
+  <% ownsInParty.forEach((eachOwn) => { %>
+    <div class="poke-info">
+      <div class="poke-no">
+        no. <%= eachOwn.dexId %>
+      </div>
+      <% if(eachOwn.nickname) { %>
+        <div class="poke-name">
+          <%= eachOwn.nickname %>
+        </div>
+      <% } %>
+      <% if(eachOwn.profilename) { %>
+        <div class="poke-role">
+          <%= eachOwn.profilename %>
+        </div>
+      <% } %>
+    </div>
+  <% }) %>
+</div>
