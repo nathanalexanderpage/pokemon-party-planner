@@ -46,7 +46,6 @@ router.get('/pokemon', (req, res) => {
     ]
   })
   .then((results) => {
-    // res.send(results)
     res.render('search/pokemon', { results: results })
   })
 })
@@ -59,21 +58,28 @@ router.post('/add-pokemon', (req, res) => {
     db.own.findOrCreate({
       where: {
         userId: req.user.dataValues.id,
-        dexId: req.body.dex,
-        nickname: req.body.nickname
+        dexId: req.body.dex
+      }
+    })
+    .then((record) => {
+      if (!record[1]) {
+        res.redirect(`/profile/pokemon/dex/${record[0].dataValues.dexId}`)
+      } else {
+        db.own.update({
+          nickname: req.body.dexName
+        },{
+          where: {
+            userId: req.user.dataValues.id,
+            dexId: req.body.dex
+          }
+        })
+        .then(() => {
+          let origSearchParams = req.headers.referer.substring(req.headers.referer.indexOf('?'), req.headers.referer.length)
+          res.redirect(`/search/pokemon${origSearchParams}#result-${req.body.dex}`)
+        })
       }
     })
   }
-  // db.own.findOrCreate({
-  //   where: {
-  //     userId: req.user.id
-  //     dex: req.body.dex,
-  //     name: req.body.name,
-  //   }
-  // })
-  // .then((pokemon, wasCreated) => {
-  //   res.redirect('/profile/')
-  // })
 })
 
 // Export routes from this file

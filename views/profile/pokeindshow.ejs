@@ -1,11 +1,18 @@
 <h2>Detailed view</h2>
 
-<form action="" method="post">
-  <div class="">
-
+<form action="/profile/pokemon/change-nickname-role?_method=PUT" method="post">
+  <div class="name-role">
+    <div class="update">
+      <button class="btn waves-effect waves-light" type="submit">
+        <i class="large material-icons">save</i>
+      </button>
+    </div>
+    <div class="type-in">
+      <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
+      <input class="poke-nickname" type="text" name="nickname" value="<%= dexData.dataValues.nickname %>" placeholder="Enter nickname here">
+      <input type="text" name="profilename" value="<%= dexData.dataValues.profilename %>" placeholder="Enter role here (examples: tank, all-around, healer)">
+    </div>
   </div>
-  <input class="poke-nickname" type="text" name="nickname" value="<%= dexData.dataValues.nickname %>">
-  <input type="text" name="profilename" value="<%= dexData.dataValues.profilename %>" placeholder="Enter role here (examples: tank, all-around, healer)">
 </form>
 
 
