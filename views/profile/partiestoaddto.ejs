@@ -10,10 +10,10 @@
     <% } %>
     <form action="/profile/parties/add-pokemon/confirm" method="post">
       <div>
-        <input type="text" name="ownId" value="<%= idToAdd %>">
+        <input type="hidden" name="ownId" value="<%= idToAdd %>">
         <input type="hidden" name="partyId" value="<%= party.id %>">
         <button class="btn waves-effect waves-light blue" type="submit">
-          Add to this party
+          Add to your party
         </button>
       </div>
     </form>

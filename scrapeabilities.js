@@ -71,27 +71,29 @@ async function asyncMapRequests() {
 
   async.mapSeries(abilityObjList, asyncfunc, (err, results) => {
     results.forEach((abilityEach) => {
-      db.ability.findOrCreate({
-        where: {
-          id: abilityEach.id,
-          name: abilityEach.name,
-          desc: abilityEach.desc
-        }
-      })
-      .then((insertedAbility, wasCreated) => {
-        console.log(insertedAbility[0].dataValues.id);
-        abilityEach.whoHas.forEach((dexIdNo) => {
-          console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
-          if (dexIdNo < 722) {
-            db.abilities_dexes.findOrCreate({
-              where: {
-                abilityId: abilityEach.id,
-                dexId: dexIdNo
-              }
-            })
+      if (abilityEach) {
+        db.ability.findOrCreate({
+          where: {
+            id: abilityEach.id,
+            name: abilityEach.name,
+            desc: abilityEach.desc
           }
         })
-      })
+        .then((insertedAbility, wasCreated) => {
+          console.log(insertedAbility[0].dataValues.id);
+          abilityEach.whoHas.forEach((dexIdNo) => {
+            console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
+            if (dexIdNo < 722) {
+              db.abilities_dexes.findOrCreate({
+                where: {
+                  abilityId: abilityEach.id,
+                  dexId: dexIdNo
+                }
+              })
+            }
+          })
+        })
+      }
       .catch(function(error) {
         console.log("error at db.ability.findOrCreate: ", error);
       });

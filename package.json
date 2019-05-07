@@ -1,5 +1,5 @@
 {
-  "name": "Pokemon Party Planner",
+  "name": "pokemon-party-planner",
   "version": "1.0.0",
   "description": "An app in which users can create and store their own Pokemon party configurations, complete with movesets",
   "main": "index.js",

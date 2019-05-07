@@ -118,9 +118,10 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
                 .then((ownMovesDetails) => {
                   db.type.findAll()
                   .then((typeInfo) => {
+
                     let ownKnownAbilIndex = potAbilArr.indexOf(Number(resultOwn.abilityId));
                     console.log(potAbilArr);
-                    // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo, ownAbilIndex: ownKnownAbilIndex})
+                    // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo, ownAbilIndex: ownKnownAbilIndex});
                     res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo, ownAbilIndex: ownKnownAbilIndex});
                   })
                 })
@@ -241,7 +242,6 @@ router.get('/parties/:id', loggedIn, (req, res) => {
     }
   })
   .then((ownsInParty) => {
-    console.log(0101010101010101010101010101010101010101001010101010100110010010100100110101010100101010001010101001010);
     console.log(ownsInParty);
     let ownIdsInParty = [];
     ownsInParty.forEach((ownInParty) => {
@@ -253,13 +253,13 @@ router.get('/parties/:id', loggedIn, (req, res) => {
       },
       include: [db.dex]
     })
-    .then((dexResults) => {
-      console.log(dexResults);
+    .then((ownResults) => {
+      console.log(ownResults);
       res.render('profile/partyshow',
       {
         partyId: req.params.id,
         ownsInParty: ownsInParty,
-        dexesInfo: dexResults
+        dexesInfo: ownResults
       })
     })
   })
@@ -291,6 +291,22 @@ router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
       console.log(req.body.ownId);
       res.redirect(`/profile/parties/add-pokemon/${req.body.ownId}`);
     }
+  })
+})
+
+router.delete('/pokemon/remove-from-party', loggedIn, (req, res) => {
+  console.log(0101010101010101010101010101010101010101001010101010100110010010100100110101010100101010001010101001010);
+  console.log(req.body.ownId, req.body.partyId);
+  db.owns_parties.destroy({
+    where: {
+      ownId: req.body.ownId,
+      partyId: req.body.partyId
+    }
+  })
+  .then(() => {
+    // console.log(req.headers);
+    // console.log(req.headers.referer.substring(req.headers.origin.length,req.headers.referer.length));
+    res.redirect(`/profile/parties/${req.body.partyId}`)
   })
 })
 
