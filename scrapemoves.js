@@ -216,19 +216,21 @@ async function asyncMapRequests() {
           whoLearns: whoLearnsArr
         }
         moveData.whoLearns.forEach((thePoke, i) => {
-          db.dexes_moves.findOrCreate({
-            where: {
-              dexId: thePoke,
-              moveId: moveData.id
-            }
-          })
-          .then((record, wasCreated)=>{
-            console.log(`wasCreated: ${wasCreated}`);
-            console.log(record);
-          })
-          .catch((err)=>{
-            console.log('Error when iterating through dexes_moves relationships:', err);
-          })
+          if (thePoke <= process.env.APP_POKEDEX_MAX) {
+            db.dexes_moves.findOrCreate({
+              where: {
+                dexId: thePoke,
+                moveId: moveData.id
+              }
+            })
+            .then((record, wasCreated)=>{
+              console.log(`wasCreated: ${wasCreated}`);
+              console.log(record);
+            })
+            .catch((err)=>{
+              console.log('Error when iterating through dexes_moves relationships:', err);
+            })
+          }
         })
         whoLearnsObjList.push({id: moveData.id, whoLearns: moveData.whoLearns})
         console.log(moveData);

@@ -11,7 +11,7 @@ let pokesObjList = [];
 function generateNoArr() {
   return new Promise(resolve => {
 
-    for (var j = 1; j <= 721; j++) {
+    for (var j = 1; j <= process.env.APP_POKEDEX_MAX; j++) {
 
       let no = `${10 > (j) ? `00${j}` : 100 > (j) ? `0${j}` : j}`;
       noArr.push(no)
