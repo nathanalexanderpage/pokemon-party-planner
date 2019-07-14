@@ -1,13 +1,15 @@
+.ability-desc {
+  margin-left: 15px;
+}
+.ability-name, .move-name {
+  text-transform: capitalize;
+}
+
 .btn {
   font-size: 13.5px;
 }
-button > .large {
-  font-size: 70px;
-}
-.update > button {
-  height: 100px;
-  vertical-align: text-bottom;
-}
+
+
 .closeable {
   cursor: pointer;
 }
@@ -19,6 +21,22 @@ button > .large {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.error-msg::first-letter {
+  text-transform: uppercase;
+}
+.form-holder {
+  padding: 2vw;
+  border-radius: 10px;
+  background-color: lightgrey;
+}
+.general-info {
+  width: 160px;
+  background-color: orange;
+  font-size: 27px;
+}
+.in-moveset {
+  background-color: yellow;
 }
 .inlineitem {
   display: inline-block;
@@ -47,6 +65,12 @@ button > .large {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+.pokename {
+  text-transform: capitalize;
+}
+.poketype {
+  width: 85px;
+}
 .potential {
   margin-top: 1vw;
   margin-right: 1vw;
@@ -57,8 +81,8 @@ button > .large {
 .side-by-side {
   display: inline-table;
 }
-.ability-desc {
-  margin-left: 15px;
+.submit {
+  text-align: center;
 }
 .move-middle {
   display: flex;
@@ -104,26 +128,42 @@ button > .large {
 .top-info {
   display: inline-block;
 }
-.general-info {
-  width: 160px;
-  background-color: orange;
-  font-size: 27px;
+.update > button {
+  height: 100px;
+  vertical-align: text-bottom;
 }
-.ability-name, .move-name {
-  text-transform: capitalize;
-}
-.error-msg::first-letter {
-  text-transform: uppercase;
-}
-.in-moveset {
-  background-color: yellow;
+
+
+
+button > .large {
+  font-size: 70px;
 }
 button > i{
   margin: 0;
   padding: 0;
   vertical-align: bottom;
 }
-
+fieldset {
+  background-color: white;
+}
 h1 {
   text-align: center;
+}
+.label {
+  color: black;
+}
+.dis {
+  color: grey;
+}
+legend {
+  border: 1px solid grey;
+  padding: 4px 10px;
+  background-color: grey;
+  color: white;
+  font-weight: bold;
+}
+
+
+[type="checkbox"]:not(:checked):disabled+span:not(.lever):before {
+  background-color: lightgrey;
 }

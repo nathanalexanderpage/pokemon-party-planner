@@ -1,4 +1,4 @@
-<h1>Pokémanz results</h1>
+<h1>Pokédex Search Results</h1>
 <% if (results.length > 0) { %>
   <% results.forEach((pokeData, i) => { %>
     <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
@@ -17,7 +17,7 @@
         <input type="hidden" name="dex" value="<%= pokeData.id %>">
         <input type="hidden" name="nickname" value="<%= pokeData.name %>">
         <div class="inlineitem">
-          <p class="nomargin"><%= dexNo %> <%= pokeData.name %></p>
+          <p class="nomargin pokename"><%= dexNo %> <%= pokeData.name %></p>
         </div>
       </form>
     </div>

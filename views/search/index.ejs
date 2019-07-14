@@ -1,27 +1,24 @@
-<h1>Pokedex Search</h1>
-<div>
-  <blockquote>
-    Note: Due to the data-heavy nature of Pokemon, this Heroku-deployed version is limited to the first 49 Pokemon.
-  </blockquote>
-</div>
+<h1>Pokédex Search</h1>
+
 <div class="form-holder">
   <form action="/search/pokemon" method="get">
     <div class="generation-holder">
       <fieldset>
+        <legend>Generation/Region</legend>
         <% if (!gen) { %>
           <% gen.forEach((gen, i) => { %>
             <div class="inlinecheckbox">
-              <label>
+              <label class="label">
                 <input type="checkbox" name="gen" value="<%= gen.id %>" checked="checked" />
-                <span><%= gen.id %>. <%= gen.name %></span>
+                <span>Gen <%= gen.id %>: <%= gen.name %></span>
               </label>
             </div>
           <% }) %>
         <% } %>
         <div class="inlinecheckbox">
-          <label>
+          <label class="label">
             <input type="checkbox" name="gen" value="1" checked="checked" />
-            <span><%= 1 %>. <%= 'Kanto' %></span>
+            <span>1. Kanto</span>
           </label>
         </div>
       </fieldset>
@@ -29,19 +26,22 @@
     <br>
     <div class="type-holder">
       <fieldset>
+        <legend>Type</legend>
         <% type.forEach((type, i) => { %>
-          <div class="inlinecheckbox">
-            <label>
-              <input type="checkbox" <%= !(searchTypes.indexOf(type.id) !== -1)? 'disabled="disabled"' : '' %> name="type" value="<%= type.id %>" <%= (searchTypes.indexOf(type.id) !== -1)? 'checked="checked"' : '' %> />
+          <div class="inlinecheckbox poketype">
+            <label <%= !(searchTypes.indexOf(type.id) !== -1)? 'class=dis' : 'class=label' %>>
+              <input type="checkbox" <%= !(searchTypes.indexOf(type.id) !== -1)? 'disabled=disabled' : '' %> name="type" value="<%= type.id %>" <%= (searchTypes.indexOf(type.id) !== -1)? 'checked=checked' : '' %> />
               <span><%= type.name %></span>
             </label>
           </div>
-          <% }) %>
+        <% }) %>
       </fieldset>
     </div>
     <br>
     <div class="submit">
-      <input type="submit" value="Search">
+      <button class="btn blue waves-effect waves-light" type="submit" name="action">
+        <i class="material-icons">search</i> Search
+      </button>
     </div>
   </form>
 
@@ -56,6 +56,11 @@
       <input type="submit" value="Johto">
     </form>
   <% } %>
-
-
+</div>
+<div>
+  <p>Use this search form to find pokémon that you are interested in potentially adding to your in-game team. Just select the region and types of pokémon you want to look at, then press 'Search'!</p>
+  <p>Can't remember the generation the game you play? See a list <a href="https://bulbapedia.bulbagarden.net/wiki/Core_series#List_of_core_series_games" title="outside link to Bulbapedia wiki page with diagram">here</a>.</p>
+  <blockquote>
+    Note: Due to the data-heavy nature of Pokémon, this version deployed on Heroku is limited to the first 49 pokémon of the standard pokédex. To avoid confusion, pokémon types not present in the searchable 49 pokémon have been disabled as search parameters.
+  </blockquote>
 </div>
