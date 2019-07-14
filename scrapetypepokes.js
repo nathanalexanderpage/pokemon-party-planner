@@ -6,6 +6,8 @@ const db = require('./models');
 // import mapSeries from 'async/mapSeries';
 // import doLimit from './internal/doLimit';
 
+const APP_POKEDEX_MAX = 49;
+const GAME_POKEDEX_MAX = 721;
 
 let typeObjList = [
   {
@@ -72,7 +74,7 @@ async function asyncMapRequests() {
   async.mapSeries(typeObjList, asyncfunc, (err, results) => {
     results.forEach((typeEach) => {
       typeEach.whatPokesAre.forEach((dexIdNo) => {
-        if (dexIdNo <= process.env.APP_POKEDEX_MAX) {
+        if (dexIdNo <= APP_POKEDEX_MAX) {
           console.log(`rls typeId ${typeEach.id}, dexId ${dexIdNo}`);
           db.dexes_types.findOrCreate({
             where: {

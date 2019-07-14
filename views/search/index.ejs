@@ -1,43 +1,61 @@
-<h1>search stub</h1>
+<h1>Pokedex Search</h1>
+<div>
+  <blockquote>
+    Note: Due to the data-heavy nature of Pokemon, this Heroku-deployed version is limited to the first 49 Pokemon.
+  </blockquote>
+</div>
 <div class="form-holder">
   <form action="/search/pokemon" method="get">
     <div class="generation-holder">
-      <% gen.forEach((gen, i) => { %>
+      <fieldset>
+        <% if (!gen) { %>
+          <% gen.forEach((gen, i) => { %>
+            <div class="inlinecheckbox">
+              <label>
+                <input type="checkbox" name="gen" value="<%= gen.id %>" checked="checked" />
+                <span><%= gen.id %>. <%= gen.name %></span>
+              </label>
+            </div>
+          <% }) %>
+        <% } %>
         <div class="inlinecheckbox">
           <label>
-            <input type="checkbox" name="gen" value="<%= gen.id %>" checked="checked" />
-            <span><%= gen.id %>. <%= gen.name %></span>
+            <input type="checkbox" name="gen" value="1" checked="checked" />
+            <span><%= 1 %>. <%= 'Kanto' %></span>
           </label>
         </div>
-      <% }) %>
+      </fieldset>
     </div>
+    <br>
     <div class="type-holder">
-      <% type.forEach((type, i) => { %>
-        <div class="inlinecheckbox">
-          <label>
-            <input type="checkbox" name="type" value="<%= type.id %>" checked="checked" />
-            <span><%= type.name %></span>
-          </label>
-        </div>
-      <% }) %>
+      <fieldset>
+        <% type.forEach((type, i) => { %>
+          <div class="inlinecheckbox">
+            <label>
+              <input type="checkbox" <%= !(searchTypes.indexOf(type.id) !== -1)? 'disabled="disabled"' : '' %> name="type" value="<%= type.id %>" <%= (searchTypes.indexOf(type.id) !== -1)? 'checked="checked"' : '' %> />
+              <span><%= type.name %></span>
+            </label>
+          </div>
+          <% }) %>
+      </fieldset>
     </div>
+    <br>
     <div class="submit">
       <input type="submit" value="Search">
-
     </div>
   </form>
-  <div class="search-section">
 
-  </div>
-  <form class="quicksearch-gen1" action="/search/pokemon" method="get">
-    <input type="hidden" name="gen" value="1">
-    <input type="submit" value="Kanto">
-  </form>
-  <form class="quicksearch-gen2" action="/search/pokemon" method="get">
-    <input type="hidden" name="gen" value="2">
-    <input type="submit" value="Johto">
-  </form>
-  <div class="">
+  <% if (!gen) { %>
+    <form class="quicksearch-gen1" action="/search/pokemon" method="get">
+      <input type="hidden" name="gen" value="1">
+      <input type="submit" value="Kanto">
+    </form>
 
-  </div>
+    <form class="quicksearch-gen2" action="/search/pokemon" method="get">
+      <input type="hidden" name="gen" value="2">
+      <input type="submit" value="Johto">
+    </form>
+  <% } %>
+
+
 </div>

@@ -6,6 +6,8 @@ const db = require('./models')
 // import mapSeries from 'async/mapSeries';
 // import doLimit from './internal/doLimit';
 
+const APP_POKEDEX_MAX = 49;
+const GAME_POKEDEX_MAX = 721;
 
 let moveArr = [];
 let moveUrlArr = [];
@@ -216,7 +218,7 @@ async function asyncMapRequests() {
           whoLearns: whoLearnsArr
         }
         moveData.whoLearns.forEach((thePoke, i) => {
-          if (thePoke <= process.env.APP_POKEDEX_MAX) {
+          if (thePoke <= APP_POKEDEX_MAX) {
             db.dexes_moves.findOrCreate({
               where: {
                 dexId: thePoke,

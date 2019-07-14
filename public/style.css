@@ -123,3 +123,7 @@ button > i{
   padding: 0;
   vertical-align: bottom;
 }
+
+h1 {
+  text-align: center;
+}

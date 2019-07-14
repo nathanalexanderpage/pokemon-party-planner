@@ -7,14 +7,23 @@ const db = require('./models')
 let noArr = [];
 let pokesObjList = [];
 
+const APP_POKEDEX_MAX = 49;
+const GAME_POKEDEX_MAX = 721;
+
+console.log('running checks on variables:');
+console.log(`APP_POKEDEX_MAX = ${APP_POKEDEX_MAX}`);
+
+console.log('running scrapePokes.js');
 
 function generateNoArr() {
+  console.log('running generateNoArr');
   return new Promise(resolve => {
 
-    for (var j = 1; j <= process.env.APP_POKEDEX_MAX; j++) {
+    for (var j = 1; j <= APP_POKEDEX_MAX; j++) {
 
       let no = `${10 > (j) ? `00${j}` : 100 > (j) ? `0${j}` : j}`;
       noArr.push(no)
+      console.log(noArr);
     }
     resolve(noArr);
 
@@ -22,11 +31,11 @@ function generateNoArr() {
 }
 
 async function asyncMapRequests() {
-  console.log('calling asyncMapRequests');
+  console.log('running asyncMapRequests');
   let result = await generateNoArr();
   // expected output: whatever's inside the parentheses of promisified function
   console.log(result);
-  console.log('calling full generator');
+  console.log('running async.mapSeries');
 
 
 

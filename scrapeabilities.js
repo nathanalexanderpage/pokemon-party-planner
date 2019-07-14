@@ -6,11 +6,12 @@ const db = require('./models')
 // import mapSeries from 'async/mapSeries';
 // import doLimit from './internal/doLimit';
 
+const APP_POKEDEX_MAX = 49;
+const GAME_POKEDEX_MAX = 721;
 
 let abilityArr = [];
 let abilityUrlArr = [];
 let abilityObjList = [];
-
 
 
 
@@ -83,7 +84,7 @@ async function asyncMapRequests() {
           console.log(insertedAbility[0].dataValues.id);
           abilityEach.whoHas.forEach((dexIdNo) => {
             console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
-            if (dexIdNo < 722) {
+            if (dexIdNo < APP_POKEDEX_MAX) {
               db.abilities_dexes.findOrCreate({
                 where: {
                   abilityId: abilityEach.id,
@@ -93,10 +94,10 @@ async function asyncMapRequests() {
             }
           })
         })
+        .catch(function(error) {
+          console.log("error at db.ability.findOrCreate: ", error);
+        });
       }
-      .catch(function(error) {
-        console.log("error at db.ability.findOrCreate: ", error);
-      });
     })
   });
 
