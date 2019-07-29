@@ -1,11 +1,11 @@
 <div class="parties-data">
   <% partiesData.forEach((party) => { %>
     <div class="party-name">
-      <%= party.name %>
+      <p><%= party.name %></p>
     </div>
     <% if(party.desc) { %>
       <div class="party-desc">
-        <%= party.desc %>
+        <p><%= party.desc %></p>
       </div>
     <% } %>
     <form action="/profile/parties/add-pokemon/confirm" method="post">

@@ -26,8 +26,63 @@ router.get('/', loggedIn, (req, res) => {
   })
   .then((results) => {
     console.log(results);
-    // res.send(results)
-    res.render('profile/index', {results: results})
+    let dexNoArr = [];
+    results.forEach(result => {
+      if (!dexNoArr.includes(result.dataValues.dexId)) {
+        dexNoArr.push(result.dataValues.dexId)
+      }
+    })
+    console.log(req);
+    db.dex.findAll({
+      where: {
+        id: {[Op.in]: dexNoArr}
+      },
+      order: [
+        ['id', 'ASC']
+      ]
+    })
+    .then(dexResults => {
+      db.party.findAll({
+        where: {
+          userId: req.user.id
+        },
+        order: [
+          ['id', 'DESC']
+        ],
+        limit: 1
+      })
+      .then(parties => {
+        db.owns_parties.findAll({
+          where: {
+            partyId: parties[0].id
+          },
+          limit: 6
+        })
+        .then(featuredParty => {
+          console.log(featuredParty);
+          let partyPokes = [];
+          featuredParty.forEach(poke => {
+            partyPokes.push(poke.ownId)
+          })
+          db.own.findAll({
+            where: {
+              id: {[Op.in]: partyPokes}
+            }
+          })
+          .then(featuredPartyPokes => {
+            // console.log(dexResults);
+            // res.send(results)
+            console.log(featuredPartyPokes);
+            res.render('profile/index', {
+              results: results,
+              dexResults: dexResults,
+              parties: parties,
+              featuredPartyPokes: featuredPartyPokes
+            })
+          })
+        })
+      })
+    })
   })
 })
 
@@ -96,7 +151,10 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
             db.abilities_dexes.findAll({
               where: {
                 dexId: resultOwn.dataValues.dexId
-              }
+              },
+              order: [
+                ['abilityId', 'ASC']
+              ]
             })
             .then((dexPotentialAbilities) => {
               potAbilArr = [];
@@ -106,14 +164,20 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
               db.ability.findAll({
                 where: {
                   id: {[Op.in]: potAbilArr}
-                }
+                },
+                order: [
+                  ['id', 'ASC']
+                ]
               })
               .then((dexAbilArr) => {
 
                 db.move.findAll({
                   where: {
                     id: {[Op.in]: ownMovesArr}
-                  }
+                  },
+                  order: [
+                    ['id', 'ASC']
+                  ]
                 })
                 .then((ownMovesDetails) => {
                   db.type.findAll()
@@ -255,11 +319,39 @@ router.get('/parties/:id', loggedIn, (req, res) => {
     })
     .then((ownResults) => {
       console.log(ownResults);
-      res.render('profile/partyshow',
-      {
-        partyId: req.params.id,
-        ownsInParty: ownsInParty,
-        dexesInfo: ownResults
+      db.moves_owns.findAll({
+        where: {
+          ownId: {[Op.in]: ownIdsInParty}
+        }
+      })
+      .then((movesInParty) => {
+        console.log(movesInParty);
+        let moveIds = []
+        movesInParty.forEach((moveInParty) => {
+          moveIds.push(moveInParty.dataValues.moveId);
+        })
+        console.log(moveIds);
+        db.move.findAll({
+          where: {
+            id: {[Op.in]: moveIds}
+          }
+        })
+        .then((moveRecords) => {
+          // console.log(moveRecords);
+          let movesPerPoke = {}
+          movesInParty.forEach((moveOfPoke) => {
+            if (!movesPerPoke[moveOfPoke.dataValues.pokeId]) {
+              movesPerPoke[moveOfPoke.dataValues.pokeId] = []
+            }
+            // movesPerPoke[moveOfPoke.dataValues.pokeId].push(moveRecords)
+          })
+          res.render('profile/partyshow',
+          {
+            partyId: req.params.id,
+            ownsInParty: ownsInParty,
+            dexesInfo: ownResults
+          })
+        })
       })
     })
   })

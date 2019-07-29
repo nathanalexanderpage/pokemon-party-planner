@@ -5,51 +5,43 @@
 -->
 <% if (ownsInParty.length > 6) { %>
   <div class="reminder">
-    A friendly reminder: the max size of a Pokemon party is six! Don't forget to pair yours down before you finalize plans.
+    A friendly reminder: the max size of an in-game Pokemon party is six! Don't forget to pair yours down.
   </div>
 <% } %>
-<div class="reminder">
-
-</div>
-<div class="party-pokes">
+<div>
   <% dexesInfo.forEach((eachOwn) => { %>
     <% let dexNo = `${10 > (eachOwn.dexId) ? `00${eachOwn.dexId}` : 100 > (eachOwn.dexId) ? `0${eachOwn.dexId}` : eachOwn.dexId}` %>
     <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
     <div class="row">
       <div class="col s12 m12 l12">
-        <div class="card">
-          <div class="card-content">
-            <div class="top-info">
-              <div class="poke-sprite">
-                <img src="<%= iconUrl %>" alt="">
-              </div>
-              <div class="text-info">
-                <div class="poke-no">
-                  no. <%= dexNo %>:
-                </div>
-                <% if(eachOwn.nickname) { %>
-                  <div class="poke-name">
-                    <%= eachOwn.nickname %>
-                  </div>
-                <% } %>
-                <% if(eachOwn.profilename) { %>
-                  <div class="poke-role">
-                    <%= eachOwn.profilename %>
-                  </div>
-                <% } %>
-              </div>
+        <div class="top-info">
+          <div class="poke-sprite">
+            <img src="<%= iconUrl %>" alt="">
+          </div>
+          <div class="text-info">
+            <div class="poke-no">
+              no. <%= dexNo %>:
             </div>
-            <p></p>
+            <% if(eachOwn.nickname) { %>
+              <div class="poke-name">
+                <%= eachOwn.nickname %>
+              </div>
+            <% } %>
+            <% if(eachOwn.profilename) { %>
+              <div class="poke-role">
+                <%= eachOwn.profilename %>
+              </div>
+            <% } %>
           </div>
-          <div class="card-action">
-            <form action="/profile/pokemon/remove-from-party?_method=DELETE" method="post">
-              <input type="hidden" name="ownId" value="<%= eachOwn.id %>">
-              <input type="hidden" name="partyId" value="<%= partyId %>">
-              <button class="btn waves-effect waves-light red" type="submit">
-                <i class="material-icons">do_not_disturb_alt</i>
-              </button>
-            </form>
-          </div>
+        </div>
+        <div class="card-action">
+          <form action="/profile/pokemon/remove-from-party?_method=DELETE" method="post">
+            <input type="hidden" name="ownId" value="<%= eachOwn.id %>">
+            <input type="hidden" name="partyId" value="<%= partyId %>">
+            <button class="btn waves-effect waves-light red" type="submit">
+              <i class="material-icons">do_not_disturb_alt</i>
+            </button>
+          </form>
         </div>
       </div>
     </div>

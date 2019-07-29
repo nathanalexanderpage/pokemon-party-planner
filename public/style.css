@@ -4,12 +4,9 @@
 .ability-name, .move-name {
   text-transform: capitalize;
 }
-
 .btn {
   font-size: 13.5px;
 }
-
-
 .closeable {
   cursor: pointer;
 }
@@ -32,7 +29,7 @@
 }
 .general-info {
   width: 160px;
-  background-color: orange;
+  background-color: #f0ead6;
   font-size: 27px;
 }
 .in-moveset {
@@ -45,19 +42,33 @@
 .inlinecheckbox {
   display: inline-block;
   margin-left: 3%;
+  font-family: monospace;
 }
 .move-info {
   background-color: lightgrey;
   margin-bottom: 5px;
 }
 .moveset {
-  background-color: pink;
+  background-color: #f0ead6;
+}
+.no-line-height {
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 .nomargin {
   margin: 0;
 }
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 .own-move-info, .own-ability-info {
-  background-color: skyblue;
+  background-color: #C6C1B0;
   margin-bottom: 5px;
 }
 .party-pokes {
@@ -65,11 +76,27 @@
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.pokename {
-  text-transform: capitalize;
+.pokeinddetail {
+  background-color: #f0ead6;
+}
+/* .pokesearch {
+  background-color: #ab0022;
+} */
+.poketilea {
+  display: inline-block;
+}
+.poketilediv {
+  border: 2px solid darkgrey;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: #f0ead6;
+}
+.poketilep {
+  font-size: 20px;
+  color: black;
 }
 .poketype {
-  width: 85px;
+  width: 103px;
 }
 .potential {
   margin-top: 1vw;
@@ -91,6 +118,7 @@
 .move-name, .ability-name {
   font-weight: bold;
   font-size: 18px;
+  font-family: monospace;
 }
 .name-role {
   display: flex;
@@ -101,10 +129,14 @@
   background-color: black;
   color: white;
 }
+.search-sec {
+  background-color: #73021b;
+}
 .small-details {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  font-family: monospace;
   text-align: center;
   text-transform: capitalize;
 }
@@ -113,7 +145,8 @@
   margin-bottom: 2vw;
   margin-top: 1vw;
   padding: 4%;
-  background-color: yellow;
+  background-color: #C6C1B0;
+  font-family: monospace;
 }
 .statbar {
   display: flex;
@@ -121,9 +154,19 @@
 }
 .table-title {
   font-size: 25px;
+  font-family: sans-serif;
 }
 .table-title::first-letter {
   text-transform: uppercase;
+}
+.taglabel {
+  margin-top: 4px;
+  font-size: 8px;
+  line-height: .1;
+}
+.text-black {
+  color: black;
+  text-decoration: none;
 }
 .top-info {
   display: inline-block;
@@ -133,7 +176,20 @@
   vertical-align: text-bottom;
 }
 
+p > a {
+  color: yellow;
+  text-decoration: underline;
+}
+blockquote {
+  color: white;
+}
 
+body {
+  background-color: black;
+}
+p {
+  color: white;
+}
 
 button > .large {
   font-size: 70px;
@@ -144,26 +200,37 @@ button > i{
   vertical-align: bottom;
 }
 fieldset {
-  background-color: white;
+  border-color: black;
+  background-color: #f0ead6;
 }
 h1 {
+  color: white;
   text-align: center;
+}
+h2, h3, h4, h5, h6 {
+  color: white;
 }
 .label {
   color: black;
+  font-family: monospace;
 }
 .dis {
   color: grey;
 }
 legend {
-  border: 1px solid grey;
+  border: 2px solid black;
   padding: 4px 10px;
-  background-color: grey;
+  background-color: #b81838;
   color: white;
+  font-family: monospace;
   font-weight: bold;
 }
 
 
 [type="checkbox"]:not(:checked):disabled+span:not(.lever):before {
   background-color: lightgrey;
+}
+
+[type="checkbox"]:not(:checked):disabled+span:not(.lever) {
+  cursor: default;
 }

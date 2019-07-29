@@ -12,9 +12,37 @@
   </div>
 </div>
 <div class="container row">
+  <h2>Featured Party</h2>
+  <% parties.forEach((party, i) => { %>
+    <% let publicPrivateText = `${party.public ? 'public' : 'private'}` %>
+    <div class="row">
+      <div class="tight-fit">
+        <a class="poketilea" href="/profile/parties/<%= parties[0].id %>">
+          <div class="poketilediv">
+            <div class="inlineitem">
+              <p class="no-line-height text-black taglabel">
+                TITLE
+              </p>
+              <p class="no-line-height poketilep"><%= party.name %> (<%= publicPrivateText %>)</p>
+              <% featuredPartyPokes.forEach(featuredPoke => { %>
+                <% let dexNo = `${10 > (featuredPoke.dexId) ? `00${featuredPoke.dexId}` : 100 > (featuredPoke.dexId) ? `0${featuredPoke.dexId}` : featuredPoke.dexId}` %>
+                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= featuredPoke.name %> sprite">
+              <% }) %>
+              <p class="no-line-height text-black taglabel">
+                DESCRIPTION
+              </p>
+              <p class="no-line-height text-black"><%= party.desc %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  <% }) %>
+</div>
+<div class="container row">
   <h2>Recent Pokémon</h2>
-  <% results.forEach((species, i) => { %>
-    <% let dexNo = `${10 > (species.dexId) ? `00${species.dexId}` : 100 > (species.dexId) ? `0${species.dexId}` : species.dexId}` %>
+  <% results.forEach((owned, i) => { %>
+    <% let dexNo = `${10 > (owned.dexId) ? `00${owned.dexId}` : 100 > (owned.dexId) ? `0${owned.dexId}` : owned.dexId}` %>
     <div class="row">
       <div class="tight-fit">
         <!--<div class="inlineitem">
@@ -22,15 +50,42 @@
             <i class="material-icons">add</i>
           </button>
         </div>-->
-        <a type="submit" name="action" href="/profile/pokemon/<%= species.id %>">
-          <div class="inlineitem">
-            <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= species.name %> sprite">
-          </div>
-          <div class="inlineitem">
-            <p class="nomargin"><%= dexNo %> <%= species.nickname %></p>
+        <a class="poketilea" href="/profile/pokemon/<%= owned.id %>">
+          <div class="poketilediv">
+            <div class="inlineitem">
+              <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= owned.name %> sprite">
+            </div>
+            <div class="inlineitem">
+              <p class="nomargin poketilep"><%= dexNo %> <%= owned.nickname %></p>
+            </div>
           </div>
         </a>
       </div>
     </div>
-    <% }) %>
+  <% }) %>
+</div>
+<div class="container row">
+  <h2>Saved Species</h2>
+  <% dexResults.forEach((species, i) => { %>
+    <% let dexNo = `${10 > (species.id) ? `00${species.id}` : 100 > (species.id) ? `0${species.id}` : species.id}` %>
+    <div class="row">
+      <div class="tight-fit">
+        <!--<div class="inlineitem">
+          <button class="btn waves-effect waves-light" type="submit" name="action">
+            <i class="material-icons">add</i>
+          </button>
+        </div>-->
+        <a class="poketilea" href="#">
+          <div class="poketilediv">
+            <div class="inlineitem">
+              <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= species.name %> game sprite">
+            </div>
+            <div class="inlineitem">
+              <p class="nomargin poketilep"><%= dexNo %> <%= species.name %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  <% }) %>
 </div>
