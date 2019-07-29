@@ -298,6 +298,38 @@ router.post('/parties/add-pokemon/confirm', loggedIn, (req, res) => {
   })
 })
 
+router.get('/parties/new', loggedIn, (req, res) => {
+  res.render('profile/partynew')
+})
+
+router.post('/parties/new', loggedIn, (req, res) => {
+  db.party.findAll({
+    where: {
+      userId: req.user.dataValues.id,
+      name: req.body.name
+    }
+  })
+  .then(returnedParty => {
+    if (returnedParty.length > 0) {
+      console.log('returnedParty ID:');
+      console.log(returnedParty.id);
+      res.redirect(`/profile/${1}`);
+    } else {
+      console.log('no duplicate');
+      db.party.create({
+        userId: req.user.dataValues.id,
+        name: req.body.name,
+        desc: req.body.desc,
+        public: false
+      })
+      .then(newParty => {
+        console.log(newParty);
+        res.redirect(`/profile/parties/${newParty.dataValues.id}`);
+      })
+    }
+  })
+})
+
 router.get('/parties/:id', loggedIn, (req, res) => {
   db.owns_parties.findAll({
     where:

@@ -4,6 +4,11 @@
 .ability-name, .move-name {
   text-transform: capitalize;
 }
+nav .brand-logo {
+  font-size: 2.6rem;
+  color: #FEFF12;
+  text-shadow: 2px 2px 0 #3759CC, 2px -2px 0 #3759CC, -2px 2px 0 #3759CC, -2px -2px 0 #3759CC, 2px 0px 0 #3759CC, 0px 2px 0 #3759CC, -2px 0px 0 #3759CC, 0px -2px 0 #3759CC;
+}
 .btn {
   font-size: 13.5px;
 }
@@ -210,6 +215,9 @@ h1 {
 h2, h3, h4, h5, h6 {
   color: white;
 }
+input {
+  color: white;
+}
 .label {
   color: black;
   font-family: monospace;
@@ -226,6 +234,11 @@ legend {
   font-weight: bold;
 }
 
+::placeholder {
+  color: grey;
+  opacity: 1;
+}
+
 
 [type="checkbox"]:not(:checked):disabled+span:not(.lever):before {
   background-color: lightgrey;
@@ -233,4 +246,8 @@ legend {
 
 [type="checkbox"]:not(:checked):disabled+span:not(.lever) {
   cursor: default;
+}
+
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+  background-color: #1d1c23;
 }

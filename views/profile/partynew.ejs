@@ -1,7 +1,10 @@
 <h1>New Party</h1>
 
-<form action="submit" method="post">
-  <input type="text" name="name" value="Untitled">
+<form action="/profile/parties/new" method="post">
+  <input type="text" name="name" placeholder="untitled party">
   <input type="text" name="desc" placeholder="all attack, tanks only, bait and switch">
-  <input type="submit" name="submit" value="Submit">
+  <input type="hidden" name="public" value="false">
+  <button class="btn indigo darken-4 waves-effect waves-light" type="submit" name="action">
+    <i class="material-icons">input</i> Create
+  </button>
 </form>
