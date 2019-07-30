@@ -1,11 +1,16 @@
 <% if (ownsInParty.length > 6) { %>
   <div class="reminder">
-    A friendly reminder: the max size of an in-game Pokemon party is six! Don't forget to pair yours down.
+    <p>
+      A friendly reminder: the max size of an in-game Pokemon party is six! Don't forget to pair yours down.
+    </p>
+    <p>
+      Current party size: <%= ownsInParty.length %>
+    </p>
   </div>
 <% } %>
-<h3 class="nomargin-bottom greyed-light">
+<h4 class="nomargin-bottom greyed-light">
   Party details:
-</h3>
+</h4>
 <h1 class="nomargin-top">
   <%= party.name %>
 </h1>
@@ -14,7 +19,7 @@
     <% dexesInfo.forEach((eachOwn) => { %>
       <% let dexNo = `${10 > (eachOwn.dexId) ? `00${eachOwn.dexId}` : 100 > (eachOwn.dexId) ? `0${eachOwn.dexId}` : eachOwn.dexId}` %>
       <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
-      <div class="row">
+      <div class=" ">
         <div class="col s12 m12 l12">
           <div class="top-info">
             <div class="poke-sprite">
@@ -22,16 +27,22 @@
             </div>
             <div class="text-info">
               <div class="poke-no">
-                no. <%= dexNo %>:
+                <p class="nomargin-top nomargin-bottom">
+                  no. <%= dexNo %>:
+                </p>
               </div>
               <% if(eachOwn.nickname) { %>
                 <div class="poke-name">
-                  <%= eachOwn.nickname %>
+                  <p class="nomargin-top nomargin-bottom">
+                    <%= eachOwn.nickname %>
+                  </p>
                 </div>
               <% } %>
               <% if(eachOwn.profilename) { %>
                 <div class="poke-role">
-                  <%= eachOwn.profilename %>
+                  <p class="nomargin-top">
+                    <%= eachOwn.profilename %>
+                  </p>
                 </div>
               <% } %>
             </div>
@@ -55,5 +66,10 @@
   <% } %>
 </div>
 <div>
-
+  <p class="center padded-top">
+    <a href="/profile/parties">All parties</a>
+  </p>
+  <p class="center">
+    <a href="/profile">Profile</a>
+  </p>
 </div>

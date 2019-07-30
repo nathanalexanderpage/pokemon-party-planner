@@ -1,6 +1,20 @@
-<h1>Owned No. <%= dex.no %> <%= dex.name %></h1>
+<% let dexNo = `${10 > (dex.id) ? `00${dex.id}` : 100 > (dex.id) ? `0${dex.id}` : dex.id}` %>
+<h1>Owned No. <%= dexNo %> <%= dex.name %></h1>
 <div class="">
   <% owns.forEach((own, i) => { %>
-
+    <div class="row">
+      <div class="tight-fit">
+        <a class="poketilea" href="/profile/pokemon/<%= own.id %>">
+          <div class="poketilediv">
+            <div class="inlineitem">
+              <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= dex.name %> game sprite">
+            </div>
+            <div class="inlineitem">
+              <p class="nomargin poketilep"><%= own.nickname %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
   <% }) %>
 </div>

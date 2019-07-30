@@ -112,7 +112,7 @@ nav .brand-logo {
   justify-content: space-around;
 }
 .party-space {
-  min-height: 15vh;
+  min-height: 80px;
   background-color: #212121;
 }
 .pokeinddetail {
@@ -166,8 +166,18 @@ nav .brand-logo {
 }
 .reminder {
   margin: 10px;
+  border: 1px solid red;
+  border-radius: 6px;
   padding: 5px;
-  background-color: black;
+  background-color: #870000;
+  color: white;
+}
+.reminder-good {
+  margin: 10px;
+  border: 1px solid #00ff37;
+  border-radius: 6px;
+  padding: 5px;
+  background-color: #006818;
   color: white;
 }
 .search-sec {
