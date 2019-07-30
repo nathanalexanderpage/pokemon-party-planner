@@ -3,25 +3,35 @@
     No pokémon parties have been created yet
   </p>
 <% } else { %>
-  <% parties.forEach((party, i) => { %>
-    <% let publicPrivateText = `${party.public ? 'public' : 'private'}` %>
+  <h1>
+    All parties
+  </h1>
+  <% partyIds.forEach((partyId, i) => { %>
+    <% let publicPrivateText = `${parties[partyId].public ? 'public' : 'private'}` %>
     <div class="row">
       <div class="tight-fit">
-        <a class="poketilea" href="/profile/parties/<%= parties[0].id %>">
+        <a class="poketilea" href="/profile/parties/<%= partyId %>">
           <div class="poketilediv">
             <div class="inlineitem">
               <p class="no-line-height text-black taglabel">
                 TITLE
               </p>
-              <p class="no-line-height poketilep"><%= party.name %> (<%= publicPrivateText %>)</p>
-              <% featuredPartyPokes.forEach(featuredPoke => { %>
-                <% let dexNo = `${10 > (featuredPoke.dexId) ? `00${featuredPoke.dexId}` : 100 > (featuredPoke.dexId) ? `0${featuredPoke.dexId}` : featuredPoke.dexId}` %>
-                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= featuredPoke.name %> sprite">
+              <p class="no-line-height poketilep"><%= parties[partyId].name %> (<%= publicPrivateText %>)</p>
+              <% if (parties[partyId].pokemon.length < 1) { %>
+                <p class="no-line-height center empty">
+                  - empty party -
+                </p>
+              <% } %>
+              <% parties[partyId].pokemon.forEach(poke => { %>
+                <% let dexNo = `${10 > (poke.dex) ? `00${poke.dex}` : 100 > (poke.dex) ? `0${poke.dex}` : poke.dex}` %>
+                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= poke.nickname %> sprite">
               <% }) %>
-              <p class="no-line-height text-black taglabel">
-                DESCRIPTION
-              </p>
-              <p class="no-line-height text-black"><%= party.desc %></p>
+              <% if (parties[partyId].desc) { %>
+                <p class="no-line-height text-black taglabel">
+                  DESCRIPTION
+                </p>
+                <p class="no-line-height text-black"><%= parties[partyId].desc %></p>
+              <% } %>
             </div>
           </div>
         </a>

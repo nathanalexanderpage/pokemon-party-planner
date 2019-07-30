@@ -405,11 +405,12 @@ router.get('/parties/', loggedIn, (req, res) => {
             console.log('partiesObj');
             console.log(partiesObj);
             res.render('profile/partylist', {
-              moves: moves,
+              moves: movesObj,
               moves_owns: moveIdRecords,
-              owns: owns,
+              owns: ownsObj,
               owns_parties: ownIdRecords,
-              parties: playerParties
+              partyIds: partyIds,
+              parties: partiesObj
             })
           })
         })
@@ -423,6 +424,7 @@ router.get('/parties/new', loggedIn, (req, res) => {
 })
 
 router.post('/parties/new', loggedIn, (req, res) => {
+  let defaultPartyName = 'untitled party'
   db.party.findAll({
     where: {
       userId: req.user.dataValues.id,
@@ -433,9 +435,14 @@ router.post('/parties/new', loggedIn, (req, res) => {
     if (returnedParty.length > 0) {
       console.log('returnedParty ID:');
       console.log(returnedParty.id);
+      console.log('returnedParty:');
+      console.log(returnedParty);
       res.redirect(`/profile/${1}`);
     } else {
       console.log('no duplicate');
+      if (req.body.name.trim() === '') {
+        req.body.name = defaultPartyName
+      }
       db.party.create({
         userId: req.user.dataValues.id,
         name: req.body.name,
@@ -517,7 +524,13 @@ router.get('/parties/:id', loggedIn, (req, res) => {
         })
       })
     } else {
-      res.redirect('/profile', {alert: 'The indicated party belongs to another user.'})
+      res.redirect('/profile', {
+        alerts:
+          {
+            error: 'The indicated party belongs to another user.'
+          }
+        }
+      )
     }
   })
 

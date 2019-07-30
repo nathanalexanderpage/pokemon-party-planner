@@ -24,18 +24,39 @@ nav .brand-logo {
   justify-content: space-between;
   align-items: center;
 }
+.empty {
+  padding-top: 3px;
+  padding-bottom: 7px;
+  color: black;
+  font-size: 12px;
+  font-family: monospace;
+  text-transform: uppercase;
+}
 .error-msg::first-letter {
   text-transform: uppercase;
+}
+.font-pokemon {
+  color: #FEFF12;
+  text-shadow: 2px 2px 0 #3759CC, 2px -2px 0 #3759CC, -2px 2px 0 #3759CC, -2px -2px 0 #3759CC, 2px 0px 0 #3759CC, 0px 2px 0 #3759CC, -2px 0px 0 #3759CC, 0px -2px 0 #3759CC;
 }
 .form-holder {
   padding: 2vw;
   border-radius: 10px;
   background-color: lightgrey;
 }
+.frontpage-bg {
+  background-color: #f0ead6;
+}
 .general-info {
   width: 160px;
   background-color: #f0ead6;
   font-size: 27px;
+}
+.greyed {
+  color: darkgrey;
+}
+.greyed-light {
+  color: lightgrey;
 }
 .in-moveset {
   background-color: yellow;
@@ -82,6 +103,9 @@ nav .brand-logo {
   background-color: #C6C1B0;
   margin-bottom: 5px;
 }
+.padded-top {
+  padding-top: 30px;
+}
 .party-pokes {
   display: flex;
   flex-wrap: wrap;
@@ -122,6 +146,8 @@ nav .brand-logo {
 }
 .side-by-side {
   display: inline-table;
+}
+.site-title {
 }
 .submit {
   text-align: center;
