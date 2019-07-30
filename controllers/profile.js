@@ -16,6 +16,7 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
+  console.log(req);
   db.own.findAll({
     where: {
       userId: req.user.id
@@ -298,6 +299,125 @@ router.post('/parties/add-pokemon/confirm', loggedIn, (req, res) => {
   })
 })
 
+router.get('/parties/', loggedIn, (req, res) => {
+  db.party.findAll({
+    where: {
+      userId: req.user.dataValues.id
+    }
+  })
+  .then(playerParties => {
+    console.log('STAGE 1 COMPLETE');
+    // console.log(playerParties);
+    let partyIds = [];
+    playerParties.forEach(party => {
+      if (!partyIds.includes(party.id)) {
+        partyIds.push(party.id)
+      }
+    })
+    console.log(partyIds);
+    db.owns_parties.findAll({
+      where: {
+        partyId: {[Op.in]: partyIds}
+      }
+    })
+    .then(ownIdRecords => {
+      console.log('STAGE 2 COMPLETE');
+      // console.log(ownIdRecords);
+      let ownIds = [];
+      ownIdRecords.forEach(record => {
+        if (!ownIds.includes(record.ownId)) {
+          ownIds.push(record.ownId)
+        }
+      })
+      console.log('ownIds');
+      console.log(ownIds);
+      db.own.findAll({
+        where: {
+          id: {[Op.in]: ownIds}
+        }
+      })
+      .then(owns => {
+        console.log('STAGE 3 COMPLETE');
+        // console.log(owns);
+        db.moves_owns.findAll({
+          where: {
+            ownId: {[Op.in]: ownIds}
+          }
+        })
+        .then(moveIdRecords => {
+          console.log('STAGE 4 COMPLETE');
+          // console.log(moveIdRecords);
+          let moveIdArr = [];
+          moveIdRecords.forEach(record => {
+            if (!moveIdArr.includes(record.moveId)) {
+              moveIdArr.push(record.moveId)
+            }
+          })
+          db.move.findAll({
+            where: {
+              id: {[Op.in]: moveIdArr}
+            }
+          })
+          .then(moves => {
+            console.log('STAGE 5 COMPLETE');
+            // console.log(moves);
+            let movesObj = {};
+            moves.forEach(move => {
+              movesObj[move.id] = {
+                name: move.name,
+                desc: move.desc,
+                type: move.typeId,
+                power: move.power,
+                category: move.category,
+                pp: move.pp,
+                accuracy: move.accuracy
+              }
+            })
+            ownsObj = {};
+            owns.forEach(ownPoke => {
+              ownsObj[ownPoke.id] = {
+                dex: ownPoke.dexId,
+                nickname: ownPoke.nickname,
+                profName: ownPoke.profilename,
+                moves: []
+              }
+            })
+            partiesObj = {};
+            playerParties.forEach(party => {
+              partiesObj[party.id] = {
+                name: party.name,
+                desc: party.desc,
+                public: party.public,
+                pokemon: []
+              }
+            })
+            console.log(ownsObj);
+            moveIdRecords.forEach(moveIdRec => {
+              console.log(moveIdRec.ownId);
+              ownsObj[moveIdRec.ownId].moves.push(movesObj[moveIdRec.moveId])
+            })
+            ownIdRecords.forEach(ownIdRec => {
+              if (partiesObj[ownIdRec.partyId].pokemon.length < 6) {
+                partiesObj[ownIdRec.partyId].pokemon.push(ownsObj[ownIdRec.ownId])
+              }
+            })
+            console.log(19191919919191991991919191);
+            console.log('partiesObj');
+            console.log(partiesObj);
+            res.render('profile/partylist', {
+              moves: moves,
+              moves_owns: moveIdRecords,
+              owns: owns,
+              owns_parties: ownIdRecords,
+              parties: playerParties
+            })
+          })
+        })
+      })
+    })
+  })
+})
+
 router.get('/parties/new', loggedIn, (req, res) => {
   res.render('profile/partynew')
 })
@@ -331,62 +451,76 @@ router.post('/parties/new', loggedIn, (req, res) => {
 })
 
 router.get('/parties/:id', loggedIn, (req, res) => {
-  db.owns_parties.findAll({
-    where:
-    {
-      partyId: req.params.id
+  db.party.findOne({
+    where: {
+      id: req.params.id
     }
   })
-  .then((ownsInParty) => {
-    console.log(ownsInParty);
-    let ownIdsInParty = [];
-    ownsInParty.forEach((ownInParty) => {
-      ownIdsInParty.push(ownInParty.dataValues.ownId);
-    });
-    db.own.findAll({
-      where: {
-        id: {[Op.in]: ownIdsInParty}
-      },
-      include: [db.dex]
-    })
-    .then((ownResults) => {
-      console.log(ownResults);
-      db.moves_owns.findAll({
-        where: {
-          ownId: {[Op.in]: ownIdsInParty}
+  .then(party => {
+    if (party.dataValues.userId === req.user.dataValues.id) {
+      db.owns_parties.findAll({
+        where:
+        {
+          partyId: req.params.id
         }
       })
-      .then((movesInParty) => {
-        console.log(movesInParty);
-        let moveIds = []
-        movesInParty.forEach((moveInParty) => {
-          moveIds.push(moveInParty.dataValues.moveId);
-        })
-        console.log(moveIds);
-        db.move.findAll({
+      .then((ownsInParty) => {
+        console.log(ownsInParty);
+        let ownIdsInParty = [];
+        ownsInParty.forEach((ownInParty) => {
+          ownIdsInParty.push(ownInParty.dataValues.ownId);
+        });
+        db.own.findAll({
           where: {
-            id: {[Op.in]: moveIds}
-          }
+            id: {[Op.in]: ownIdsInParty}
+          },
+          include: [db.dex]
         })
-        .then((moveRecords) => {
-          // console.log(moveRecords);
-          let movesPerPoke = {}
-          movesInParty.forEach((moveOfPoke) => {
-            if (!movesPerPoke[moveOfPoke.dataValues.pokeId]) {
-              movesPerPoke[moveOfPoke.dataValues.pokeId] = []
+        .then((ownResults) => {
+          console.log(ownResults);
+          db.moves_owns.findAll({
+            where: {
+              ownId: {[Op.in]: ownIdsInParty}
             }
-            // movesPerPoke[moveOfPoke.dataValues.pokeId].push(moveRecords)
           })
-          res.render('profile/partyshow',
-          {
-            partyId: req.params.id,
-            ownsInParty: ownsInParty,
-            dexesInfo: ownResults
+          .then((movesInParty) => {
+            console.log(movesInParty);
+            let moveIds = []
+            movesInParty.forEach((moveInParty) => {
+              moveIds.push(moveInParty.dataValues.moveId);
+            })
+            console.log(moveIds);
+            db.move.findAll({
+              where: {
+                id: {[Op.in]: moveIds}
+              }
+            })
+            .then((moveRecords) => {
+
+              // console.log(moveRecords);
+              let movesPerPoke = {}
+              movesInParty.forEach((moveOfPoke) => {
+                if (!movesPerPoke[moveOfPoke.dataValues.pokeId]) {
+                  movesPerPoke[moveOfPoke.dataValues.pokeId] = []
+                }
+                // movesPerPoke[moveOfPoke.dataValues.pokeId].push(moveRecords)
+              })
+              res.render('profile/partyshow',
+              {
+                partyId: req.params.id,
+                ownsInParty: ownsInParty,
+                dexesInfo: ownResults,
+                party: party.dataValues
+              })
+            })
           })
         })
       })
-    })
+    } else {
+      res.redirect('/profile', {alert: 'The indicated party belongs to another user.'})
+    }
   })
+
 })
 
 router.post('/pokemon/add-to-party', loggedIn, (req, res) => {

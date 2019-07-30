@@ -1,0 +1,31 @@
+<% if (parties.length < 1) { %>
+  <p>
+    No pokémon parties have been created yet
+  </p>
+<% } else { %>
+  <% parties.forEach((party, i) => { %>
+    <% let publicPrivateText = `${party.public ? 'public' : 'private'}` %>
+    <div class="row">
+      <div class="tight-fit">
+        <a class="poketilea" href="/profile/parties/<%= parties[0].id %>">
+          <div class="poketilediv">
+            <div class="inlineitem">
+              <p class="no-line-height text-black taglabel">
+                TITLE
+              </p>
+              <p class="no-line-height poketilep"><%= party.name %> (<%= publicPrivateText %>)</p>
+              <% featuredPartyPokes.forEach(featuredPoke => { %>
+                <% let dexNo = `${10 > (featuredPoke.dexId) ? `00${featuredPoke.dexId}` : 100 > (featuredPoke.dexId) ? `0${featuredPoke.dexId}` : featuredPoke.dexId}` %>
+                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= featuredPoke.name %> sprite">
+              <% }) %>
+              <p class="no-line-height text-black taglabel">
+                DESCRIPTION
+              </p>
+              <p class="no-line-height text-black"><%= party.desc %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  <% }) %>
+<% } %>

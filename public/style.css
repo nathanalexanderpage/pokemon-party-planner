@@ -63,6 +63,12 @@ nav .brand-logo {
 .nomargin {
   margin: 0;
 }
+.nomargin-bottom {
+  margin-bottom: 0;
+}
+.nomargin-top {
+  margin-top: 0;
+}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -80,6 +86,10 @@ nav .brand-logo {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+.party-space {
+  min-height: 15vh;
+  background-color: #212121;
 }
 .pokeinddetail {
   background-color: #f0ead6;
