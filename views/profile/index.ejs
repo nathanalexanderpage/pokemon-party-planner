@@ -55,7 +55,7 @@
 </div>
 <div class="container row">
   <h2>Recent Pokémon</h2>
-  <% results.forEach((owned, i) => { %>
+  <% recents.forEach((owned, i) => { %>
     <% let dexNo = `${10 > (owned.dexId) ? `00${owned.dexId}` : 100 > (owned.dexId) ? `0${owned.dexId}` : owned.dexId}` %>
     <div class="row">
       <div class="tight-fit">
@@ -74,12 +74,12 @@
   <% }) %>
 </div>
 <div class="container row">
-  <h2>Saved Pokédex Entries</h2>
+  <h2>Owned Pokémon Species</h2>
   <% dexResults.forEach((species, i) => { %>
     <% let dexNo = `${10 > (species.id) ? `00${species.id}` : 100 > (species.id) ? `0${species.id}` : species.id}` %>
     <div class="row">
       <div class="tight-fit">
-        <a class="poketilea" href="#">
+        <a class="poketilea" href="/profile/pokemon/dex/<%= species.id %>">
           <div class="poketilediv">
             <div class="inlineitem">
               <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= species.name %> game sprite">

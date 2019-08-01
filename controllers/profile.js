@@ -28,9 +28,13 @@ router.get('/', loggedIn, (req, res) => {
   .then((results) => {
     console.log(results);
     let dexNoArr = [];
-    results.forEach(result => {
+    let recents = [];
+    results.forEach((result, i) => {
       if (!dexNoArr.includes(result.dataValues.dexId)) {
         dexNoArr.push(result.dataValues.dexId)
+      }
+      if (i < 4) {
+        recents.push(result)
       }
     })
     console.log(req);
@@ -78,7 +82,8 @@ router.get('/', loggedIn, (req, res) => {
               results: results,
               dexResults: dexResults,
               parties: parties,
-              featuredPartyPokes: featuredPartyPokes
+              featuredPartyPokes: featuredPartyPokes,
+              recents: recents
             })
           })
         })
@@ -92,22 +97,64 @@ router.get('/admin', adminLoggedIn, (req, res) => {
   res.render('profile/admin')
 })
 
+// GET /profile/pokemon/dex/:id
 router.get('/pokemon/dex/:id', loggedIn, (req, res) => {
-  console.log(req.params);
-  console.log(req.body);
-  console.log(req.query);
+  console.log('req.user.dataValues.id');
   console.log(req.user.dataValues.id);
+  console.log('req.params.id');
+  console.log(req.params.id);
   db.own.findAll({
     where: {
       userId: req.user.dataValues.id,
       dexId: req.params.id
     }
   })
-  .then((allOwnsMatches) => {
-    console.log(allOwnsMatches);
-    res.render('profile/pokedisambig', {ownsData: allOwnsMatches});
+  .then(owneddexiterations => {
+    db.dex.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(dex => {
+      res.render('profile/owneddexiterations', {
+        owneddexiterations: owneddexiterations,
+        dex: dex
+      })
+    })
   })
 })
+
+router.post('/pokemon/new', loggedIn, (req, res) => {
+  console.log('req.body things:');
+  console.log(req.body);
+  let creationAttr = {};
+  if (req.body.dexId) {
+    creationAttr.dexId = req.body.dexId
+  }
+  if (!creationAttr.dexId) {
+    res.redirect('/profile', {alert: 'Error occurred in creation of new pokémon'})
+  }
+  console.log('req.body.name');
+  console.log(req.body.name);
+  if (!req.body.name || req.body.name.strip() !== '') {
+    console.log('INSIDE DEFAULT NAME SPACE');
+    creationAttr.nickname = req.body.dexName
+  } else {
+    creationAttr.nickname = req.body.name
+  }
+  if (req.body.profilename) {
+    creationAttr.profilename = req.body.profilename
+  }
+  if (req.body.abilityId) {
+    creationAttr.abilityId = req.body.abilityId
+  }
+  creationAttr.userId = req.user.dataValues.id
+  db.own.create(creationAttr)
+  .then(createdPoke => {
+    res.redirect(`/profile/pokemon/${createdPoke.id}`)
+  })
+})
+
 
 // GET /profile/pokemon/:id
 router.get('/pokemon/:id', loggedIn, (req, res) => {

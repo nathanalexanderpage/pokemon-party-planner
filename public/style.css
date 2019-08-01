@@ -4,7 +4,11 @@
 .ability-name, .move-name {
   text-transform: capitalize;
 }
+.alert-purple {
+  
+}
 nav .brand-logo {
+  margin-left: 10px;
   font-size: 2.6rem;
   color: #FEFF12;
   text-shadow: 2px 2px 0 #3759CC, 2px -2px 0 #3759CC, -2px 2px 0 #3759CC, -2px -2px 0 #3759CC, 2px 0px 0 #3759CC, 0px 2px 0 #3759CC, -2px 0px 0 #3759CC, 0px -2px 0 #3759CC;
@@ -105,6 +109,9 @@ nav .brand-logo {
 }
 .padded-top {
   padding-top: 30px;
+}
+.padded-text {
+  padding: 4vw 3vw;
 }
 .party-pokes {
   display: flex;

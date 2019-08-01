@@ -1,7 +1,22 @@
 <% let dexNo = `${10 > (dex.id) ? `00${dex.id}` : 100 > (dex.id) ? `0${dex.id}` : dex.id}` %>
 <h1>Owned No. <%= dexNo %> <%= dex.name %></h1>
+<div>
+  <form action="/profile/pokemon/new" method="post">
+    <input type="hidden" name="dexId" value="<%= dex.id %>" />
+    <input type="hidden" name="dexName" value="<%= dex.name %>" />
+    <label for="nickname">Nickname</label>
+    <input type="text" name="nickname" placeholder="Pumpernickle" />
+    <br>
+    <label for="">Role/Purpose/Archetype</label>
+    <input type="text" name="profilename" placeholder="attack dog" />
+    <button class="btn black waves-effect waves-light" type="submit" name="action">
+      <i class="material-icons">input</i> Create
+    </button>
+  </form>
+</div>
+<br>
 <div class="">
-  <% owns.forEach((own, i) => { %>
+  <% owneddexiterations.forEach((own, i) => { %>
     <div class="row">
       <div class="tight-fit">
         <a class="poketilea" href="/profile/pokemon/<%= own.id %>">

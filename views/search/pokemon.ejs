@@ -1,5 +1,10 @@
 <h1>Pokédex Search Results</h1>
 <% if (results.length > 0) { %>
+  <div class="party-space">
+    <p class="center padded-text">
+      Choose the quantity of each pokémon you want to add to your collection.
+    </p>
+  </div>
   <% results.forEach((pokeData, i) => { %>
     <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
     <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
@@ -22,4 +27,6 @@
       </form>
     </div>
   <% }) %>
+<% } else { %>
+  <p class="center">No search results found!</p>
 <% } %>
