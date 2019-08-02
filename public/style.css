@@ -5,7 +5,7 @@
   text-transform: capitalize;
 }
 .alert-purple {
-  
+
 }
 nav .brand-logo {
   margin-left: 10px;
@@ -74,6 +74,9 @@ nav .brand-logo {
   margin-left: 3%;
   font-family: monospace;
 }
+.monospace {
+  font-family: monospace;
+}
 .move-info {
   background-color: lightgrey;
   margin-bottom: 5px;
@@ -109,6 +112,9 @@ nav .brand-logo {
 }
 .padded-top {
   padding-top: 30px;
+}
+.padded-bottom {
+  padding-bottom: 30px;
 }
 .padded-text {
   padding: 4vw 3vw;

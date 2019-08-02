@@ -26,6 +26,11 @@ router.get('/', loggedIn, (req, res) => {
     ]
   })
   .then((results) => {
+    let doesOwnPokes = true;
+    if (!results[0]) {
+      doesOwnPokes = false;
+      console.log('NO RESULTS');
+    }
     console.log(results);
     let dexNoArr = [];
     let recents = [];
@@ -57,36 +62,53 @@ router.get('/', loggedIn, (req, res) => {
         limit: 1
       })
       .then(parties => {
-        db.owns_parties.findAll({
-          where: {
-            partyId: parties[0].id
-          },
-          limit: 6
-        })
-        .then(featuredParty => {
-          console.log(featuredParty);
-          let partyPokes = [];
-          featuredParty.forEach(poke => {
-            partyPokes.push(poke.ownId)
-          })
-          db.own.findAll({
+        let doesOwnParties = true;
+        console.log('parties[0].id?');
+        console.log(parties);
+        if (parties.length < 1 || !parties[0].id) {
+          doesOwnParties = false;
+        }
+        console.log(doesOwnPokes, doesOwnParties);
+        if (doesOwnParties && doesOwnPokes) {
+          db.owns_parties.findAll({
             where: {
-              id: {[Op.in]: partyPokes}
-            }
+              partyId: parties[0].id
+            },
+            limit: 6
           })
-          .then(featuredPartyPokes => {
-            // console.log(dexResults);
-            // res.send(results)
-            console.log(featuredPartyPokes);
-            res.render('profile/index', {
-              results: results,
-              dexResults: dexResults,
-              parties: parties,
-              featuredPartyPokes: featuredPartyPokes,
-              recents: recents
+          .then(featuredParty => {
+            console.log(featuredParty);
+            let partyPokes = [];
+            featuredParty.forEach(poke => {
+              partyPokes.push(poke.ownId)
+            })
+            db.own.findAll({
+              where: {
+                id: {[Op.in]: partyPokes}
+              }
+            })
+            .then(featuredPartyPokes => {
+              // console.log(dexResults);
+              // res.send(results)
+              console.log(featuredPartyPokes);
+              res.render('profile/index', {
+                results: results,
+                dexResults: dexResults,
+                parties: parties,
+                featuredPartyPokes: featuredPartyPokes,
+                recents: recents
+              })
             })
           })
-        })
+        } else {
+          res.render('profile/index', {
+            results: results,
+            dexResults: dexResults,
+            parties: parties,
+            featuredPartyPokes: [],
+            recents: []
+          })
+        }
       })
     })
   })

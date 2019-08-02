@@ -6,6 +6,13 @@
   <h1>
     All parties
   </h1>
+  <% if (partyIds.length < 1) { %>
+    <div class="party-space">
+      <p class="center padded-top greyed">
+        - No parties have been created yet -
+      </p>
+    </div>
+  <% } %>
   <% partyIds.forEach((partyId, i) => { %>
     <% let publicPrivateText = `${parties[partyId].public ? 'public' : 'private'}` %>
     <div class="row">
