@@ -16,7 +16,6 @@ let loggedIn = require('../middleware/loggedIn')
 
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
-  console.log(req);
   db.own.findAll({
     where: {
       userId: req.user.id
@@ -29,7 +28,6 @@ router.get('/', loggedIn, (req, res) => {
     let doesOwnPokes = true;
     if (!results[0]) {
       doesOwnPokes = false;
-      console.log('NO RESULTS');
     }
     console.log(results);
     let dexNoArr = [];
@@ -63,12 +61,9 @@ router.get('/', loggedIn, (req, res) => {
       })
       .then(parties => {
         let doesOwnParties = true;
-        console.log('parties[0].id?');
-        console.log(parties);
         if (parties.length < 1 || !parties[0].id) {
           doesOwnParties = false;
         }
-        console.log(doesOwnPokes, doesOwnParties);
         if (doesOwnParties && doesOwnPokes) {
           db.owns_parties.findAll({
             where: {
@@ -77,7 +72,6 @@ router.get('/', loggedIn, (req, res) => {
             limit: 6
           })
           .then(featuredParty => {
-            console.log(featuredParty);
             let partyPokes = [];
             featuredParty.forEach(poke => {
               partyPokes.push(poke.ownId)
@@ -88,9 +82,6 @@ router.get('/', loggedIn, (req, res) => {
               }
             })
             .then(featuredPartyPokes => {
-              // console.log(dexResults);
-              // res.send(results)
-              console.log(featuredPartyPokes);
               res.render('profile/index', {
                 results: results,
                 dexResults: dexResults,
@@ -121,10 +112,6 @@ router.get('/admin', adminLoggedIn, (req, res) => {
 
 // GET /profile/pokemon/dex/:id
 router.get('/pokemon/dex/:id', loggedIn, (req, res) => {
-  console.log('req.user.dataValues.id');
-  console.log(req.user.dataValues.id);
-  console.log('req.params.id');
-  console.log(req.params.id);
   db.own.findAll({
     where: {
       userId: req.user.dataValues.id,
@@ -147,8 +134,6 @@ router.get('/pokemon/dex/:id', loggedIn, (req, res) => {
 })
 
 router.post('/pokemon/new', loggedIn, (req, res) => {
-  console.log('req.body things:');
-  console.log(req.body);
   let creationAttr = {};
   if (req.body.dexId) {
     creationAttr.dexId = req.body.dexId
@@ -156,11 +141,7 @@ router.post('/pokemon/new', loggedIn, (req, res) => {
   if (!creationAttr.dexId) {
     res.redirect('/profile', {alert: 'Error occurred in creation of new pokémon'})
   }
-  console.log('req.body.nickname');
-  console.log(req.body.nickname);
-  console.log(req.body.nickname.trim());
   if (!req.body.nickname || req.body.nickname.trim() === '') {
-    console.log('INSIDE DEFAULT NAME SPACE');
     creationAttr.nickname = req.body.dexName.trim()
   } else {
     creationAttr.nickname = req.body.nickname.trim()
@@ -181,7 +162,6 @@ router.post('/pokemon/new', loggedIn, (req, res) => {
 
 // GET /profile/pokemon/:id
 router.get('/pokemon/:id', loggedIn, (req, res) => {
-  // console.log(req.params);
   db.own.findOne({
     where: {
       id: req.params.id
@@ -189,16 +169,13 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
     include: [db.dex]
   })
   .then((resultOwn) => {
-    // console.log(req.params.dex);
-    console.log(resultOwn);
-
-    if (resultOwn.dataValues.userId === req.user.id) { // make sure user only can look at their own pokes
+    if (resultOwn.dataValues.userId === req.user.id) {
       db.dexes_moves.findAll({
         where: {
           dexId: resultOwn.dataValues.dexId
         }
       })
-      .then((resultDexMoves) => { // keys: dexId, moveId
+      .then((resultDexMoves) => {
         dexMoveArr = [];
         resultDexMoves.forEach((dexMove) => {
           dexMoveArr.push(dexMove.moveId);
@@ -253,10 +230,7 @@ router.get('/pokemon/:id', loggedIn, (req, res) => {
                 .then((ownMovesDetails) => {
                   db.type.findAll()
                   .then((typeInfo) => {
-
                     let ownKnownAbilIndex = potAbilArr.indexOf(Number(resultOwn.abilityId));
-                    console.log(potAbilArr);
-                    // res.send({abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo, ownAbilIndex: ownKnownAbilIndex});
                     res.render('profile/pokeindshow', {abilitiesData: dexAbilArr, dexData: resultOwn, ownMoves: ownMovesDetails, ownMovesArr: ownMovesArr, dexMoveData: dexMoveData, typeInfo: typeInfo, ownAbilIndex: ownKnownAbilIndex});
                   })
                 })
@@ -324,7 +298,6 @@ router.put('/pokemon/change-nickname-role', loggedIn, (req, res) => {
     }
   })
   .then((updatedRecord) => {
-    console.log(updatedRecord);
     res.redirect(`/profile/pokemon/${req.body.ownId}`)
   })
 })
@@ -343,7 +316,6 @@ router.post('/pokemon/change-ability', loggedIn, (req, res) => {
 
 // remove a move from own model id: req.body.ownId
 router.delete('/pokemon/remove-from-moveset', loggedIn, (req, res) => {
-  // res.send(req.body);
   db.moves_owns.destroy({
     where: {
       moveId: req.body.moveId,
@@ -357,7 +329,6 @@ router.delete('/pokemon/remove-from-moveset', loggedIn, (req, res) => {
 
 /* start of party-related routes */
 router.post('/parties/add-pokemon/confirm', loggedIn, (req, res) => {
-  console.log(req.body);
   db.owns_parties.findOrCreate({
     where: {
       ownId: req.body.ownId,
@@ -376,8 +347,6 @@ router.get('/parties/', loggedIn, (req, res) => {
     }
   })
   .then(playerParties => {
-    console.log('STAGE 1 COMPLETE');
-    // console.log(playerParties);
     let partyIds = [];
     playerParties.forEach(party => {
       if (!partyIds.includes(party.id)) {
@@ -391,32 +360,24 @@ router.get('/parties/', loggedIn, (req, res) => {
       }
     })
     .then(ownIdRecords => {
-      console.log('STAGE 2 COMPLETE');
-      // console.log(ownIdRecords);
       let ownIds = [];
       ownIdRecords.forEach(record => {
         if (!ownIds.includes(record.ownId)) {
           ownIds.push(record.ownId)
         }
       })
-      console.log('ownIds');
-      console.log(ownIds);
       db.own.findAll({
         where: {
           id: {[Op.in]: ownIds}
         }
       })
       .then(owns => {
-        console.log('STAGE 3 COMPLETE');
-        // console.log(owns);
         db.moves_owns.findAll({
           where: {
             ownId: {[Op.in]: ownIds}
           }
         })
         .then(moveIdRecords => {
-          console.log('STAGE 4 COMPLETE');
-          // console.log(moveIdRecords);
           let moveIdArr = [];
           moveIdRecords.forEach(record => {
             if (!moveIdArr.includes(record.moveId)) {
@@ -429,8 +390,6 @@ router.get('/parties/', loggedIn, (req, res) => {
             }
           })
           .then(moves => {
-            console.log('STAGE 5 COMPLETE');
-            // console.log(moves);
             let movesObj = {};
             moves.forEach(move => {
               movesObj[move.id] = {
@@ -471,9 +430,6 @@ router.get('/parties/', loggedIn, (req, res) => {
                 partiesObj[ownIdRec.partyId].pokemon.push(ownsObj[ownIdRec.ownId])
               }
             })
-            console.log(19191919919191991991919191);
-            console.log('partiesObj');
-            console.log(partiesObj);
             res.render('profile/partylist', {
               moves: movesObj,
               moves_owns: moveIdRecords,
@@ -503,13 +459,8 @@ router.post('/parties/new', loggedIn, (req, res) => {
   })
   .then(returnedParty => {
     if (returnedParty.length > 0) {
-      console.log('returnedParty ID:');
-      console.log(returnedParty.id);
-      console.log('returnedParty:');
-      console.log(returnedParty);
       res.redirect(`/profile/${1}`);
     } else {
-      console.log('no duplicate');
       if (req.body.name.trim() === '') {
         req.body.name = defaultPartyName
       }
@@ -520,7 +471,6 @@ router.post('/parties/new', loggedIn, (req, res) => {
         public: false
       })
       .then(newParty => {
-        console.log(newParty);
         res.redirect(`/profile/parties/${newParty.dataValues.id}`);
       })
     }
@@ -542,7 +492,6 @@ router.get('/parties/:id', loggedIn, (req, res) => {
         }
       })
       .then((ownsInParty) => {
-        console.log(ownsInParty);
         let ownIdsInParty = [];
         ownsInParty.forEach((ownInParty) => {
           ownIdsInParty.push(ownInParty.dataValues.ownId);
@@ -554,33 +503,27 @@ router.get('/parties/:id', loggedIn, (req, res) => {
           include: [db.dex]
         })
         .then((ownResults) => {
-          console.log(ownResults);
           db.moves_owns.findAll({
             where: {
               ownId: {[Op.in]: ownIdsInParty}
             }
           })
           .then((movesInParty) => {
-            console.log(movesInParty);
             let moveIds = []
             movesInParty.forEach((moveInParty) => {
               moveIds.push(moveInParty.dataValues.moveId);
             })
-            console.log(moveIds);
             db.move.findAll({
               where: {
                 id: {[Op.in]: moveIds}
               }
             })
             .then((moveRecords) => {
-
-              // console.log(moveRecords);
               let movesPerPoke = {}
               movesInParty.forEach((moveOfPoke) => {
                 if (!movesPerPoke[moveOfPoke.dataValues.pokeId]) {
                   movesPerPoke[moveOfPoke.dataValues.pokeId] = []
                 }
-                // movesPerPoke[moveOfPoke.dataValues.pokeId].push(moveRecords)
               })
               res.render('profile/partyshow',
               {
@@ -607,10 +550,6 @@ router.get('/parties/:id', loggedIn, (req, res) => {
 })
 
 router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
-  console.log(req.params);
-  console.log(req.body);
-  console.log(req.query);
-  console.log(req.user.dataValues);
   db.party.findAll({
     where: {
       userId: req.user.dataValues.id
@@ -618,7 +557,6 @@ router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
   })
   .then((foundParties) => {
     if (!foundParties[0]) {
-      console.log("no parties found route");
       db.party.create({
         userId: req.user.dataValues.id,
         name: "untitled party",
@@ -628,15 +566,12 @@ router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
         res.redirect(`/profile/parties/add-pokemon/${req.body.ownId}`);
       })
     } else {
-      console.log("parties found route");
-      console.log(req.body.ownId);
       res.redirect(`/profile/parties/add-pokemon/${req.body.ownId}`);
     }
   })
 })
 
 router.delete('/pokemon/remove-from-party', loggedIn, (req, res) => {
-  console.log(req.body.ownId, req.body.partyId);
   db.owns_parties.destroy({
     where: {
       ownId: req.body.ownId,
@@ -656,7 +591,6 @@ router.get('/parties/add-pokemon/:id', loggedIn, (req, res) => {
     }
   })
   .then(foundPoke => {
-    console.log(foundPoke);
     if (!foundPoke) {
       req.flash('error', 'Something went wrong with your request. Try navigating the site rather than following URLs.')
       res.redirect('/profile');
