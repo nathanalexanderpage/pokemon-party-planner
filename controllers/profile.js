@@ -329,14 +329,27 @@ router.delete('/pokemon/remove-from-moveset', loggedIn, (req, res) => {
 
 /* start of party-related routes */
 router.post('/parties/add-pokemon/confirm', loggedIn, (req, res) => {
-  db.owns_parties.findOrCreate({
+  db.owns_parties.findOne({
     where: {
       ownId: req.body.ownId,
       partyId: req.body.partyId
     }
   })
-  .then((newRecord) => {
-    res.redirect(`/profile/parties/${req.body.partyId}`)
+  .then(preexistingRec => {
+    console.log(preexistingRec);
+    if (preexistingRec) {
+      res.redirect(req.originalUrl)
+    } else {
+      db.owns_parties.create({
+        where: {
+          ownId: req.body.ownId,
+          partyId: req.body.partyId
+        }
+      })
+      .then((newRecord) => {
+        res.redirect(`/profile/parties/${req.body.partyId}`)
+      })
+    }
   })
 })
 
