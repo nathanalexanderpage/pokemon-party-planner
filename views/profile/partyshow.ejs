@@ -19,14 +19,16 @@
     <% dexesInfo.forEach((eachOwn) => { %>
       <% let dexNo = `${10 > (eachOwn.dexId) ? `00${eachOwn.dexId}` : 100 > (eachOwn.dexId) ? `0${eachOwn.dexId}` : eachOwn.dexId}` %>
       <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
-      <div class=" ">
+      <div>
         <div class="col s12 m12 l12">
           <div class="top-info">
-            <div class="poke-no">
-              <p class="nomargin-top nomargin-bottom">
-                no. <%= dexNo %>:
-              </p>
-            </div>
+            <% if(eachOwn.nickname) { %>
+              <div class="poke-name">
+                <p class="nomargin-top nomargin-bottom">
+                  <%= eachOwn.nickname %>
+                </p>
+              </div>
+            <% } %>
             <div class="poke-sprite">
               <img src="<%= iconUrl %>" alt="">
             </div>
@@ -38,13 +40,6 @@
               </div>
             <% }) %>
             <div class="text-info">
-              <% if(eachOwn.nickname) { %>
-                <div class="poke-name">
-                  <p class="nomargin-top nomargin-bottom">
-                    <%= eachOwn.nickname %>
-                  </p>
-                </div>
-              <% } %>
               <% if(eachOwn.profilename) { %>
                 <div class="poke-role">
                   <p class="nomargin-top">

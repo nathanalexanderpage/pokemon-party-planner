@@ -525,7 +525,11 @@ router.get('/parties/:id', loggedIn, (req, res) => {
                   movesPerPoke[moveOfPoke.dataValues.pokeId] = []
                 }
               })
-              db.type.findAll()
+              db.type.findAll({
+                order: [
+                  ['id', 'ASC']
+                ]
+              })
               .then(types => {
                 res.render('profile/partyshow',
                 {
