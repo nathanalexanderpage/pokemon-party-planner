@@ -340,7 +340,7 @@ router.post('/parties/add-pokemon/confirm', loggedIn, (req, res) => {
   })
 })
 
-router.get('/parties/', loggedIn, (req, res) => {
+router.get('/parties', loggedIn, (req, res) => {
   db.party.findAll({
     where: {
       userId: req.user.dataValues.id

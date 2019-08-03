@@ -16,11 +16,13 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/profile',
   successFlash: 'Log-in successful.',
   failureRedirect: '/auth/login',
   failureFlash: 'Invalid Log-In Credentials.'
-}))
+}), function(req, res) {
+  res.redirect(req.session.redirectTo || '/');
+  delete req.session.redirectTo;
+})
 
 router.get('/signup', (req, res) => {
   res.render('auth/signup')

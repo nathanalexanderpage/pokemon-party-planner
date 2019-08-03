@@ -20,7 +20,6 @@ router.get('/', (req, res) => {
   .then((gensObj) => {
     db.type.findAll()
     .then((typesObj) => {
-      // 6, 7, 11, 13-17
       db.dexes_types.findAll({
         order: [
           ['typeId', 'ASC']
