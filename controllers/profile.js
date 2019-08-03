@@ -156,19 +156,20 @@ router.post('/pokemon/new', loggedIn, (req, res) => {
   if (!creationAttr.dexId) {
     res.redirect('/profile', {alert: 'Error occurred in creation of new pokémon'})
   }
-  console.log('req.body.name');
-  console.log(req.body.name);
-  if (!req.body.name || req.body.name.strip() !== '') {
+  console.log('req.body.nickname');
+  console.log(req.body.nickname);
+  console.log(req.body.nickname.trim());
+  if (!req.body.nickname || req.body.nickname.trim() === '') {
     console.log('INSIDE DEFAULT NAME SPACE');
-    creationAttr.nickname = req.body.dexName
+    creationAttr.nickname = req.body.dexName.trim()
   } else {
-    creationAttr.nickname = req.body.name
+    creationAttr.nickname = req.body.nickname.trim()
   }
   if (req.body.profilename) {
-    creationAttr.profilename = req.body.profilename
+    creationAttr.profilename = req.body.profilename.trim()
   }
   if (req.body.abilityId) {
-    creationAttr.abilityId = req.body.abilityId
+    creationAttr.abilityId = req.body.abilityId.trim()
   }
   creationAttr.userId = req.user.dataValues.id
   db.own.create(creationAttr)
@@ -514,8 +515,8 @@ router.post('/parties/new', loggedIn, (req, res) => {
       }
       db.party.create({
         userId: req.user.dataValues.id,
-        name: req.body.name,
-        desc: req.body.desc,
+        name: req.body.name.trim(),
+        desc: req.body.desc.trim(),
         public: false
       })
       .then(newParty => {

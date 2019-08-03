@@ -13,6 +13,9 @@ nav .brand-logo {
   color: #FEFF12;
   text-shadow: 2px 2px 0 #3759CC, 2px -2px 0 #3759CC, -2px 2px 0 #3759CC, -2px -2px 0 #3759CC, 2px 0px 0 #3759CC, 0px 2px 0 #3759CC, -2px 0px 0 #3759CC, 0px -2px 0 #3759CC;
 }
+.bold {
+  font-weight: bold;
+}
 .btn {
   font-size: 13.5px;
 }

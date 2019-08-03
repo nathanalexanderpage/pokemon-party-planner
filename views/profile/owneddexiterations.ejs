@@ -4,7 +4,7 @@
   <% if (owneddexiterations.length < 1) { %>
     <div class="party-space">
       <p class="center padded-top greyed">
-        - No parties have been created yet -
+        - No <%= dex.name %>s to display -
       </p>
     </div>
   <% } %>
@@ -25,11 +25,13 @@
     </div>
   <% }) %>
 </div>
-<div class="center">
-  <p class="monospace">
-    - OR -
-  </p>
-</div>
+<% if (owneddexiterations.length > 0) { %>
+  <div class="center">
+    <p class="monospace">
+      - OR -
+    </p>
+  </div>
+<% } %>
 <div>
   <form action="/profile/pokemon/new" method="post">
     <h4 class="center">
