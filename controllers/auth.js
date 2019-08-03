@@ -20,8 +20,9 @@ router.post('/login', passport.authenticate('local', {
   failureRedirect: '/auth/login',
   failureFlash: 'Invalid Log-In Credentials.'
 }), function(req, res) {
-  res.redirect(req.session.redirectTo || '/');
+  let redirectVar = req.session.redirectTo
   delete req.session.redirectTo;
+  res.redirect(redirectVar || '/');
 })
 
 router.get('/signup', (req, res) => {
