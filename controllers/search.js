@@ -33,12 +33,6 @@ router.get('/', (req, res) => {
             typesSearchableArr.push(type.dataValues.typeId)
           }
         })
-        console.log('typesSearchableArr');
-        console.log(typesSearchableArr);
-        for (var i = 1; i <= 18; i++) {
-          // console.log(typesSearchableArr.indexOf(i));
-          console.log(!(typesSearchableArr.indexOf(i) !== -1)? 'disabled' : i);
-        }
         res.render(
           'search/index.ejs',
           {
@@ -61,13 +55,6 @@ router.get('/pokemon', (req, res) => {
   if (!Array.isArray(req.query.type)) {
     req.query.type = [req.query.type];
   }
-  console.log('--------------------');
-  console.log('-----REQ.QUERY:-----');
-  console.log('--------------------');
-  console.log(req.query);
-  // res.send(req.query.gen.length)
-
-  // sequelize.query("SELECT * FROM `users`", { type: sequelize.QueryTypes.SELECT})
   db.dexes_types.findAll({
     where: {
       typeId: {[Op.in]: req.query.type},
@@ -83,7 +70,6 @@ router.get('/pokemon', (req, res) => {
         dexIdArr.push(result.dataValues.dexId)
       }
     })
-    console.log(dexIdArr);
     db.dex.findAll({
       include: [{
         model: db.type,
@@ -98,7 +84,6 @@ router.get('/pokemon', (req, res) => {
       ]
     })
     .then((results) => {
-      // console.log(results);
       res.render('search/pokemon', { results: results })
     })
   })
@@ -109,7 +94,6 @@ router.post('/add-pokemon', (req, res) => {
   if (req.user === undefined) {
     res.redirect('/auth/login')
   } else {
-    console.log(req.user.dataValues);
     db.own.findOrCreate({
       where: {
         userId: req.user.dataValues.id,
