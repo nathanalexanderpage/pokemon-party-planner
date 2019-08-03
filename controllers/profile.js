@@ -525,12 +525,16 @@ router.get('/parties/:id', loggedIn, (req, res) => {
                   movesPerPoke[moveOfPoke.dataValues.pokeId] = []
                 }
               })
-              res.render('profile/partyshow',
-              {
-                partyId: req.params.id,
-                ownsInParty: ownsInParty,
-                dexesInfo: ownResults,
-                party: party.dataValues
+              db.type.findAll()
+              .then(types => {
+                res.render('profile/partyshow',
+                {
+                  partyId: req.params.id,
+                  ownsInParty: ownsInParty,
+                  dexesInfo: ownResults,
+                  party: party.dataValues,
+                  types: types
+                })
               })
             })
           })

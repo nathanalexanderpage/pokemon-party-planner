@@ -22,15 +22,22 @@
       <div class=" ">
         <div class="col s12 m12 l12">
           <div class="top-info">
+            <div class="poke-no">
+              <p class="nomargin-top nomargin-bottom">
+                no. <%= dexNo %>:
+              </p>
+            </div>
             <div class="poke-sprite">
               <img src="<%= iconUrl %>" alt="">
             </div>
-            <div class="text-info">
-              <div class="poke-no">
-                <p class="nomargin-top nomargin-bottom">
-                  no. <%= dexNo %>:
+            <% types.forEach((type, i) => { %>
+              <div class="nomargin nopadding inlineitem type">
+                <p class="nomarginpreset <%= type.name %>">
+                  <%= type.name %>
                 </p>
               </div>
+            <% }) %>
+            <div class="text-info">
               <% if(eachOwn.nickname) { %>
                 <div class="poke-name">
                   <p class="nomargin-top nomargin-bottom">

@@ -7,6 +7,99 @@
 .alert-purple {
 
 }
+.allwhite {
+  width: 100%;
+  height: 100%;
+  padding: 6vw;
+  background-color: white;
+}
+.type {
+  font-size: 20px;
+  line-height: .9;
+  font-weight: bold;
+  font-family: monospace;
+  text-shadow: 0 1px 0 white;
+  text-transform: uppercase;
+}
+.normal {
+  background-color: #b2b1ae;
+  color: #4f4d49;
+  text-shadow: 0px 1px 0 #f2f0ea;
+}
+.fire {
+  background-color: #CA3332;
+  color: #4A1516;
+  text-shadow: 0px 1px 0 #edb1b1;
+}
+.water {
+  background-color: #89b2ff;
+  color: #12396C;
+}
+.electric {
+  background-color: #E7C01B;
+  color: #855400;
+  text-shadow: 0px 1px 0 #f2e4ae;
+}
+.grass {
+  background-color: #6ABA3D;
+  color: #17640D;
+  text-shadow: 0px 1px 0 #caf2b3;
+}
+.ice {
+  background-color: #B5D5EC;
+  color: #2F5978;
+}
+.fighting {
+  background-color: #BC5133;
+  color: #1E0708;
+}
+.poison {
+  background-color: #689668;
+  color: #2E492E;
+}
+.ground {
+  background-color: #C49925;
+  color: #5E2900;
+}
+.flying {
+  background-color: #67ACAA;
+  color: #105550;
+}
+.psychic {
+  background-color: #A44E96;
+  color: #40102F;
+  text-shadow: 0px 1px 0 #edc0e5;
+}
+.bug {
+  background-color: #BBBB4C;
+  color: #50500C;
+}
+.rock {
+  background-color: #CCCDBC;
+  color: #646446;
+}
+.ghost {
+  background-color: #6364b1;
+  color: #1E1F63;
+  text-shadow: 0px 1px 0 #b7b8e2;
+}
+.dragon {
+  background-color: #F98519;
+  color: #5F1A06;
+}
+.dark {
+  background-color: #61564C;
+  color: #2A1E14;
+  text-shadow: -1px 1px 0 #8e837a, 1px 1px 0 #8e837a;
+}
+.steel {
+  background-color: #BBA59F;
+  color: #5E3533;
+}
+.fairy {
+  background-color: #CC66A8;
+  color: #84102B;
+}
 nav .brand-logo {
   margin-left: 10px;
   font-size: 2.6rem;
@@ -94,11 +187,20 @@ nav .brand-logo {
 .nomargin {
   margin: 0;
 }
+.nomarginpreset {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
 .nomargin-bottom {
   margin-bottom: 0;
 }
 .nomargin-top {
   margin-top: 0;
+}
+.nopadding {
+  padding: 0;
 }
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
