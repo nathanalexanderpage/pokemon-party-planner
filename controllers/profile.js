@@ -636,7 +636,6 @@ router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
 })
 
 router.delete('/pokemon/remove-from-party', loggedIn, (req, res) => {
-  console.log(0101010101010101010101010101010101010101001010101010100110010010100100110101010100101010001010101001010);
   console.log(req.body.ownId, req.body.partyId);
   db.owns_parties.destroy({
     where: {
@@ -645,23 +644,40 @@ router.delete('/pokemon/remove-from-party', loggedIn, (req, res) => {
     }
   })
   .then(() => {
-    // console.log(req.headers);
-    // console.log(req.headers.referer.substring(req.headers.origin.length,req.headers.referer.length));
     res.redirect(`/profile/parties/${req.body.partyId}`)
   })
 })
 
 // choose-which-parties-to-add-to screen
 router.get('/parties/add-pokemon/:id', loggedIn, (req, res) => {
-  db.party.findAll({
+  db.own.findOne({
     where: {
-      userId: req.user.dataValues.id
+      id: req.params.id
     }
   })
-  .then((results) => {
-    console.log(req.params.id);
-    res.render('profile/partiestoaddto', {idToAdd: req.params.id, partiesData: results});
+  .then(foundPoke => {
+    console.log(foundPoke);
+    if (!foundPoke) {
+      req.flash('error', 'Something went wrong with your request. Try navigating the site rather than following URLs.')
+      res.redirect('/profile');
+    }
+    if (foundPoke.userId !== req.user.dataValues.id) {
+      req.flash('error', 'Other trainers\' pokémon can\'t be added to your parties.')
+      res.redirect('/profile');
+    }
+    db.party.findAll({
+      where: {
+        userId: req.user.dataValues.id
+      }
+    })
+    .then((results) => {
+      res.render('profile/partiestoaddto', {idToAdd: req.params.id, partiesData: results});
+    })
   })
+})
+
+router.get('*', loggedIn, (req, res) => {
+  res.render('404')
 })
 
 // Export the routes from this file

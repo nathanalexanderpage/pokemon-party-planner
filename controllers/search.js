@@ -137,5 +137,9 @@ router.post('/add-pokemon', (req, res) => {
   }
 })
 
+router.get('*', loggedIn, (req, res) => {
+  res.render('404')
+})
+
 // Export routes from this file
 module.exports = router
