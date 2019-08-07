@@ -9,8 +9,11 @@
     </div>
     <div class="type-in">
       <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
-      <input class="poke-nickname" type="text" name="nickname" value="<%= dexData.dataValues.nickname %>" placeholder="Enter nickname here">
-      <input type="text" name="profilename" value="<%= dexData.dataValues.profilename %>" placeholder="Enter role here (examples: tank, all-around, healer)">
+      <label for="nickname">Nickname</label>
+      <input class="poke-nickname" type="text" name="nickname" value="<%= dexData.dataValues.nickname %>" maxlength="50" placeholder="Enter nickname here">
+      <br>
+      <label for="profilename">Role/Purpose/Archetype</label>
+      <input type="text" name="profilename" value="<%= dexData.dataValues.profilename %>" maxlength="50" placeholder="Enter role here (examples: tank, all-around, healer)">
     </div>
   </div>
 </form>

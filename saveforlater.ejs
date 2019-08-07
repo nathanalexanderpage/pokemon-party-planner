@@ -1,14 +1,9 @@
-<% var urlImage = `https://www.serebii.net/art/th/${i + 1}.png` %>
-
-<% if (ownMovesArr.includes(knownMove.id)) { %>
-  <form action="/profile/pokemon/<%= dexData.dataValues.id %>/?_method=PUT" method="post">
-    <div class="remove-from-moveset">
-      <input type="hidden" name="moveId" value="<%= ownMove.id %>">
-      <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
-      <input type="hidden" name="location" value="summary">
-      <button class="btn waves-effect waves-light red" type="submit">
-        <i class="material-icons">do_not_disturb_alt</i>
-      </button>
-    </div>
+<div class="card-action">
+  <form action="/profile/pokemon/remove-from-party?_method=DELETE" method="post">
+    <input type="hidden" name="ownId" value="<%= eachOwn.id %>">
+    <input type="hidden" name="partyId" value="<%= partyId %>">
+    <button class="btn-small waves-effect waves-light red" type="submit">
+      <i class="material-icons">do_not_disturb_alt</i>
+    </button>
   </form>
-<% } %>
+</div>

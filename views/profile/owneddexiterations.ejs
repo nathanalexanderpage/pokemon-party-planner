@@ -40,10 +40,10 @@
     <input type="hidden" name="dexId" value="<%= dex.id %>" />
     <input type="hidden" name="dexName" value="<%= dex.name %>" />
     <label for="nickname">Nickname</label>
-    <input type="text" name="nickname" placeholder="Pumpernickle" />
+    <input type="text" name="nickname" placeholder="Pumpernickle" maxlength="50" />
     <br>
-    <label for="">Role/Purpose/Archetype</label>
-    <input type="text" name="profilename" placeholder="attack dog" />
+    <label for="profilename">Role/Purpose/Archetype</label>
+    <input type="text" name="profilename" placeholder="attack dog" maxlength="50" />
     <button class="btn indigo waves-effect waves-light" type="submit" name="action">
       <i class="material-icons">input</i> Create
     </button>

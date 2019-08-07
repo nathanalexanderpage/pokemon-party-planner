@@ -14,6 +14,27 @@ const Op = Sequelize.Op;
 let adminLoggedIn = require('../middleware/adminLoggedIn')
 let loggedIn = require('../middleware/loggedIn')
 
+let typeOrder = [
+  'normal',
+  'fire',
+  'water',
+  'electric',
+  'grass',
+  'ice',
+  'ghost',
+  'steel',
+  'bug',
+  'poison',
+  'rock',
+  'ground',
+  'dark',
+  'fighting',
+  'psychic',
+  'dragon',
+  'fairy',
+  'flying'
+]
+
 // GET /profile
 router.get('/', loggedIn, (req, res) => {
   db.own.findAll({
@@ -329,27 +350,14 @@ router.delete('/pokemon/remove-from-moveset', loggedIn, (req, res) => {
 
 /* start of party-related routes */
 router.post('/parties/add-pokemon/confirm', loggedIn, (req, res) => {
-  db.owns_parties.findOne({
+  db.owns_parties.findOrCreate({
     where: {
       ownId: req.body.ownId,
       partyId: req.body.partyId
     }
   })
-  .then(preexistingRec => {
-    console.log(preexistingRec);
-    if (preexistingRec) {
-      res.redirect(req.originalUrl)
-    } else {
-      db.owns_parties.create({
-        where: {
-          ownId: req.body.ownId,
-          partyId: req.body.partyId
-        }
-      })
-      .then((newRecord) => {
-        res.redirect(`/profile/parties/${req.body.partyId}`)
-      })
-    }
+  .then((record, wasCreated) => {
+    res.redirect(`/profile/parties/${req.body.partyId}`)
   })
 })
 
@@ -516,6 +524,12 @@ router.get('/parties/:id', loggedIn, (req, res) => {
           include: [db.dex]
         })
         .then((ownResults) => {
+          let dexIds = []
+          ownResults.forEach((ownedPoke) => {
+            if (!dexIds.includes(ownedPoke.dexId)) {
+              dexIds.push(ownedPoke.dexId)
+            }
+          })
           db.moves_owns.findAll({
             where: {
               ownId: {[Op.in]: ownIdsInParty}
@@ -544,13 +558,66 @@ router.get('/parties/:id', loggedIn, (req, res) => {
                 ]
               })
               .then(types => {
-                res.render('profile/partyshow',
-                {
-                  partyId: req.params.id,
-                  ownsInParty: ownsInParty,
-                  dexesInfo: ownResults,
-                  party: party.dataValues,
-                  types: types
+                let typesObj = {};
+                types.forEach((type, i) => {
+                  typesObj[type.id] = type
+                })
+                db.dexes_types.findAll({
+                  where: {
+                    dexId: {[Op.in]: dexIds}
+                  }
+                })
+                .then(dexTypes => {
+                  let dexTypesObj = {}
+                  dexTypes.forEach(dexType => {
+                    if (!dexTypesObj[dexType.dexId]) {
+                      dexTypesObj[dexType.dexId] = []
+                    }
+                    dexTypesObj[dexType.dexId].push(dexType.typeId)
+                  })
+                  db.moves_owns.findAll({
+                    where: {
+                      ownId: {[Op.in]: ownIdsInParty}
+                    }
+                  })
+                  .then(ownsMoveRecs => {
+                    let moveIdsInParty = []
+                    let ownMovesObj = {}
+                    ownsMoveRecs.forEach((ownMoveRec) => {
+                      if (!ownMovesObj[ownMoveRec.ownId]) {
+                        ownMovesObj[ownMoveRec.ownId] = []
+                      }
+                      if (!moveIdsInParty.includes(ownMoveRec.ownId)) {
+                        moveIdsInParty.push(ownMoveRec.moveId)
+                      }
+                      ownMovesObj[ownMoveRec.ownId].push(ownMoveRec.moveId)
+                    })
+                    db.move.findAll({
+                      where: {
+                        id: {[Op.in]: moveIdsInParty}
+                      }
+                    })
+                    .then(movesData => {
+                      let moveDict = {}
+                      movesData.forEach(moveData => {
+                        moveDict[moveData.id] = moveData
+                      })
+                      console.log(moveIdsInParty);
+                      console.log(ownMovesObj);
+                      console.log(moveDict);
+                      res.render('profile/partyshow',
+                      {
+                        partyId: req.params.id,
+                        ownsInParty: ownsInParty,
+                        dexesInfo: ownResults,
+                        party: party.dataValues,
+                        types: typesObj,
+                        dexTypeInfo: dexTypesObj,
+                        ownMoves: ownMovesObj,
+                        moves: moveDict
+                      })
+                    })
+                  })
                 })
               })
             })
@@ -584,11 +651,30 @@ router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
         public: false
       })
       .then((createdParty) => {
-        res.redirect(`/profile/parties/add-pokemon/${req.body.ownId}`);
+        res.redirect(`/profile/parties/add-pokemon/${createdParty.id}`);
       })
     } else {
       res.redirect(`/profile/parties/add-pokemon/${req.body.ownId}`);
     }
+  })
+})
+
+router.delete('/party', loggedIn, (req, res) => {
+  db.owns_parties.destroy({
+    where: {
+      partyId: req.body.partyId
+    }
+  })
+  .then(() => {
+    db.owns_parties.destroy({
+      where: {
+        partyId: req.body.partyId
+      }
+    })
+    .then(() => {
+      req.flash('success', 'Party deleted successfully.')
+      res.redirect('/profile')
+    })
   })
 })
 
@@ -601,6 +687,37 @@ router.delete('/pokemon/remove-from-party', loggedIn, (req, res) => {
   })
   .then(() => {
     res.redirect(`/profile/parties/${req.body.partyId}`)
+  })
+})
+
+router.delete('/party/delete', loggedIn, (req, res) => {
+  db.party.findOne({
+    where: {
+      id: req.body.partyId
+    }
+  })
+  .then(foundParty => {
+    if (foundParty.userId !== req.user.dataValues.id) {
+      req.flash('error', 'The indicated party could not be deleted')
+      res.redirect(`/profile/parties/${req.body.partyId}`);
+    }
+    db.owns_parties.destroy({
+      where: {
+        partyId: req.body.partyId
+      }
+    })
+    .then((destroyRes1) => {
+      console.log(destroyRes1);
+      db.party.destroy({
+        where: {
+          id: re.body.partyId
+        }
+      })
+      .then((destroyRes2) => {
+        console.log(destroyRes2);
+        res.redirect(`/profile/parties/${req.body.partyId}`)
+      })
+    })
   })
 })
 

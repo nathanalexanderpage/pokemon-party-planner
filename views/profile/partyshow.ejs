@@ -16,51 +16,109 @@
 </h1>
 <div class="party-space">
   <% if (dexesInfo.length > 0) { %>
-    <% dexesInfo.forEach((eachOwn) => { %>
-      <% let dexNo = `${10 > (eachOwn.dexId) ? `00${eachOwn.dexId}` : 100 > (eachOwn.dexId) ? `0${eachOwn.dexId}` : eachOwn.dexId}` %>
-      <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
-      <div>
-        <div class="col s12 m12 l12">
-          <div class="top-info">
-            <% if(eachOwn.nickname) { %>
-              <div class="poke-name">
-                <p class="nomargin-top nomargin-bottom">
-                  <%= eachOwn.nickname %>
-                </p>
-              </div>
-            <% } %>
-            <div class="poke-sprite">
-              <img src="<%= iconUrl %>" alt="">
-            </div>
-            <% types.forEach((type, i) => { %>
-              <div class="nomargin nopadding inlineitem type">
-                <p class="nomarginpreset <%= type.name %>">
-                  <%= type.name %>
-                </p>
-              </div>
-            <% }) %>
-            <div class="text-info">
-              <% if(eachOwn.profilename) { %>
-                <div class="poke-role">
-                  <p class="nomargin-top">
-                    <%= eachOwn.profilename %>
-                  </p>
+    <table>
+      <tr>
+        <th>Pokemon</th>
+        <th>Move</th>
+        <th>Type</th>
+        <th>Pow.</th>
+        <th>Categ.</th>
+        <th>PP</th>
+        <th>Acc.</th>
+      </tr>
+      <% dexesInfo.forEach((eachOwn) => { %>
+        <% let dexNo = `${10 > (eachOwn.dexId) ? `00${eachOwn.dexId}` : 100 > (eachOwn.dexId) ? `0${eachOwn.dexId}` : eachOwn.dexId}` %>
+        <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
+        <tr>
+          <% if (ownMoves[eachOwn.id] && ownMoves[eachOwn.id].length > 0) { %>
+            <td rowspan="<%= ownMoves[eachOwn.id].length %>" class="table-cell-center">
+          <% } else { %>
+            <td rowspan="4" class="table-cell-center">
+          <% } %>
+            <a href="/profile/pokemon/<%= eachOwn.id %>">
+              <div class="fill-cell">
+                <% if(eachOwn.nickname) { %>
+                  <div class="poke-name">
+                    <p class="nomargin-top nomargin-bottom">
+                      <%= eachOwn.nickname %>
+                    </p>
+                  </div>
+                <% } %>
+                <div class="poke-sprite">
+                  <img src="<%= iconUrl %>" alt="">
                 </div>
+                <% dexTypeInfo[eachOwn.dexId].forEach((typeId, i) => { %>
+                  <div class="nomargin nopadding inlineitem type">
+                    <p class="nomarginpreset <%= types[typeId].name %>">
+                      <%= types[typeId].name %>
+                    </p>
+                  </div>
+                <% }) %>
+                <div class="text-info">
+                  <% if(eachOwn.profilename) { %>
+                    <div class="poke-role">
+                      <p class="nomargin-top">
+                        <%= eachOwn.profilename %>
+                      </p>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            </a>
+          </td>
+          <% if (ownMoves[eachOwn.id] && ownMoves[eachOwn.id].length > 0) { %>
+            <% ownMoves[eachOwn.id].forEach((moveId, i) => { %>
+              <% if (i < 0) { %>
+                <tr>
+                  <td></td>
               <% } %>
-            </div>
-          </div>
-          <div class="card-action">
-            <form action="/profile/pokemon/remove-from-party?_method=DELETE" method="post">
-              <input type="hidden" name="ownId" value="<%= eachOwn.id %>">
-              <input type="hidden" name="partyId" value="<%= partyId %>">
-              <button class="btn waves-effect waves-light red" type="submit">
-                <i class="material-icons">do_not_disturb_alt</i>
-              </button>
-            </form>
-          </div>
+                <td>
+                  <p>
+                    <%= moves[moveId].name %>
+                  </p>
+                </td>
+                <td class="<%= types[moves[moveId].typeId].name %> table-cell-center">
+                  <div class="nomargin nopadding inlineitem type">
+                    <p class="nomarginpreset <%= types[moves[moveId].typeId].name %>">
+                      <%= types[moves[moveId].typeId].name %>
+                    </p>
+                  </div>
+                </td>
+                <td class="table-cell-right">
+                  <p>
+                    <%= moves[moveId].power %>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <%= moves[moveId].category %>
+                  </p>
+                </td>
+                <td class="table-cell-right">
+                  <p>
+                    <%= moves[moveId].pp %>
+                  </p>
+                </td>
+                <td class="table-cell-right">
+                  <p>
+                    <%= moves[moveId].accuracy %>
+                  </p>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <td class="table-cell-center" colspan="6" rowspan="4">- No moves -</td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+          <% } %>
         </div>
-      </div>
-    <% }) %>
+      <% }) %>
+    </table>
   <% } else { %>
     <p class="center padded-top greyed">
       - No pokémon have been added yet -
@@ -82,4 +140,7 @@
   <p class="center">
     <a href="/profile">Profile</a>
   </p>
+  <form action="/profile/pokemon/change-nickname-role?_method=DELETE" method="post">
+    
+  </form>
 </div>
