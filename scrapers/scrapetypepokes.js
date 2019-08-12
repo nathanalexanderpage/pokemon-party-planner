@@ -2,7 +2,7 @@ const express = require('express')
 const request = require('request');
 const cheerio = require('cheerio');
 const async = require('async');
-const db = require('./models');
+const db = require('../models');
 // import mapSeries from 'async/mapSeries';
 // import doLimit from './internal/doLimit';
 
