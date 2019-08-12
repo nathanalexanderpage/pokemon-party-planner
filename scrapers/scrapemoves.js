@@ -168,10 +168,16 @@ async function asyncMapRequests() {
         let movePpRegex = movePp.match(/\w+/g);
         let moveBasePower = $('.dextable').children('tbody').children('tr').eq(3).children('td').eq(1).text();
         let moveBasePowerRegex = moveBasePower.match(/\w+/g);
+        let finalBasePower
+        if (moveBasePowerRegex[0][0] === "?") {
+          finalBasePower = "??"
+        } else {
+          finalBasePower = Number(moveBasePowerRegex[0])
+        }
         let moveAccuracy = $('.dextable').children('tbody').children('tr').eq(3).children('td').eq(2).text();
         let moveAccuracyRegex = moveAccuracy.match(/\w+/g);
         let moveDesc = $('.dextable').eq(0).children('tbody').children('tr').eq(5).text();
-        let moveDescRegex = moveDesc.match(/(\w+[-'!,.\?\s])+/g).join(' ');
+        let moveDescRegex = moveDesc.match(/([\wé%]+[-'!,.\?\s])+/g).join(' ');
         let howManyLearn = $('.dextable').eq(2).children('tbody').children('tr').length - 2;
 
         let pokesWhoLearn = [];
@@ -213,7 +219,7 @@ async function asyncMapRequests() {
           category: moveCatRegex[2],
           moveDesc: moveDescRegex,
           pp: Number(movePpRegex[0]),
-          basePower: Number(moveBasePowerRegex[0]),
+          basePower: finalBasePower,
           accuracy: Number(moveAccuracyRegex[0]),
           whoLearns: whoLearnsArr
         }
