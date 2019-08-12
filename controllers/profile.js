@@ -50,7 +50,6 @@ router.get('/', loggedIn, (req, res) => {
     if (!results[0]) {
       doesOwnPokes = false;
     }
-    console.log(results);
     let dexNoArr = [];
     let recents = [];
     results.forEach((result, i) => {
@@ -61,7 +60,6 @@ router.get('/', loggedIn, (req, res) => {
         recents.push(result)
       }
     })
-    console.log(req);
     db.dex.findAll({
       where: {
         id: {[Op.in]: dexNoArr}
@@ -659,7 +657,7 @@ router.post('/pokemon/add-to-party', loggedIn, (req, res) => {
   })
 })
 
-router.delete('/party', loggedIn, (req, res) => {
+router.delete('/pokemon', loggedIn, (req, res) => {
   db.owns_parties.destroy({
     where: {
       partyId: req.body.partyId
@@ -690,7 +688,9 @@ router.delete('/pokemon/remove-from-party', loggedIn, (req, res) => {
   })
 })
 
-router.delete('/party/delete', loggedIn, (req, res) => {
+router.delete('/party', loggedIn, (req, res) => {
+  console.log(10101010101101010);
+  console.log('INSIDE DELETE PARTY ROUTE');
   db.party.findOne({
     where: {
       id: req.body.partyId
@@ -699,7 +699,7 @@ router.delete('/party/delete', loggedIn, (req, res) => {
   .then(foundParty => {
     if (foundParty.userId !== req.user.dataValues.id) {
       req.flash('error', 'The indicated party could not be deleted')
-      res.redirect(`/profile/parties/${req.body.partyId}`);
+      res.redirect(`/profile/parties`);
     }
     db.owns_parties.destroy({
       where: {
@@ -710,12 +710,13 @@ router.delete('/party/delete', loggedIn, (req, res) => {
       console.log(destroyRes1);
       db.party.destroy({
         where: {
-          id: re.body.partyId
+          id: req.body.partyId
         }
       })
       .then((destroyRes2) => {
         console.log(destroyRes2);
-        res.redirect(`/profile/parties/${req.body.partyId}`)
+        req.flash('success', 'Party deleted successfully.')
+        res.redirect(`/profile/parties`)
       })
     })
   })

@@ -77,7 +77,11 @@
                 <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= owned.name %> sprite">
               </div>
               <div class="inlineitem">
-                <p class="nomargin poketilep"><%= owned.nickname %></p>
+                <% if (owned.nickname.length > 20) { %>
+                  <p title="<%= owned.nickname %>" class="nomargin poketilep"><%= owned.nickname.substring(0, 20).trim() %>...</p>
+                <% } else { %>
+                  <p class="nomargin poketilep"><%= owned.nickname %></p>
+                <% } %>
               </div>
             </div>
           </a>

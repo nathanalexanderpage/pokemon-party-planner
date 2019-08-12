@@ -39,9 +39,15 @@
               <div class="fill-cell">
                 <% if(eachOwn.nickname) { %>
                   <div class="poke-name">
-                    <p class="nomargin-top nomargin-bottom">
-                      <%= eachOwn.nickname %>
-                    </p>
+                    <% if (eachOwn.nickname.length > 15 && eachOwn.nickname.substring(0, 15).indexOf(' ') < 0) { %>
+                      <p title="<%= eachOwn.nickname %>" class="nomargin-top nomargin-bottom">
+                        <%= eachOwn.nickname.substring(0, 12) %>...
+                      </p>
+                    <% } else { %>
+                      <p class="nomargin-top nomargin-bottom">
+                        <%= eachOwn.nickname %>
+                      </p>
+                    <% } %>
                   </div>
                 <% } %>
                 <div class="poke-sprite">
@@ -140,7 +146,10 @@
   <p class="center">
     <a href="/profile">Profile</a>
   </p>
-  <form action="/profile/pokemon/change-nickname-role?_method=DELETE" method="post">
-    
+  <form action="/profile/party?_method=DELETE" method="post">
+    <input type="hidden" name="partyId" value="<%= party.id %>">
+    <button class="btn-small waves-effect waves-light red" type="submit">
+      <i class="material-icons">do_not_disturb_alt</i> DELETE PARTY
+    </button>
   </form>
 </div>
