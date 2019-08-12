@@ -1,3 +1,5 @@
+console.log("INSIDE scrapePokes.js");
+
 const express = require('express')
 const request = require('request');
 const cheerio = require('cheerio');
