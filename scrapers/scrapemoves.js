@@ -2,7 +2,7 @@ const express = require('express')
 const request = require('request');
 const cheerio = require('cheerio');
 const async = require('async');
-const db = require('./models')
+const db = require('../models')
 // import mapSeries from 'async/mapSeries';
 // import doLimit from './internal/doLimit';
 
@@ -207,7 +207,7 @@ async function asyncMapRequests() {
 
         let moveData = {
           id: moveObj.id,
-          name: moveNameRegex[0].toLowerCase(),
+          name: moveNameRegex[0],
           type: moveTypeRegex[2],
           typeId: typeId,
           category: moveCatRegex[2],

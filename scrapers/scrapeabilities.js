@@ -2,7 +2,7 @@ const express = require('express')
 const request = require('request');
 const cheerio = require('cheerio');
 const async = require('async');
-const db = require('./models')
+const db = require('../models')
 // import mapSeries from 'async/mapSeries';
 // import doLimit from './internal/doLimit';
 
@@ -27,11 +27,11 @@ function generateMovesObjList() {
           for (var i = 1; i < $('select').eq(j).children('option').length; i++) {
 
             // properly capitalized name
-            let abilityName = $('select').eq(j).children('option').eq(i).text().toLowerCase();
+            let abilityName = $('select').eq(j).children('option').eq(i).text();
             abilityArr.push(abilityName);
 
             // mutations to find URL-appropriate string
-            let abilityNameR = abilityName.match(/([A-Za-z]+['-]?)/g);
+            let abilityNameR = abilityName.toLowerCase().match(/([A-Za-z]+['-]?)/g);
             let resultLowerCommas = abilityNameR.join();
             let abilityNameUrl = resultLowerCommas.replace(/,/g, '');
             // console.log(`abilityNameUrl = ${abilityNameUrl}`);
