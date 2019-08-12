@@ -107,7 +107,7 @@ async function asyncMapRequests() {
     request(`https://www.serebii.net/abilitydex/${abilityObj.urlName}.shtml`, (err, cheerioResp, html) => {
       if (!err && cheerioResp.statusCode == 200) {
         const $ = cheerio.load(html);
-        // console.log(abilityObj.name);
+        console.log(abilityObj.name);
         let desc = $('.dextable').eq(1).children('tbody').children('tr').eq(3).text();
         let descRegex = desc.match(/([é\w]+[-'!,.\?\s])+/g).join(' ');
 
