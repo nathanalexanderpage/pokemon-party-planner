@@ -73,30 +73,31 @@ async function asyncMapRequests() {
   async.mapSeries(abilityObjList, asyncfunc, (err, results) => {
     results.forEach((abilityEach) => {
       if (abilityEach) {
-        db.ability.findOrCreate({
-          where: {
-            id: abilityEach.id,
-            name: abilityEach.name,
-            desc: abilityEach.desc
-          }
-        })
-        .then((insertedAbility, wasCreated) => {
-          console.log(insertedAbility[0].dataValues.id);
-          abilityEach.whoHas.forEach((dexIdNo) => {
-            console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
-            if (dexIdNo < APP_POKEDEX_MAX) {
-              db.abilities_dexes.findOrCreate({
-                where: {
-                  abilityId: abilityEach.id,
-                  dexId: dexIdNo
-                }
-              })
-            }
-          })
-        })
-        .catch(function(error) {
-          console.log("error at db.ability.findOrCreate: ", error);
-        });
+        console.log(abilityEach);
+        // db.ability.findOrCreate({
+        //   where: {
+        //     id: abilityEach.id,
+        //     name: abilityEach.name,
+        //     desc: abilityEach.desc
+        //   }
+        // })
+        // .then((insertedAbility, wasCreated) => {
+        //   console.log(insertedAbility[0].dataValues.id);
+        //   abilityEach.whoHas.forEach((dexIdNo) => {
+        //     console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
+        //     if (dexIdNo < APP_POKEDEX_MAX) {
+        //       db.abilities_dexes.findOrCreate({
+        //         where: {
+        //           abilityId: abilityEach.id,
+        //           dexId: dexIdNo
+        //         }
+        //       })
+        //     }
+        //   })
+        // })
+        // .catch(function(error) {
+        //   console.log("error at db.ability.findOrCreate: ", error);
+        // });
       }
     })
   });
@@ -109,6 +110,11 @@ async function asyncMapRequests() {
         // console.log(abilityObj.name);
         let desc = $('.dextable').eq(1).children('tbody').children('tr').eq(3).text();
         let descRegex = desc.match(/([é\w]+[-'!,.\?\s])+/g).join(' ');
+
+        let tempVar = Number($('[name=pkmn]').parent().next().children('table').children('tbody').children('tr').eq(2).children('td').eq(0).text();
+
+        console.log(tempVar);
+
 
         let pokeWhoHas = Number($('[name=pkmn]').parent().next().children('table').children('tbody').children('tr').eq(2).children('td').eq(0).text().match(/\S+/g)[0].slice(1,4));
 
