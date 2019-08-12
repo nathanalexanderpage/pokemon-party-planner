@@ -72,32 +72,32 @@ async function asyncMapRequests() {
 
   async.mapSeries(abilityObjList, asyncfunc, (err, results) => {
     results.forEach((abilityEach) => {
-      if (abilityEach) {
+      if (abilityEach && abilityEach.whoHas.length > 0) {
         console.log(abilityEach);
-        // db.ability.findOrCreate({
-        //   where: {
-        //     id: abilityEach.id,
-        //     name: abilityEach.name,
-        //     desc: abilityEach.desc
-        //   }
-        // })
-        // .then((insertedAbility, wasCreated) => {
-        //   console.log(insertedAbility[0].dataValues.id);
-        //   abilityEach.whoHas.forEach((dexIdNo) => {
-        //     console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
-        //     if (dexIdNo < APP_POKEDEX_MAX) {
-        //       db.abilities_dexes.findOrCreate({
-        //         where: {
-        //           abilityId: abilityEach.id,
-        //           dexId: dexIdNo
-        //         }
-        //       })
-        //     }
-        //   })
-        // })
-        // .catch(function(error) {
-        //   console.log("error at db.ability.findOrCreate: ", error);
-        // });
+        db.ability.findOrCreate({
+          where: {
+            id: abilityEach.id,
+            name: abilityEach.name,
+            desc: abilityEach.desc
+          }
+        })
+        .then((insertedAbility, wasCreated) => {
+          console.log(insertedAbility[0].dataValues.id);
+          abilityEach.whoHas.forEach((dexIdNo) => {
+            console.log(`rls abilityId ${abilityEach.id}, dexId ${dexIdNo}`);
+            if (dexIdNo < APP_POKEDEX_MAX) {
+              db.abilities_dexes.findOrCreate({
+                where: {
+                  abilityId: abilityEach.id,
+                  dexId: dexIdNo
+                }
+              })
+            }
+          })
+        })
+        .catch(function(error) {
+          console.log("error at db.ability.findOrCreate: ", error);
+        });
       }
     })
   });
@@ -109,28 +109,42 @@ async function asyncMapRequests() {
         const $ = cheerio.load(html);
         console.log(abilityObj.name);
         let desc = $('.dextable').eq(1).children('tbody').children('tr').eq(3).text();
-        let descRegex = desc.match(/([é\w]+[-'!,.\?\s])+/g).join(' ');
+        let descRegex = desc.match(/([é\w%\d]+[-'!,.\?\s])+/g).join(' ');
 
-        let tempVar = Number($('[name=pkmn]').parent().next().children('table').children('tbody').children('tr').eq(2).children('td').eq(0).text());
+        let standardAbilTest = $('[name=pkmn]').parent().eq(0).next().next().children('tbody').children('tr').length
+        console.log(standardAbilTest);
 
-        console.log(tempVar);
+        let hiddenAbilTest = $('[name=pkmn]').parent().eq(1).next().next().children('tbody').children('tr').length
+        console.log(hiddenAbilTest);
 
-
-        let pokeWhoHas = Number($('[name=pkmn]').parent().next().children('table').children('tbody').children('tr').eq(2).children('td').eq(0).text().match(/\S+/g)[0].slice(1,4));
+        // let pokeWhoHas = Number($('[name=pkmn]').parent().eq(0).next().next().children('tbody').children('tr').eq(2).children('td').eq(0).text().match(/\S+/g)[0].slice(1,4));
 
         let pokesWhoHave = [];
-        let howManyHave = $('[name=pkmn]').eq(0).parent().next().children('table').children('tbody').children('tr').length - 2;
-        for (var i = 2; i < howManyHave + 2; i++) {
-          let pokeWhoHas = Number($('[name=pkmn]').parent().eq(0).next().eq(0).children('table').eq(0).children('tbody').children('tr').eq(i).children('td').eq(0).text().match(/\S+/g)[0].slice(1,4));
-          pokesWhoHave.push(pokeWhoHas);
+        if (standardAbilTest > 2) {
+          console.log('INSIDE STD TEST');
+          for (var i = 2; i < standardAbilTest; i++) {
+            let pokeWhoHas = Number($('[name=pkmn]').eq(0).parent().next().next().children('tbody').children('tr').eq(i).children('td').eq(0).text().match(/\S+/g)[0].slice(1,4));
+            console.log(pokeWhoHas);
+            if (pokeWhoHas <= APP_POKEDEX_MAX) {
+              pokesWhoHave.push(pokeWhoHas);
+            }
+          }
         }
-
+        if (hiddenAbilTest > 2) {
+          console.log('INSIDE HIDDEN TEST');
+          for (var i = 2; i < hiddenAbilTest; i++) {
+            let pokeWhoHas = Number($('[name=pkmn]').eq(1).parent().next().next().children('tbody').children('tr').eq(i).children('td').eq(0).text().match(/\S+/g)[0].slice(1,4));
+            console.log(pokeWhoHas);
+            if (pokeWhoHas <= APP_POKEDEX_MAX) {
+              pokesWhoHave.push(pokeWhoHas);
+            }
+          }
+        }
 
         let abilityData = {
           id: abilityObj.id,
           name: abilityObj.name,
           desc: descRegex,
-          howManyHave: howManyHave,
           whoHas: pokesWhoHave
         }
         console.log(abilityData);
