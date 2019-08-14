@@ -13,94 +13,6 @@
   padding: 6vw;
   background-color: white;
 }
-.type {
-  font-size: 18px;
-  line-height: .9;
-  font-weight: bold;
-  font-family: monospace;
-  text-shadow: 0 1px 0 white;
-  text-transform: uppercase;
-}
-.normal {
-  background-color: #b2b1ae;
-  color: #4f4d49;
-  text-shadow: 0px 1px 0 #f2f0ea;
-}
-.fire {
-  background-color: #CA3332;
-  color: #4A1516;
-  text-shadow: 0px 1px 0 #edb1b1;
-}
-.water {
-  background-color: #89b2ff;
-  color: #12396C;
-}
-.electric {
-  background-color: #E7C01B;
-  color: #855400;
-  text-shadow: 0px 1px 0 #f2e4ae;
-}
-.grass {
-  background-color: #6ABA3D;
-  color: #17640D;
-  text-shadow: 0px 1px 0 #caf2b3;
-}
-.ice {
-  background-color: #B5D5EC;
-  color: #2F5978;
-}
-.fighting {
-  background-color: #BC5133;
-  color: #1E0708;
-}
-.poison {
-  background-color: #689668;
-  color: #2E492E;
-}
-.ground {
-  background-color: #C49925;
-  color: #5E2900;
-}
-.flying {
-  background-color: #67ACAA;
-  color: #105550;
-}
-.psychic {
-  background-color: #A44E96;
-  color: #40102F;
-  text-shadow: 0px 1px 0 #edc0e5;
-}
-.bug {
-  background-color: #BBBB4C;
-  color: #50500C;
-}
-.rock {
-  background-color: #CCCDBC;
-  color: #646446;
-}
-.ghost {
-  background-color: #6364b1;
-  color: #1E1F63;
-  text-shadow: 0px 1px 0 #b7b8e2;
-}
-.dragon {
-  background-color: #F98519;
-  color: #5F1A06;
-}
-.dark {
-  background-color: #61564C;
-  color: #2A1E14;
-  text-shadow: -1px 1px 0 #8e837a, 1px 1px 0 #8e837a;
-}
-.steel {
-  background-color: #BBA59F;
-  color: #5E3533;
-}
-.fairy {
-  background-color: #CC66A8;
-  color: #84102B;
-  text-shadow: 0px 1px 0 #f4cde6;
-}
 nav .brand-logo {
   margin-left: 10px;
   font-size: 2.6rem;
@@ -127,6 +39,9 @@ nav .brand-logo {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.dis {
+  color: grey;
 }
 .empty {
   padding-top: 3px;
@@ -180,6 +95,9 @@ nav .brand-logo {
   display: inline-block;
   margin-left: 3%;
   font-family: monospace;
+}
+button > .large {
+  font-size: 70px;
 }
 .monospace {
   font-family: monospace;
@@ -294,6 +212,10 @@ nav .brand-logo {
 .name-role {
   display: flex;
 }
+.R {
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 115%;
+}
 .reminder {
   margin: 10px;
   border: 1px solid red;
@@ -355,15 +277,122 @@ nav .brand-logo {
   color: black;
   text-decoration: none;
 }
+.text-box {
+  margin: 10px 0;
+  border: 2px solid #3f3f3f;
+  border-radius: 5px;
+  padding: 1vw 5vw;
+  background-color: #2b2b2b;
+}
 .top-info {
   display: inline-block;
   line-height: 1.1;
 }
-.update > button {
-  height: 100px;
-  vertical-align: text-bottom;
+.type {
+  font-size: 18px;
+  line-height: .9;
+  font-weight: bold;
+  font-family: monospace;
+  text-shadow: 0 1px 0 white;
+  text-transform: uppercase;
+}
+/* ALL TYPES */
+.normal {
+  background-color: #b2b1ae;
+  color: #4f4d49;
+  text-shadow: 0px 1px 0 #f2f0ea;
+}
+.fire {
+  background-color: #CA3332;
+  color: #4A1516;
+  text-shadow: 0px 1px 0 #edb1b1;
+}
+.water {
+  background-color: #89b2ff;
+  color: #12396C;
+  text-shadow: 0px 1px 0 #d1e0fc;
+}
+.electric {
+  background-color: #E7C01B;
+  color: #855400;
+  text-shadow: 0px 1px 0 #f2e4ae;
+}
+.grass {
+  background-color: #6ABA3D;
+  color: #17640D;
+  text-shadow: 0px 1px 0 #caf2b3;
+}
+.ice {
+  background-color: #B5D5EC;
+  color: #2F5978;
+}
+.fighting {
+  background-color: #BC5133;
+  color: #1E0708;
+  text-shadow: 1px 1px 0 #d8937f;
+}
+.poison {
+  background-color: #689668;
+  color: #2E492E;
+  text-shadow: 0px 1px 0 #a0c49f;
+}
+.ground {
+  background-color: #C49925;
+  color: #5E2900;
+}
+.flying {
+  background-color: #67ACAA;
+  color: #105550;
+  text-shadow: 0px 1px 0 #afdbd9;
+}
+.psychic {
+  background-color: #A44E96;
+  color: #40102F;
+  text-shadow: 0px 1px 0 #edc0e5;
+}
+.bug {
+  background-color: #BBBB4C;
+  color: #50500C;
+  text-shadow: 0px 1px 0 #eaeab4;
+}
+.rock {
+  background-color: #CCCDBC;
+  color: #646446;
+}
+.ghost {
+  background-color: #6364b1;
+  color: #1E1F63;
+  text-shadow: 0px 1px 0 #b7b8e2;
+}
+.dragon {
+  background-color: #F98519;
+  color: #5F1A06;
+  text-shadow: 1px 1px 0 #f7c599;
+}
+.dark {
+  background-color: #61564C;
+  color: #2A1E14;
+  text-shadow: -1px 1px 0 #8e837a, 1px 1px 0 #8e837a;
+}
+.steel {
+  background-color: #BBA59F;
+  color: #5E3533;
+}
+.fairy {
+  background-color: #CC66A8;
+  color: #84102B;
+  text-shadow: 0px 1px 0 #f4cde6;
+}
+/* END OF TYPES */
+
+::placeholder {
+  color: grey;
+  opacity: 1;
 }
 
+footer > p > a {
+  text-decoration: none;
+}
 p > a {
   color: yellow;
   text-decoration: underline;
@@ -378,23 +407,20 @@ body {
   background-color: black;
 }
 
+.update > button {
+  height: 100px;
+  vertical-align: text-bottom;
+}
 
 
-button > .large {
-  font-size: 70px;
-}
-button > i{
-  margin: 0;
-  padding: 0;
-  vertical-align: bottom;
-}
+
 fieldset {
   border-color: black;
   background-color: #f0ead6;
 }
 footer {
   padding: 0 2vw;
-  font-size: 10px;
+  font-size: 1.46vw;
   text-align: center;
   overflow: hidden;
   background-color: #00004c;
@@ -418,15 +444,17 @@ html {
   position: relative;
   min-height: 100%;
 }
+button > i {
+  margin: 0;
+  padding: 0;
+  vertical-align: bottom;
+}
 input {
   color: white;
 }
 .label {
   color: black;
   font-family: monospace;
-}
-.dis {
-  color: grey;
 }
 legend {
   border: 2px solid black;
@@ -442,6 +470,7 @@ p {
 }
 
 footer > p {
+  max-width: 684px;
   margin: 0;
   padding: 0;
   margin-block-start: 0;
@@ -466,10 +495,7 @@ td {
   line-height: normal;
 }
 
-::placeholder {
-  color: grey;
-  opacity: 1;
-}
+
 
 
 [type="checkbox"]:not(:checked):disabled+span:not(.lever):before {
@@ -482,4 +508,16 @@ td {
 
 input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
   background-color: #1d1c23;
+}
+
+@media (max-width: 616px) {
+  footer {
+    font-size: 9px;
+  }
+}
+
+@media (min-width: 713px) {
+  footer {
+    font-size: 10.5px;
+  }
 }
