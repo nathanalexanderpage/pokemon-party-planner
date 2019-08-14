@@ -1,51 +1,53 @@
-<% let dexNo = `${10 > (dex.id) ? `00${dex.id}` : 100 > (dex.id) ? `0${dex.id}` : dex.id}` %>
-<h1>Owned No. <%= dexNo %> <%= dex.name %></h1>
-<div class="">
-  <% if (owneddexiterations.length < 1) { %>
-    <div class="party-space">
-      <p class="center padded-top greyed">
-        - No <%= dex.name %>s to display -
+<div class="container">
+  <% let dexNo = `${10 > (dex.id) ? `00${dex.id}` : 100 > (dex.id) ? `0${dex.id}` : dex.id}` %>
+  <h1>Owned No. <%= dexNo %> <%= dex.name %></h1>
+  <div class="">
+    <% if (owneddexiterations.length < 1) { %>
+      <div class="party-space">
+        <p class="center padded-top greyed">
+          - No <%= dex.name %>s to display -
+        </p>
+      </div>
+    <% } %>
+    <% owneddexiterations.forEach((own, i) => { %>
+      <div class="row">
+        <div class="tight-fit">
+          <a class="poketilea" href="/profile/pokemon/<%= own.id %>">
+            <div class="poketilediv">
+              <div class="inlineitem">
+                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= dex.name %> game sprite">
+              </div>
+              <div class="inlineitem">
+                <p class="nomargin poketilep"><%= own.nickname %></p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <% if (owneddexiterations.length > 0) { %>
+    <div class="center">
+      <p class="monospace">
+        - OR -
       </p>
     </div>
   <% } %>
-  <% owneddexiterations.forEach((own, i) => { %>
-    <div class="row">
-      <div class="tight-fit">
-        <a class="poketilea" href="/profile/pokemon/<%= own.id %>">
-          <div class="poketilediv">
-            <div class="inlineitem">
-              <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= dex.name %> game sprite">
-            </div>
-            <div class="inlineitem">
-              <p class="nomargin poketilep"><%= own.nickname %></p>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  <% }) %>
-</div>
-<% if (owneddexiterations.length > 0) { %>
-  <div class="center">
-    <p class="monospace">
-      - OR -
-    </p>
+  <div>
+    <form action="/profile/pokemon/new" method="post">
+      <h4 class="center">
+        Create New <%= dex.name %>
+      </h4>
+      <input type="hidden" name="dexId" value="<%= dex.id %>" />
+      <input type="hidden" name="dexName" value="<%= dex.name %>" />
+      <label for="nickname">Nickname</label>
+      <input type="text" name="nickname" placeholder="Pumpernickle" maxlength="50" />
+      <br>
+      <label for="profilename">Role/Purpose/Archetype</label>
+      <input type="text" name="profilename" placeholder="attack dog" maxlength="50" />
+      <button class="btn indigo waves-effect waves-light" type="submit" name="action">
+        <i class="material-icons">input</i> Create
+      </button>
+    </form>
   </div>
-<% } %>
-<div>
-  <form action="/profile/pokemon/new" method="post">
-    <h4 class="center">
-      Create New <%= dex.name %>
-    </h4>
-    <input type="hidden" name="dexId" value="<%= dex.id %>" />
-    <input type="hidden" name="dexName" value="<%= dex.name %>" />
-    <label for="nickname">Nickname</label>
-    <input type="text" name="nickname" placeholder="Pumpernickle" maxlength="50" />
-    <br>
-    <label for="profilename">Role/Purpose/Archetype</label>
-    <input type="text" name="profilename" placeholder="attack dog" maxlength="50" />
-    <button class="btn indigo waves-effect waves-light" type="submit" name="action">
-      <i class="material-icons">input</i> Create
-    </button>
-  </form>
 </div>

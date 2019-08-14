@@ -1,86 +1,43 @@
-<h1 class="center">
-  Dashboard
-</h1>
-<div class="row">
-  <div class="col s12">
-    <h4><strong>Logged in as user:</strong> <%= user.username %> <%= user.lastname %></h4>
-    <p><strong>Status:</strong> <%= user.admin ? 'Admin' : 'User' %></p>
-    <p><strong>Member since:</strong> <%= user.createdAt %></p>
-    <hr>
-    <p><%= user.bio %></p>
+<div class="container">
+  <h1 class="center">
+    Dashboard
+  </h1>
+  <div class="row">
+    <div class="col s12">
+      <h4><strong>Logged in as user:</strong> <%= user.username %> <%= user.lastname %></h4>
+      <p><strong>Status:</strong> <%= user.admin ? 'Admin' : 'User' %></p>
+      <p><strong>Member since:</strong> <%= user.createdAt %></p>
+      <hr>
+      <p><%= user.bio %></p>
+    </div>
   </div>
-</div>
-<div class="container row">
-  <h2>Featured Party</h2>
-  <% parties.forEach((party, i) => { %>
-    <% let publicPrivateText = `${party.public ? 'public' : 'private'}` %>
-    <div class="row">
-      <div class="tight-fit">
-        <a class="poketilea" href="/profile/parties/<%= parties[0].id %>">
-          <div class="poketilediv">
-            <div class="inlineitem">
-              <p class="no-line-height text-black taglabel">
-                TITLE
-              </p>
-              <p class="no-line-height poketilep"><%= party.name %> (<%= publicPrivateText %>)</p>
-              <% if (featuredPartyPokes.length < 1) { %>
-                <p class="no-line-height center empty">
-                  - empty party -
-                </p>
-              <% } %>
-              <% featuredPartyPokes.forEach(featuredPoke => { %>
-                <% let dexNo = `${10 > (featuredPoke.dexId) ? `00${featuredPoke.dexId}` : 100 > (featuredPoke.dexId) ? `0${featuredPoke.dexId}` : featuredPoke.dexId}` %>
-                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= featuredPoke.name %> sprite">
-              <% }) %>
-              <% if (party.desc) { %>
-                <p class="no-line-height text-black taglabel">
-                  DESCRIPTION
-                </p>
-                <p class="no-line-height text-black"><%= party.desc %></p>
-              <% } %>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  <% }) %>
-  <% if (parties.length < 1) { %>
-    <div class="party-space">
-      <p class="center padded-top greyed">
-        - No parties have been created yet -
-      </p>
-      <p class="center padded-bottom">
-        <a href="/profile/parties/new">Create new party</a>
-      </p>
-    </div>
-  <% } else { %>
-    <div>
-      <p>
-        <a href="/profile/parties/new">Create new party</a>
-      </p>
-      <p>
-        <a href="/profile/parties">View all parties</a>
-      </p>
-    </div>
-  <% } %>
-</div>
-<% if (recents.length > 0) { %>
   <div class="container row">
-    <h2>Recent Pokémon</h2>
-    <% recents.forEach((owned, i) => { %>
-      <% let dexNo = `${10 > (owned.dexId) ? `00${owned.dexId}` : 100 > (owned.dexId) ? `0${owned.dexId}` : owned.dexId}` %>
+    <h2>Featured Party</h2>
+    <% parties.forEach((party, i) => { %>
+      <% let publicPrivateText = `${party.public ? 'public' : 'private'}` %>
       <div class="row">
         <div class="tight-fit">
-          <a class="poketilea" href="/profile/pokemon/<%= owned.id %>">
+          <a class="poketilea" href="/profile/parties/<%= parties[0].id %>">
             <div class="poketilediv">
               <div class="inlineitem">
-                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= owned.name %> sprite">
-              </div>
-              <div class="inlineitem">
-                <% if (owned.nickname.length > 20) { %>
-                  <p title="<%= owned.nickname %>" class="nomargin poketilep"><%= owned.nickname.substring(0, 20).trim() %>...</p>
-                <% } else { %>
-                  <p class="nomargin poketilep"><%= owned.nickname %></p>
+                <p class="no-line-height text-black taglabel">
+                  TITLE
+                </p>
+                <p class="no-line-height poketilep"><%= party.name %> (<%= publicPrivateText %>)</p>
+                <% if (featuredPartyPokes.length < 1) { %>
+                  <p class="no-line-height center empty">
+                    - empty party -
+                  </p>
+                <% } %>
+                <% featuredPartyPokes.forEach(featuredPoke => { %>
+                  <% let dexNo = `${10 > (featuredPoke.dexId) ? `00${featuredPoke.dexId}` : 100 > (featuredPoke.dexId) ? `0${featuredPoke.dexId}` : featuredPoke.dexId}` %>
+                  <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= featuredPoke.name %> sprite">
+                <% }) %>
+                <% if (party.desc) { %>
+                  <p class="no-line-height text-black taglabel">
+                    DESCRIPTION
+                  </p>
+                  <p class="no-line-height text-black"><%= party.desc %></p>
                 <% } %>
               </div>
             </div>
@@ -88,35 +45,80 @@
         </div>
       </div>
     <% }) %>
+    <% if (parties.length < 1) { %>
+      <div class="party-space">
+        <p class="center padded-top greyed">
+          - No parties have been created yet -
+        </p>
+        <p class="center padded-bottom">
+          <a href="/profile/parties/new">Create new party</a>
+        </p>
+      </div>
+    <% } else { %>
+      <div>
+        <p>
+          <a href="/profile/parties/new">Create new party</a>
+        </p>
+        <p>
+          <a href="/profile/parties">View all parties</a>
+        </p>
+      </div>
+    <% } %>
   </div>
-<% } %>
-<div class="container row">
-  <h2>Owned Pokémon Species</h2>
-  <% if (dexResults.length < 1) { %>
-    <div class="party-space">
-      <p class="center padded-top greyed">
-        - No species have been added yet -
-      </p>
-      <p class="center padded-bottom">
-        <a href="/search">Search pokédex now</a>
-      </p>
+  <% if (recents.length > 0) { %>
+    <div class="container row">
+      <h2>Recent Pokémon</h2>
+      <% recents.forEach((owned, i) => { %>
+        <% let dexNo = `${10 > (owned.dexId) ? `00${owned.dexId}` : 100 > (owned.dexId) ? `0${owned.dexId}` : owned.dexId}` %>
+        <div class="row">
+          <div class="tight-fit">
+            <a class="poketilea" href="/profile/pokemon/<%= owned.id %>">
+              <div class="poketilediv">
+                <div class="inlineitem">
+                  <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= owned.name %> sprite">
+                </div>
+                <div class="inlineitem">
+                  <% if (owned.nickname.length > 20) { %>
+                    <p title="<%= owned.nickname %>" class="nomargin poketilep"><%= owned.nickname.substring(0, 20).trim() %>...</p>
+                  <% } else { %>
+                    <p class="nomargin poketilep"><%= owned.nickname %></p>
+                  <% } %>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      <% }) %>
     </div>
   <% } %>
-  <% dexResults.forEach((species, i) => { %>
-    <% let dexNo = `${10 > (species.id) ? `00${species.id}` : 100 > (species.id) ? `0${species.id}` : species.id}` %>
-    <div class="row">
-      <div class="tight-fit">
-        <a class="poketilea" href="/profile/pokemon/dex/<%= species.id %>">
-          <div class="poketilediv">
-            <div class="inlineitem">
-              <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= species.name %> game sprite">
-            </div>
-            <div class="inlineitem">
-              <p class="nomargin poketilep"><%= dexNo %> <%= species.name %></p>
-            </div>
-          </div>
-        </a>
+  <div class="container row">
+    <h2>Owned Pokémon Species</h2>
+    <% if (dexResults.length < 1) { %>
+      <div class="party-space">
+        <p class="center padded-top greyed">
+          - No species have been added yet -
+        </p>
+        <p class="center padded-bottom">
+          <a href="/search">Search pokédex now</a>
+        </p>
       </div>
-    </div>
-  <% }) %>
+    <% } %>
+    <% dexResults.forEach((species, i) => { %>
+      <% let dexNo = `${10 > (species.id) ? `00${species.id}` : 100 > (species.id) ? `0${species.id}` : species.id}` %>
+      <div class="row">
+        <div class="tight-fit">
+          <a class="poketilea" href="/profile/pokemon/dex/<%= species.id %>">
+            <div class="poketilediv">
+              <div class="inlineitem">
+                <img src="https://www.serebii.net/pokedex-xy/icon/<%= dexNo %>.png" alt="<%= species.name %> game sprite">
+              </div>
+              <div class="inlineitem">
+                <p class="nomargin poketilep"><%= dexNo %> <%= species.name %></p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
 </div>

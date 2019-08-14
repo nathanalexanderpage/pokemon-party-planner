@@ -1,7 +1,9 @@
-<h2>Your <%= 'pokes' %></h2>
+<div class="container">
+  <h2>Your <%= 'pokes' %></h2>
 
-<% ownsData.forEach((eachData) => { %>
-  <div class="theonly">
-    <%= eachData.id %>, <%= eachData.nickname %>, <%= eachData.dexId %>
-  </div>
-<% }) %>
+  <% ownsData.forEach((eachData) => { %>
+    <div class="theonly">
+      <%= eachData.id %>, <%= eachData.nickname %>, <%= eachData.dexId %>
+    </div>
+  <% }) %>  
+</div>
