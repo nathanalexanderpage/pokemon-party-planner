@@ -1,29 +1,31 @@
-<h1>Log In</h1>
-<p>New to this site? Go to the <a href="/auth/signup">sign up page</a> instead!</p>
+<div class="container">
+  <h1>Log In</h1>
+  <p>New to this site? Go to the <a href="/auth/signup">sign up page</a> instead!</p>
 
-<div class="row">
-  <form class="col s12" method="POST" action="/auth/login">
-    <div class="row">
-      <div class="input-field col s12">
-        <input placeholder="Your email" id="email" name="email" type="email" class="validate">
-        <label for="email">Email</label>
+  <div class="row">
+    <form class="col s12" method="POST" action="/auth/login">
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Your email" id="email" name="email" type="email" class="validate">
+          <label for="email">Email</label>
+        </div>
       </div>
-    </div>
-    <script type="text/javascript">
-      document.getElementById('email').focus();
-    </script>
-    <div class="row">
-      <div class="input-field col s12">
-        <input placeholder="Your secret password" id="password" name="password" type="password" class="validate">
-        <label for="password">Password</label>
+      <script type="text/javascript">
+        document.getElementById('email').focus();
+      </script>
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Your secret password" id="password" name="password" type="password" class="validate">
+          <label for="password">Password</label>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col s12">
-        <button class="btn waves-effect waves-light right" type="submit">Submit
-          <i class="material-icons right">send</i>
-        </button>
+      <div class="row">
+        <div class="col s12">
+          <button class="btn waves-effect waves-light right" type="submit">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
