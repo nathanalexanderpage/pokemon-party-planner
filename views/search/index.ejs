@@ -1,66 +1,68 @@
-<h1>Pokédex Search</h1>
+<div class="container">
+  <h1>Pokédex Search</h1>
 
-<div class="form-holder search-sec">
-  <form action="/search/pokemon" method="get">
-    <div class="generation-holder">
-      <fieldset class="noselect">
-        <legend>Generation/Region</legend>
-        <% if (!gen) { %>
-          <% gen.forEach((gen, i) => { %>
-            <div class="inlinecheckbox">
-              <label class="label">
-                <input type="checkbox" name="gen" value="<%= gen.id %>" checked="checked" />
-                <span>Gen <%= gen.id %>: <%= gen.name %></span>
+  <div class="form-holder search-sec">
+    <form action="/search/pokemon" method="get">
+      <div class="generation-holder">
+        <fieldset class="noselect">
+          <legend>Generation/Region</legend>
+          <% if (!gen) { %>
+            <% gen.forEach((gen, i) => { %>
+              <div class="inlinecheckbox">
+                <label class="label">
+                  <input type="checkbox" name="gen" value="<%= gen.id %>" checked="checked" />
+                  <span>Gen <%= gen.id %>: <%= gen.name %></span>
+                </label>
+              </div>
+            <% }) %>
+          <% } %>
+          <div class="inlinecheckbox">
+            <label class="label">
+              <input type="checkbox" name="gen" value="1" checked="checked" />
+              <span>1. Kanto</span>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+      <br>
+      <div class="type-holder">
+        <fieldset class="noselect">
+          <legend>Type</legend>
+          <% type.forEach((type, i) => { %>
+            <div class="inlinecheckbox poketype">
+              <label <%= !(searchTypes.indexOf(type.id) !== -1)? 'class=dis' : 'class=label' %>>
+                <input type="checkbox" <%= !(searchTypes.indexOf(type.id) !== -1)? 'disabled=disabled' : '' %> name="type" value="<%= type.id %>" <%= (searchTypes.indexOf(type.id) !== -1)? 'checked=checked' : '' %> />
+                <span><%= type.name %></span>
               </label>
             </div>
           <% }) %>
-        <% } %>
-        <div class="inlinecheckbox">
-          <label class="label">
-            <input type="checkbox" name="gen" value="1" checked="checked" />
-            <span>1. Kanto</span>
-          </label>
-        </div>
-      </fieldset>
-    </div>
-    <br>
-    <div class="type-holder">
-      <fieldset class="noselect">
-        <legend>Type</legend>
-        <% type.forEach((type, i) => { %>
-          <div class="inlinecheckbox poketype">
-            <label <%= !(searchTypes.indexOf(type.id) !== -1)? 'class=dis' : 'class=label' %>>
-              <input type="checkbox" <%= !(searchTypes.indexOf(type.id) !== -1)? 'disabled=disabled' : '' %> name="type" value="<%= type.id %>" <%= (searchTypes.indexOf(type.id) !== -1)? 'checked=checked' : '' %> />
-              <span><%= type.name %></span>
-            </label>
-          </div>
-        <% }) %>
-      </fieldset>
-    </div>
-    <br>
-    <div class="submit">
-      <button class="btn black waves-effect waves-light" type="submit" name="action">
-        <i class="material-icons">search</i> Search
-      </button>
-    </div>
-  </form>
-
-  <% if (!gen) { %>
-    <form class="quicksearch-gen1" action="/search/pokemon" method="get">
-      <input type="hidden" name="gen" value="1">
-      <input type="submit" value="Kanto">
+        </fieldset>
+      </div>
+      <br>
+      <div class="submit">
+        <button class="btn black waves-effect waves-light" type="submit" name="action">
+          <i class="material-icons">search</i> Search
+        </button>
+      </div>
     </form>
 
-    <form class="quicksearch-gen2" action="/search/pokemon" method="get">
-      <input type="hidden" name="gen" value="2">
-      <input type="submit" value="Johto">
-    </form>
-  <% } %>
-</div>
-<div>
-  <p>Use this search form to find pokémon that you are interested in potentially adding to your in-game team. Just select the region and types of pokémon you want to look at, then press 'Search'!</p>
-  <p>Can't remember the generation of the game you play? See a list <a href="https://bulbapedia.bulbagarden.net/wiki/Core_series#List_of_core_series_games" title="outside link to Bulbapedia wiki page with diagram">here</a>.</p>
-  <blockquote>
-    Note: Due to the data-heavy nature of Pokémon, this version deployed on Heroku is limited to the first 49 pokémon of the standard pokédex. To avoid confusion, pokémon types not present in the searchable 49 pokémon have been disabled as search parameters.
-  </blockquote>
+    <% if (!gen) { %>
+      <form class="quicksearch-gen1" action="/search/pokemon" method="get">
+        <input type="hidden" name="gen" value="1">
+        <input type="submit" value="Kanto">
+      </form>
+
+      <form class="quicksearch-gen2" action="/search/pokemon" method="get">
+        <input type="hidden" name="gen" value="2">
+        <input type="submit" value="Johto">
+      </form>
+    <% } %>
+  </div>
+  <div>
+    <p>Use this search form to find pokémon that you are interested in potentially adding to your in-game team. Just select the region and types of pokémon you want to look at, then press 'Search'!</p>
+    <p>Can't remember the generation of the game you play? See a list <a href="https://bulbapedia.bulbagarden.net/wiki/Core_series#List_of_core_series_games" title="outside link to Bulbapedia wiki page with diagram">here</a>.</p>
+    <blockquote>
+      Note: Due to the data-heavy nature of Pokémon, this version deployed on Heroku is limited to the first 49 pokémon of the standard pokédex. To avoid confusion, pokémon types not present in the searchable 49 pokémon have been disabled as search parameters.
+    </blockquote>
+  </div>
 </div>

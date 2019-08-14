@@ -1,32 +1,34 @@
-<h1>Pokédex Search Results</h1>
-<% if (results.length > 0) { %>
-  <div class="party-space">
-    <p class="center padded-text">
-      Choose the quantity of each pokémon you want to add to your collection.
-    </p>
-  </div>
-  <% results.forEach((pokeData, i) => { %>
-    <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
-    <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
-    <div id="result-<%= pokeData.id %>" class="container tight-fit">
-      <form action="/search/add-pokemon" method="post">
-        <div class="inlineitem">
-          <input type="hidden" name="dexName" value="<%= pokeData.name %>">
-          <button class="btn waves-effect waves-light" type="submit" name="action">
-            <i class="material-icons">add</i>
-          </button>
-        </div>
-        <div class="inlineitem">
-          <img src="<%= iconUrl %>" alt="<%= pokeData.name %> sprite">
-        </div>
-        <input type="hidden" name="dex" value="<%= pokeData.id %>">
-        <input type="hidden" name="nickname" value="<%= pokeData.name %>">
-        <div class="inlineitem">
-          <p class="nomargin"><%= dexNo %> <%= pokeData.name %></p>
-        </div>
-      </form>
+<div class="container">
+  <h1>Pokédex Search Results</h1>
+  <% if (results.length > 0) { %>
+    <div class="party-space">
+      <p class="center padded-text">
+        Choose the quantity of each pokémon you want to add to your collection.
+      </p>
     </div>
-  <% }) %>
-<% } else { %>
-  <p class="center">No search results found!</p>
-<% } %>
+    <% results.forEach((pokeData, i) => { %>
+      <% let dexNo = `${10 > (pokeData.id) ? `00${pokeData.id}` : 100 > (pokeData.id) ? `0${pokeData.id}` : pokeData.id}` %>
+      <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
+      <div id="result-<%= pokeData.id %>" class="container tight-fit">
+        <form action="/search/add-pokemon" method="post">
+          <div class="inlineitem">
+            <input type="hidden" name="dexName" value="<%= pokeData.name %>">
+            <button class="btn waves-effect waves-light" type="submit" name="action">
+              <i class="material-icons">add</i>
+            </button>
+          </div>
+          <div class="inlineitem">
+            <img src="<%= iconUrl %>" alt="<%= pokeData.name %> sprite">
+          </div>
+          <input type="hidden" name="dex" value="<%= pokeData.id %>">
+          <input type="hidden" name="nickname" value="<%= pokeData.name %>">
+          <div class="inlineitem">
+            <p class="nomargin"><%= dexNo %> <%= pokeData.name %></p>
+          </div>
+        </form>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p class="center">No search results found!</p>
+  <% } %>
+</div>
