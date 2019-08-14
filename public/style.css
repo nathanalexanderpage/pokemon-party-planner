@@ -237,6 +237,7 @@ nav .brand-logo {
   justify-content: space-around;
 }
 .party-space {
+  margin: 0 1vw;
   min-height: 80px;
   background-color: #212121;
 }

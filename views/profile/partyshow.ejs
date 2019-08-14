@@ -1,19 +1,22 @@
-<% if (ownsInParty.length > 6) { %>
-  <div class="reminder">
-    <p>
-      A friendly reminder: the max size of an in-game Pokemon party is six! Don't forget to pair yours down.
-    </p>
-    <p>
-      Current party size: <%= ownsInParty.length %>
-    </p>
-  </div>
-<% } %>
-<h4 class="nomargin-bottom greyed-light">
-  Party details:
-</h4>
-<h1 class="nomargin-top">
-  <%= party.name %>
-</h1>
+<div class="container">
+  <% if (ownsInParty.length > 6) { %>
+    <div class="reminder">
+      <p>
+        A friendly reminder: the max size of an in-game Pokemon party is six! Don't forget to pair yours down.
+      </p>
+      <p>
+        Current party size: <%= ownsInParty.length %>
+      </p>
+    </div>
+  <% } %>
+  <h4 class="nomargin-bottom greyed-light">
+    Party details:
+  </h4>
+  <h1 class="nomargin-top">
+    <%= party.name %>
+  </h1>
+</div>
+
 <div class="party-space">
   <% if (dexesInfo.length > 0) { %>
     <table>
@@ -139,7 +142,7 @@
     </p>
   <% } %>
 </div>
-<div>
+<div class="container">
   <p class="center padded-top">
     <a href="/profile/parties">All parties</a>
   </p>
