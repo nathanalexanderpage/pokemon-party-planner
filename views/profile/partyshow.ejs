@@ -1,8 +1,8 @@
 <div class="container">
   <% if (ownsInParty.length > 6) { %>
-    <div class="reminder">
+    <div class="center reminder">
       <p>
-        A friendly reminder: the max size of an in-game Pokemon party is six! Don't forget to pair yours down.
+        A friendly reminder: the max size of an in-game Pokémon party is six! Don't forget to pare yours down.
       </p>
       <p>
         Current party size: <%= ownsInParty.length %>
@@ -20,8 +20,8 @@
 <div class="party-space">
   <% if (dexesInfo.length > 0) { %>
     <table>
-      <tr>
-        <th>Pokemon</th>
+      <tr class="row-title">
+        <th>Pokémon</th>
         <th>Move</th>
         <th>Type</th>
         <th>Pow.</th>
@@ -29,10 +29,13 @@
         <th>PP</th>
         <th>Acc.</th>
       </tr>
-      <% dexesInfo.forEach((eachOwn) => { %>
+      <% dexesInfo.forEach((eachOwn, i) => { %>
         <% let dexNo = `${10 > (eachOwn.dexId) ? `00${eachOwn.dexId}` : 100 > (eachOwn.dexId) ? `0${eachOwn.dexId}` : eachOwn.dexId}` %>
+        <% let lightOrDark = `${i % 2 === 0 ? 'even' : 'odd'}` %>
+        <% let isBench = `${i > 5 ? '-bench' : ''}` %>
+        <% let fullTableRowClass = 'row-' + lightOrDark + isBench %>
         <% var iconUrl = `https://www.serebii.net/pokedex-xy/icon/${dexNo}.png` %>
-        <tr>
+        <tr class="<%= fullTableRowClass %>">
           <% if (ownMoves[eachOwn.id] && ownMoves[eachOwn.id].length > 0) { %>
             <td rowspan="<%= ownMoves[eachOwn.id].length %>" class="table-cell-center">
           <% } else { %>
@@ -78,10 +81,10 @@
           <% if (ownMoves[eachOwn.id] && ownMoves[eachOwn.id].length > 0) { %>
             <% ownMoves[eachOwn.id].forEach((moveId, i) => { %>
               <% if (i < 0) { %>
-                <tr>
+                <tr class="<%= fullTableRowClass %>">
                   <td></td>
               <% } %>
-                <td>
+                <td class="<%= fullTableRowClass %>">
                   <p>
                     <%= moves[moveId].name %>
                   </p>
@@ -93,22 +96,22 @@
                     </p>
                   </div>
                 </td>
-                <td class="table-cell-right">
+                <td class="<%= fullTableRowClass %> table-cell-right">
                   <p>
                     <%= moves[moveId].power %>
                   </p>
                 </td>
-                <td>
+                <td class="<%= fullTableRowClass %>">
                   <p>
                     <%= moves[moveId].category %>
                   </p>
                 </td>
-                <td class="table-cell-right">
+                <td class="<%= fullTableRowClass %> table-cell-right">
                   <p>
                     <%= moves[moveId].pp %>
                   </p>
                 </td>
-                <td class="table-cell-right">
+                <td class="<%= fullTableRowClass %> table-cell-right">
                   <p>
                     <%= moves[moveId].accuracy %>
                   </p>
@@ -142,17 +145,54 @@
     </p>
   <% } %>
 </div>
-<div class="container">
-  <p class="center padded-top">
-    <a href="/profile/parties">All parties</a>
-  </p>
-  <p class="center">
-    <a href="/profile">Profile</a>
-  </p>
-  <form action="/profile/party?_method=DELETE" method="post">
-    <input type="hidden" name="partyId" value="<%= party.id %>">
-    <button class="btn-small waves-effect waves-light red" type="submit">
-      <i class="material-icons">do_not_disturb_alt</i> DELETE PARTY
-    </button>
-  </form>
+<div class="containre">
+  <div class="center form-space">
+    <h5 class="center monospace">options</h5>
+    <% if (dexesInfo && dexesInfo.length > 1) { %>
+      <form action="/profile/pokemon/remove-from-party?_method=DELETE" method="post">
+        <input type="hidden" name="partyId" value="<%= party.id %>">
+        <fieldset class="fieldset-del">
+          <legend class="legend-del">REMOVE ONE FROM PARTY</legend>
+          <select id="delete-poke" class="poke-options" name="ownId">
+            <% dexesInfo.forEach((eachOwn, i) => { %>
+              <option value="<%= eachOwn.id %>"><%= i + 1 %>. <%= eachOwn.nickname %></option>
+            <% }) %>
+          </select>
+          <button class="btn-small waves-effect waves-light red" type="submit">
+            <i class="material-icons">do_not_disturb_alt</i> REMOVE
+          </button>
+        </fieldset>
+      </form>
+
+      <hr class="hr-del">
+    <% } %>
+
+    <% if (dexesInfo && dexesInfo.length > 0) { %>
+      <form action="/profile/party?_method=DELETE" method="post">
+        <input type="hidden" name="partyId" value="<%= party.id %>">
+        <input type="hidden" name="justClear" value="1">
+        <button class="btn-small waves-effect waves-light red" type="submit">
+          <i class="material-icons">flare</i> CLEAR ALL POKÉMON
+        </button>
+      </form>
+
+      <hr class="hr-del">
+    <% } %>
+
+    <form action="/profile/party?_method=DELETE" method="post">
+      <input type="hidden" name="partyId" value="<%= party.id %>">
+      <input type="hidden" name="justClear" value="0">
+      <button class="btn-small waves-effect waves-light red" type="submit">
+        <i class="material-icons">delete</i> DELETE PARTY
+      </button>
+    </form>
+  </div>
+  <div class="container">
+    <p class="center">
+      <a href="/profile/parties">All parties</a>
+    </p>
+    <p class="center">
+      <a href="/profile">Profile</a>
+    </p>
+  </div>
 </div>

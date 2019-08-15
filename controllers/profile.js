@@ -585,9 +585,9 @@ router.get('/parties/:id', loggedIn, (req, res) => {
                       if (!ownMovesObj[ownMoveRec.ownId]) {
                         ownMovesObj[ownMoveRec.ownId] = []
                       }
-                      if (!moveIdsInParty.includes(ownMoveRec.ownId)) {
-                        moveIdsInParty.push(ownMoveRec.moveId)
-                      }
+                      console.log(moveIdsInParty);
+                      console.log(ownMoveRec.moveId, (!moveIdsInParty.includes(ownMoveRec.ownId)));
+                      moveIdsInParty.push(ownMoveRec.moveId)
                       ownMovesObj[ownMoveRec.ownId].push(ownMoveRec.moveId)
                     })
                     db.move.findAll({
@@ -600,6 +600,8 @@ router.get('/parties/:id', loggedIn, (req, res) => {
                       movesData.forEach(moveData => {
                         moveDict[moveData.id] = moveData
                       })
+                      console.log(ownsMoveRecs);
+                      console.log(ownIdsInParty);
                       console.log(moveIdsInParty);
                       console.log(ownMovesObj);
                       console.log(moveDict);
@@ -664,9 +666,9 @@ router.delete('/pokemon', loggedIn, (req, res) => {
     }
   })
   .then(() => {
-    db.owns_parties.destroy({
+    db.moves_owns.destroy({
       where: {
-        partyId: req.body.partyId
+        ownId: req.body.ownId
       }
     })
     .then(() => {
@@ -677,6 +679,9 @@ router.delete('/pokemon', loggedIn, (req, res) => {
 })
 
 router.delete('/pokemon/remove-from-party', loggedIn, (req, res) => {
+  console.log(10101010101101010);
+  console.log(req.body);
+  let justClear = req.body.justClear;
   db.owns_parties.destroy({
     where: {
       ownId: req.body.ownId,
@@ -708,16 +713,21 @@ router.delete('/party', loggedIn, (req, res) => {
     })
     .then((destroyRes1) => {
       console.log(destroyRes1);
-      db.party.destroy({
-        where: {
-          id: req.body.partyId
-        }
-      })
-      .then((destroyRes2) => {
-        console.log(destroyRes2);
-        req.flash('success', 'Party deleted successfully.')
-        res.redirect(`/profile/parties`)
-      })
+      if (req.body.justClear < 1) {
+        db.party.destroy({
+          where: {
+            id: req.body.partyId
+          }
+        })
+        .then((destroyRes2) => {
+          console.log(destroyRes2);
+          req.flash('success', 'Party deleted successfully.')
+          res.redirect(`/profile/parties`)
+        })
+      } else {
+        req.flash('success', 'Party cleared of Pokemon.')
+        res.redirect(`/profile/parties/${req.body.partyId}`)
+      }
     })
   })
 })

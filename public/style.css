@@ -28,8 +28,19 @@ nav .brand-logo {
 .btn-small {
   font-size: 10px;
 }
+.centre {
+  display: flex;
+  justify-content: center;
+}
 .closeable {
   cursor: pointer;
+}
+.containre {
+  padding: 0 15vw;
+}
+#delete-poke {
+  margin-bottom: 10px;
+  border: 1px solid black;
 }
 .dex-ability {
   background-color: lightgrey;
@@ -48,11 +59,16 @@ nav .brand-logo {
   padding-bottom: 7px;
   color: black;
   font-size: 12px;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
   text-transform: uppercase;
 }
 .error-msg::first-letter {
   text-transform: uppercase;
+}
+.fieldset-del {
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: rgba(0,0,0,0);
 }
 .fill-cell {
   height: 100%;
@@ -70,6 +86,14 @@ nav .brand-logo {
   border-radius: 10px;
   background-color: lightgrey;
 }
+.form-space {
+  margin: 0 auto;
+  max-width: 465px;
+  border: 10px solid #bcaa89;
+  border-radius: 10px;
+  padding: 3vw;
+  background-color: #63563e;
+}
 .frontpage-bg {
   background-color: #f0ead6;
 }
@@ -84,6 +108,11 @@ nav .brand-logo {
 .greyed-light {
   color: lightgrey;
 }
+.hr-del {
+  margin: 3vw 5vw;
+  border-style: double;
+  border-color: #bcaa89;
+}
 .in-moveset {
   background-color: yellow;
 }
@@ -94,13 +123,23 @@ nav .brand-logo {
 .inlinecheckbox {
   display: inline-block;
   margin-left: 3%;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
 }
 button > .large {
   font-size: 70px;
 }
+.legend-del {
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 1px 10px;
+  background-color: black;
+  font-size: 11px;
+  font-family: sans-serif;
+  font-weight: lighter;
+  /* text-align: left; */
+}
 .monospace {
-  font-family: monospace;
+  font-family: "Courier New", monospace;
 }
 .move-info {
   background-color: lightgrey;
@@ -159,9 +198,14 @@ button > .large {
   justify-content: space-around;
 }
 .party-space {
-  margin: 0 1vw;
+  margin: 0 1vw 40px;
   min-height: 80px;
   background-color: #212121;
+}
+.poke-options {
+  width: 50%;
+  min-width: 146px;
+  display: inline-block;
 }
 .pokeinddetail {
   background-color: #f0ead6;
@@ -207,7 +251,7 @@ button > .large {
 .move-name, .ability-name {
   font-weight: bold;
   font-size: 18px;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
 }
 .name-role {
   display: flex;
@@ -232,6 +276,22 @@ button > .large {
   background-color: #006818;
   color: white;
 }
+.row-even {
+  background-color: #212121;
+}
+.row-even-bench {
+  background-color: #5e1510;
+}
+.row-odd {
+  background-color: #3a3a3a;
+}
+.row-odd-bench {
+  background-color: #300806;
+}
+.row-title {
+  background-color: #9b9b9b;
+}
+
 .search-sec {
   background-color: #73021b;
 }
@@ -239,7 +299,7 @@ button > .large {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
   text-align: center;
   text-transform: capitalize;
 }
@@ -249,7 +309,7 @@ button > .large {
   margin-top: 1vw;
   padding: 4%;
   background-color: #C6C1B0;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
 }
 .statbar {
   display: flex;
@@ -292,7 +352,7 @@ button > .large {
   font-size: 18px;
   line-height: .9;
   font-weight: bold;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
   text-shadow: 0 1px 0 white;
   text-transform: uppercase;
 }
@@ -440,6 +500,12 @@ h1 {
 h2, h3, h4, h5, h6 {
   color: white;
 }
+.form-space > h5 {
+  margin-top: 0;
+  color: #e0d6c3;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 black, 2px -2px 0 black, -2px 2px 0 black, -2px -2px 0 black, 2px 0px 0 black, 0px 2px 0 black, -2px 0px 0 black, 0px -2px 0 black;
+}
 html {
   position: relative;
   min-height: 100%;
@@ -454,14 +520,14 @@ input {
 }
 .label {
   color: black;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
 }
 legend {
   border: 2px solid black;
   padding: 4px 10px;
   background-color: #b81838;
   color: white;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
   font-weight: bold;
 }
 
@@ -487,12 +553,14 @@ table, th, td {
   color: white;
   border: 1px solid grey;
 }
-th, td {
-  background-color: rgba(255, 255, 255, 0.05);
-}
 td {
   padding: .5vw 1vw;
   line-height: normal;
+}
+th {
+  border: 1px solid white;
+  color: white;
+  text-shadow: 1px 1px 0 black, 1px -1px 0 black, -1px 1px 0 black, -1px -1px 0 black, 1px 0px 0 black, 0px 1px 0 black, -1px 0px 0 black, 0px -1px 0 black;
 }
 
 
