@@ -50,10 +50,15 @@ app.use('/search', require('./controllers/search'));
 
 // Make a home route: GET /
 app.get('/', (req, res) => {
-  res.render('home');
+  let existsUser = false;
+  if (req.user) {
+    existsUser = true;
+  }
+  console.log(existsUser);
+  res.render('home', {
+    existsUser: existsUser
+  });
 })
-
-app.get('/')
 
 // Catch-all route - render the 404 page
 app.get('*', (req, res) => {

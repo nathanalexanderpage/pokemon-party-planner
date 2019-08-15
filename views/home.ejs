@@ -5,8 +5,11 @@
   <div>
     <div class="text-box">
       <p>
-        Dream of creating the strongest team and beating all your friends in multiplayer battles in Pokémon Sun and Moon for the Nintendo 3DS? You've come to the right place. Pokémon Party Planner is a free-to-use web application full of Pokémon game data that can help you plan out the perfect competitive team. What sets us apart from other sites is the ability to actually assemble prospective parties of six pokémon each, with fully customizable movesets accurate to what is possible in the game.
+        Dream of creating the strongest team and beating all your friends in multiplayer battles in Pokémon Sun and Moon for the Nintendo 3DS? You've come to the right place. Pokémon Party Planner is a free-to-use web application full of Pokémon game data that can help you plan out the perfect competitive team. You may assemble prospective parties of six pokémon each, with fully customizable movesets accurate to what is possible in the game. What sets us apart from other sites is the ability to fully visualize the information you need.
       </p>
+    </div>
+    <div class="pic-box center">
+      <img src="example_party.png" alt="preview of example party screen with detailed stat view">
     </div>
     <div class="text-box">
       <p>
@@ -14,12 +17,18 @@
       </p>
     </div>
     <div class="text-box">
-      <p>
-        So go on! Get strategizing now with a <a href="/auth/signup">free account</a>!
-      </p>
-      <p>
-        Already have an account? Excellent. <a href="/auth/login">Log in here.</a>
-      </p>
+      <% if (existsUser) { %>
+        <p>
+          Welcome, friend. View your profile <a href="/profile">this way</a>.
+        </p>
+      <% } else { %>
+        <p>
+          So go on! Get strategizing now with a <a href="/auth/signup">free account</a>!
+        </p>
+        <p>
+          Already have an account? Excellent. <a href="/auth/login">Log in here.</a>
+        </p>
+      <% } %>
     </div>
   </div>
 </div>
