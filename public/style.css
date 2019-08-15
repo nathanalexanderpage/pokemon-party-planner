@@ -202,6 +202,10 @@ button > .large {
   min-height: 80px;
   background-color: #212121;
 }
+.pic-box > img {
+  max-width: 100%;
+  height: auto;
+}
 .poke-options {
   width: 50%;
   min-width: 146px;

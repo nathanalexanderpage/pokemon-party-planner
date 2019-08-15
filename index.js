@@ -54,7 +54,6 @@ app.get('/', (req, res) => {
   if (req.user) {
     existsUser = true;
   }
-  console.log(existsUser);
   res.render('home', {
     existsUser: existsUser
   });
