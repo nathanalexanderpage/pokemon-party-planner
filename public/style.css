@@ -510,6 +510,9 @@ h2, h3, h4, h5, h6 {
   font-weight: bold;
   text-shadow: 2px 2px 0 black, 2px -2px 0 black, -2px 2px 0 black, -2px -2px 0 black, 2px 0px 0 black, 0px 2px 0 black, -2px 0px 0 black, 0px -2px 0 black;
 }
+.container > h6 {
+  text-align: center;
+}
 html {
   position: relative;
   min-height: 100%;

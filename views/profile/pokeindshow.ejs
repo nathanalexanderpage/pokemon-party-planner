@@ -60,7 +60,7 @@
         </div>
         <div class="statbar">
           <div class="stat name">
-            Sp A
+            SpA
           </div>
           <div class="stat num">
             <%= dexData.dex.spAttack %>
@@ -68,7 +68,7 @@
         </div>
         <div class="statbar">
           <div class="stat name">
-            Sp D
+            SpD
           </div>
           <div class="stat num">
             <%= dexData.dex.spDefense %>
@@ -238,6 +238,8 @@
           <!--if already added, "remove" button; else "add" button-->
           <% if (ownMovesArr.includes(knownMove.id)) { %>
             <form action="/profile/pokemon/remove-from-moveset/?_method=DELETE" method="post">
+              <input type="hidden" name="moveId" value="<%= knownMove.id %>">
+              <input type="hidden" name="ownId" value="<%= dexData.dataValues.id %>">
               <button class="btn waves-effect waves-light red potential" type="submit">
                 <i class="material-icons">do_not_disturb_alt</i>
               </button>
