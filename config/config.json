@@ -1,5 +1,6 @@
 {
   "development": {
+    "username": "postgres",
     "database": "pokepartyplanner",
     "host": "127.0.0.1",
     "dialect": "postgres"

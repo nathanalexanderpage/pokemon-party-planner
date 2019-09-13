@@ -72,7 +72,7 @@ async function asyncMapRequests() {
     request(`https://www.serebii.net/pokedex-xy/${no}.shtml`, (err, cheerioResp, html) => {
       if (!err && cheerioResp.statusCode == 200) {
         const $ = cheerio.load(html);
-        let pokeName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).text();
+        let pokeName = $('.dextable').eq(1).children('tbody').children('tr').eq(1).children('td').eq(0).text();
         let dextableNo = $('.dextable').length;
         let baseStats = $('.dextable').eq(dextableNo - 1).children('tbody').children('tr').eq(2).children('td');
 

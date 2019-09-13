@@ -20,7 +20,7 @@ request(`https://www.serebii.net/pokedex-xy/${no}.shtml`, (err, cheerioResp, htm
   if (!err && cheerioResp.statusCode == 200) {
     const $ = cheerio.load(html);
 
-    let pokeName = $('.dextable').children('tbody').children('tr').eq(1).children('td').eq(1).text().toLowerCase();
+    let pokeName = $('.dextable').eq(1).children('tbody').children('tr').eq(1).children('td').text();
     let pokeNameRegex = pokeName.match(/\w+/g);
     let dextableNo = $('.dextable').length
     console.log(dextableNo);
