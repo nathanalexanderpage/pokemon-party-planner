@@ -96,9 +96,9 @@ print(occurrence_rows_dict)
 occurrence_rows_dict['title'] = party_pokes_dict['all_dexes']
 
 df = pd.DataFrame(occurrence_rows_dict).set_index('title')
-print(df)
+# print(df.T)
 
-cooccurrence_matrix = df.T.dot(df)
+cooccurrence_matrix = df.dot(df.T)
 print(cooccurrence_matrix)
 
 print("recommend_engine.py ||| DONE")
