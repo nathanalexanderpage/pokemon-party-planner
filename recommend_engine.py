@@ -15,13 +15,18 @@ DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
 
 def two_index_tuples_to_dict(list_of_tuples_input):
-    output = {}
+    output = {
+        'parties': {},
+        'all_dexes': []
+    }
     for tup in list_of_tuples_input:
-        if (tup[0] not in output.keys()):
-            List = [tup[1]]
-            output[tup[0]] = List
+        if (tup[0] not in output['parties'].keys()):
+            output['parties'][tup[0]] = [tup[1]]
         else:
-            output[tup[0]].append(tup[1])
+            output['parties'][tup[0]].append(tup[1])
+        if (tup[1] not in output['all_dexes']):
+            output['all_dexes'].append(tup[1])
+    output['all_dexes'].sort()
     return output
 
 def query_cooccurrences(search_id=17):
@@ -59,7 +64,7 @@ def query_cooccurrences(search_id=17):
         cur.close()
         conn.close()
         return output_dict
-    except(exception, psycopg2.DatabaseError) as error:
+    except(Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
         if conn is not None:
