@@ -70,7 +70,37 @@ def query_cooccurrences(search_id=17):
         if conn is not None:
             conn.close()
 
+def create_occurrence_matrix_rows(presence_in_parties_dict):
+    output = {}
+    dex_tuple_guide_dict = {}
+    column_counter = -1
+    for dex in presence_in_parties_dict['all_dexes']:
+        column_counter += 1
+        dex_tuple_guide_dict[dex] = column_counter
+    for key in presence_in_parties_dict['parties'].keys():
+        row_list = []
+        for x in range(0, len(presence_in_parties_dict['all_dexes'])):
+            row_list.append(0)
+        for dex_id in presence_in_parties_dict['parties'][key]:
+            if (dex_id in presence_in_parties_dict['all_dexes']):
+                row_list[dex_tuple_guide_dict[dex_id]] = 1
+        output[key] = tuple(row_list)
+    output['guide'] = dex_tuple_guide_dict
+    return output
+
+
+
 party_pokes_dict = query_cooccurrences(17)
 print(party_pokes_dict)
+occurrence_rows_dict = create_occurrence_matrix_rows(party_pokes_dict)
+print(occurrence_rows_dict)
+
+occurrence_rows_dict['title'] = party_pokes_dict['all_dexes']
+
+df = pd.DataFrame(occurrence_rows_dict).set_index('title')
+print(df)
+
+cooccurrence_matrix = df.T.dot(df)
+print(cooccurrence_matrix)
 
 print("recommend_engine.py ||| DONE")
