@@ -85,9 +85,7 @@ def create_occurrence_matrix_rows(presence_in_parties_dict):
             if (dex_id in presence_in_parties_dict['all_dexes']):
                 row_list[dex_tuple_guide_dict[dex_id]] = 1
         output[key] = tuple(row_list)
-    output['guide'] = dex_tuple_guide_dict
     return output
-
 
 
 party_pokes_dict = query_cooccurrences(17)
