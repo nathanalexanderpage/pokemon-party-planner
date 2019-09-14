@@ -14,39 +14,58 @@ load_dotenv()
 DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
 
+def two_index_tuples_to_dict(list_of_tuples_input):
+    output = {}
+    for tup in list_of_tuples_input:
+        if (tup[0] not in output.keys()):
+            List = [tup[1]]
+            output[tup[0]] = List
+        else:
+            output[tup[0]].append(tup[1])
+    return output
+
 def query_cooccurrences(search_id=17):
     """ PURPOSE: grab list of tuples from which to generate co-occurrence matrix """
 
     print("recommend_engine.py ||| CONNECTING to database")
-    # establish connection to database
-    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER)
-    # create cursor object, used to execute SQL statements
-    cur = conn.cursor()
+    conn = None
+    try:
+        # establish connection to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER)
+        # create cursor object, used to execute SQL statements
+        cur = conn.cursor()
 
-    search_input_id = str(search_id)
+        search_input_id = str(search_id)
 
-    sql_query = """
-        SELECT op.\"partyId\", o.\"dexId\"
-        FROM owns_parties op
-        INNER JOIN owns o ON o.id = op.\"ownId\"
-        WHERE \"partyId\" IN
-            (SELECT DISTINCT \"partyId\" FROM owns_parties WHERE \"ownId\" IN
-                (SELECT id FROM owns WHERE \"dexId\" = {id_to_search})
-            )
-        ORDER BY \"partyId\", \"dexId\" ASC;
-        """.format(id_to_search=search_input_id)
+        sql_query = """
+            SELECT op.\"partyId\", o.\"dexId\"
+            FROM owns_parties op
+            INNER JOIN owns o ON o.id = op.\"ownId\"
+            WHERE \"partyId\" IN
+                (SELECT DISTINCT \"partyId\" FROM owns_parties WHERE \"ownId\" IN
+                    (SELECT id FROM owns WHERE \"dexId\" = {id_to_search})
+                )
+            ORDER BY \"partyId\", \"dexId\" ASC;""".format(id_to_search=search_input_id)
 
-    print("recommend_engine.py ||| EXECUTING SQL", sql_query)
-    cur.execute(sql_query)
-    rows = cur.fetchall()
-    for row in rows:
-        print(row)
+        print("recommend_engine.py ||| EXECUTING SQL", sql_query)
+        cur.execute(sql_query)
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
+        output_dict = two_index_tuples_to_dict(rows)
 
-    print("recommend_engine.py ||| CLOSING database connection")
-    # finish by closing connections
-    cur.close()
-    conn.close()
+        print("recommend_engine.py ||| CLOSING database connection")
+        # finish by closing connections
+        cur.close()
+        conn.close()
+        return output_dict
+    except(exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
 
-query_cooccurrences(17)
+party_pokes_dict = query_cooccurrences(17)
+print(party_pokes_dict)
 
 print("recommend_engine.py ||| DONE")
