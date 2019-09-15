@@ -89,7 +89,8 @@ def create_occurrence_matrix_rows(presence_in_parties_dict):
         output[key] = tuple(row_list)
     return output
 
-DEX_ID_SEARCH = 17
+DEX_ID_SEARCH = 43
+MAX_NUM_RECS = 6
 party_pokes_dict = query_cooccurrences(DEX_ID_SEARCH)
 print(party_pokes_dict)
 occurrence_rows_dict = create_occurrence_matrix_rows(party_pokes_dict)
@@ -121,8 +122,10 @@ ranked_suggestions = []
 for rank in ranks_list_desc:
     for ranked_dex in suggestions_by_rank[rank]:
         ranked_suggestions.append(ranked_dex)
+output_ranked_suggestions = ranked_suggestions[:MAX_NUM_RECS]
 
 print("\nsuggestions_by_rank:\n", suggestions_by_rank)
 print("\nranked_suggestions:\n", ranked_suggestions)
-
+print("\noutput_ranked_suggestions:\n", output_ranked_suggestions)
+print()
 print("recommend_engine.py ||| DONE")
