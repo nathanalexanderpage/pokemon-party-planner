@@ -52,9 +52,11 @@ def query_cooccurrences(search_id=17):
                 )
             ORDER BY \"partyId\", \"dexId\" ASC;""".format(id_to_search=search_input_id)
 
-        print("recommend_engine.py ||| EXECUTING SQL", sql_query)
+        print("recommend_engine.py ||| EXECUTING SQL")
+        print("\nQuery:", sql_query)
         cur.execute(sql_query)
         rows = cur.fetchall()
+        print("\nQuery Results:")
         for row in rows:
             print(row)
         output_dict = two_index_tuples_to_dict(rows)
@@ -87,8 +89,8 @@ def create_occurrence_matrix_rows(presence_in_parties_dict):
         output[key] = tuple(row_list)
     return output
 
-
-party_pokes_dict = query_cooccurrences(17)
+DEX_ID_SEARCH = 17
+party_pokes_dict = query_cooccurrences(DEX_ID_SEARCH)
 print(party_pokes_dict)
 occurrence_rows_dict = create_occurrence_matrix_rows(party_pokes_dict)
 print(occurrence_rows_dict)
@@ -99,6 +101,28 @@ df = pd.DataFrame(occurrence_rows_dict).set_index('title')
 # print(df.T)
 
 cooccurrence_matrix = df.dot(df.T)
-print(cooccurrence_matrix)
+np.fill_diagonal(cooccurrence_matrix.values, 0)
+print("\nCo-occurrence Matrix:\n", cooccurrence_matrix)
+
+relevant_row = cooccurrence_matrix[DEX_ID_SEARCH]
+print("\nRelevant Row:\n", relevant_row)
+
+suggestions_by_rank = {}
+for indiv_dex in party_pokes_dict['all_dexes']:
+    if relevant_row[indiv_dex] != 0:
+        if relevant_row[indiv_dex] in suggestions_by_rank.keys():
+            suggestions_by_rank[relevant_row[indiv_dex]].append(indiv_dex)
+        else:
+            suggestions_by_rank[relevant_row[indiv_dex]] = [indiv_dex]
+ranks_list_desc = list(suggestions_by_rank.keys())
+ranks_list_desc.sort(reverse=True)
+print("\nranks_list_desc:\n", ranks_list_desc)
+ranked_suggestions = []
+for rank in ranks_list_desc:
+    for ranked_dex in suggestions_by_rank[rank]:
+        ranked_suggestions.append(ranked_dex)
+
+print("\nsuggestions_by_rank:\n", suggestions_by_rank)
+print("\nranked_suggestions:\n", ranked_suggestions)
 
 print("recommend_engine.py ||| DONE")
