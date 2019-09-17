@@ -1,5 +1,5 @@
-# local vars? if True, in-file manually defined vars; if False, imported vars when this file is run as child process (i.e. from server process in node.js)
-RUN_FILE_USING_LOCAL_VARS = True
+# RUN_FILE_USING_LOCAL_VARS? if True, in-file manually defined vars; if False, imported vars when this file is run as child process (i.e. from server process in node.js)
+RUN_FILE_USING_LOCAL_VARS = False
 
 def print_if_local(statement_to_print):
     if RUN_FILE_USING_LOCAL_VARS:
@@ -12,11 +12,11 @@ import numpy as np
 import os
 import pandas as pd
 import psycopg2 # PostgreSQL connection
-import sys # allows this file to run as node.js child process
+import sys # allows this file to use flush output function
 
 from dotenv import load_dotenv
 # from sklearn.metrics.pairwise import pairwise_distances
-"""sklearn import needed for further statistical matrix analysis"""
+"""sklearn import possibly needed for further statistical (matrix) analysis"""
 
 print_if_local("recommend_engine.py ||| INITIALIZING .env variables")
 load_dotenv()
@@ -28,8 +28,8 @@ if RUN_FILE_USING_LOCAL_VARS:
     DEX_ID_SEARCH = 43
     MAX_NUM_RECS = 6
 else:
-    DEX_ID_SEARCH = sys.argv[0]
-    MAX_NUM_RECS = sys.argv[1]
+    DEX_ID_SEARCH = int(sys.argv[1])
+    MAX_NUM_RECS = int(sys.argv[2])
 
 def two_index_tuples_to_dict(list_of_tuples_input):
     output = {
@@ -148,9 +148,11 @@ print_if_local(suggestions_by_rank)
 print_if_local("\nranked_suggestions:")
 print_if_local(ranked_suggestions)
 print_if_local("\noutput_ranked_suggestions:")
-print_if_local(output_ranked_suggestions)
+print(output_ranked_suggestions)
 print_if_local("")
-print_if_local("recommend_engine.py ||| DONE")
 
 if not RUN_FILE_USING_LOCAL_VARS:
+    print_if_local("recommend_engine.py ||| FLUSHING output to node.js")
     sys.stdout.flush()
+
+print_if_local("recommend_engine.py ||| DONE")
